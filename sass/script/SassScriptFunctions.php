@@ -747,5 +747,15 @@ class SassScriptFunctions {
 	 */
 	 private static function inRange($value, $min, $max) {
 	 	 return ($value < $min ? $min : ($value > $max ? $max : $value));
+	 }
+
+	/**
+	 * @param SassBoolean $condition
+	 * @param mixed $if_true value for true condition
+	 * @param mixed $if_false value for false condition
+	 * @return mixed
+	 */
+	public static function if_($condition, $if_true, $if_false) {
+		return $condition->value? $if_true : $if_false;
 	}
 }

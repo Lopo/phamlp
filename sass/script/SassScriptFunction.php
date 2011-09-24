@@ -48,6 +48,9 @@ class SassScriptFunction {
 	 */
 	public function perform() {
 		$name = str_replace('-', '_', $this->name);
+		if ($name=='if') {
+			$name='if_';
+		}
 		foreach (SassScriptParser::$context->node->parser->function_paths as $path) {	
 			$_path = explode(DIRECTORY_SEPARATOR, $path);
 			$_class = ucfirst($_path[sizeof($_path) - 2]);
