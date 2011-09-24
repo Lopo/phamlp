@@ -51,6 +51,9 @@ class SassScriptFunction {
 		if ($name=='if') {
 			$name='if_';
 		}
+		if (Parser::$context->hasFunction($name)) {
+		    return Parser::$context->getFunction($name)->perform($this->args);
+		}
 		foreach (SassScriptParser::$context->node->parser->function_paths as $path) {	
 			$_path = explode(DIRECTORY_SEPARATOR, $path);
 			$_class = ucfirst($_path[sizeof($_path) - 2]);

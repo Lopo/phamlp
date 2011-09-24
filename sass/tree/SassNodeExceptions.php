@@ -122,3 +122,10 @@ class SassVariableNodeException extends SassNodeException {}
  * @subpackage	Sass.tree
  */
 class SassWhileNodeException extends SassNodeException {}
+
+/**
+ * SassFunctionNodeException class.
+ * @package			PHamlP
+ * @subpackage	Sass.tree
+ */
+class SassFunctionNodeException extends SassNodeException {}

@@ -286,7 +286,9 @@ class SassNode {
 				$this->parent instanceof SassIfNode ||
 				$this->parent->parent instanceof SassIfNode ||
 				$this->parent instanceof SassWhileNode ||
-				$this->parent->parent instanceof SassWhileNode;
+				$this->parent->parent instanceof SassWhileNode
+				$this->parent instanceof SassFunctionNode ||
+				$this->parent->parent instanceof SassFunctionNode;
 	}
 
 	/**

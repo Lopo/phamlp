@@ -815,6 +815,12 @@ class SassParser {
 			case '@warn':
 				return new SassDebugNode($token, true);
 				break;
+			case '@function':
+				return new SassFunctionNode($token);
+				break;
+			case '@return':
+				return new SassReturnNode($token);
+				break;
 			default:
 				return new SassDirectiveNode($token);
 				break;

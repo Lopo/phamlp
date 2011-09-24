@@ -31,6 +31,10 @@ class SassContext {
 	 */
 	protected $variables = array();
 	/**
+	 * @var array functions defined in this context
+	 */
+	protected $functions = array();
+	/**
 	 * @var SassNode the node being processed
 	 */
 	public $node;
@@ -119,5 +123,41 @@ class SassContext {
 	  $this->parent->variables =
 	  	array_merge($this->parent->variables, $this->variables);
 	  $this->parent->mixins = array_merge($this->parent->mixins, $this->mixins);
+	  $this->parent->functions = array_merge($this->parent->functions, $this->functions);
+	}
+
+	/**
+	 * Adds a function
+	 * @param string name of function
+	 * @return SassFunctionNode the function
+	 */
+	public function addFunction($name, $functionn) {
+		$this->functions[$name] = $function;
+		return $this;
+	}
+
+	/**
+	 * Returns a value indicating if the function exists in this context
+	 * @param string name of function to test
+	 * @return boolean true if the function exists in this context, false if not
+	 */
+	public function hasFunction($name) {
+		return isset($this->functions[$name]);
+	}
+
+	/**
+	 * Returns a function
+	 * @param string name of function to return
+	 * @return SassFunctionNode the function
+	 * @throws SassContextException if function not defined in this context
+	 */
+	public function getFunction($name) {
+		if (isset($this->functions[$name])) {
+			return $this->functions[$name];
+		}
+		elseif (!empty($this->parent)) {
+			return $this->parent->getFunction($name);
+		}
+		throw new SassContextException('Undefined {what}: {name}', array('{what}'=>'Function', '{name}'=>$name), $this->node);
 	}
 }
