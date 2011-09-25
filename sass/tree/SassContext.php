@@ -132,7 +132,7 @@ class SassContext {
 	 * @return SassFunctionNode the function
 	 */
 	public function addFunction($name, $functionn) {
-		$this->functions[$name] = $function;
+		$this->functions[str_replace('-', '_', $name)] = $function;
 		return $this;
 	}
 
@@ -142,7 +142,7 @@ class SassContext {
 	 * @return boolean true if the function exists in this context, false if not
 	 */
 	public function hasFunction($name) {
-		return isset($this->functions[$name]);
+		return isset($this->functions[str_replace('-', '_', $name)]);
 	}
 
 	/**
@@ -152,6 +152,7 @@ class SassContext {
 	 * @throws SassContextException if function not defined in this context
 	 */
 	public function getFunction($name) {
+		$name = str_replace('-', '_', $name);
 		if (isset($this->functions[$name])) {
 			return $this->functions[$name];
 		}
