@@ -53,7 +53,13 @@ class SassCompressedRenderer extends SassRenderer
    */
   public function renderComment($node)
   {
-    return '';
+    if ($node->isInvisible(SassRenderer::STYLE_COMPRESSED)) {
+      return '';
+    }
+
+    $nl = ($node->parent instanceof SassRuleNode?'':"\n");
+
+    return "$nl/* " . join("\n * ", $node->children) . " */$nl" ;
   }
 
   /**

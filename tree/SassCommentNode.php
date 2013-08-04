@@ -20,8 +20,13 @@ class SassCommentNode extends SassNode
   const NODE_IDENTIFIER = '/';
   const MATCH = '%^/\*\s*?(.*?)\s*?(\*/)?$%s';
   const COMMENT = 1;
+  const TYPE_SILENT = 0; // unused: removed in SassFile::get_file_contents()
+  const TYPE_NORMAL = 1;
+  const TYPE_LOUD = 2;
 
   private $value;
+  /** @var int */
+  public $type = SassCommentNode::TYPE_NORMAL;
 
   /**
    * SassCommentNode constructor.
@@ -33,6 +38,31 @@ class SassCommentNode extends SassNode
     parent::__construct($token);
     preg_match(self::MATCH, $token->source, $matches);
     $this->value = $matches[self::COMMENT];
+    if (substr($matches[self::COMMENT], 0, 1)=='!') {
+      $this->type=self::TYPE_LOUD;
+      $this->value=substr($this->value, 1);
+    }
+  }
+
+  /**
+    * Returns TRUE if this is a slient comment
+    * or the current style doesn't render comments
+    *
+    * Comments starting with ! are never invisible (and the ! is removed from the output.)
+    *
+    * @param string $style
+    * @return bool
+    */
+  public function isInvisible($style)
+  {
+    switch ($this->type) {
+      case self::TYPE_LOUD:
+        return FALSE;
+      case self::TYPE_SILENT:
+        return TRUE;
+      default:
+        return $style == SassRenderer::STYLE_COMPRESSED;
+    }
   }
 
   protected function getValue()
