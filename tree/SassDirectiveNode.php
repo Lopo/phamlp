@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassDirectiveNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassDirectiveNode class.
  * Represents a CSS directive.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassDirectiveNode
 extends SassNode
@@ -25,13 +20,16 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
 		parent::__construct($token);
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getDirective()
 	{
 		return $this->token->source;
@@ -45,7 +43,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node
 	 */
 	public function parse($context)
@@ -75,7 +73,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)
@@ -86,7 +84,7 @@ extends SassNode
 	/**
 	 * Returns the directive
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return string the directive
 	 */
 	public static function extractDirective($token)
@@ -96,6 +94,11 @@ extends SassNode
 		return strtolower($matches[1]);
 	}
 
+	/**
+	 * @param string $string
+	 * @param SassContext $context
+	 * @return string
+	 */
 	public static function interpolate_nonstrict($string, $context)
 	{
 		for ($i=0, $n=preg_match_all(self::INTERPOLATION_MATCH, $string, $matches); $i<$n; $i++) {

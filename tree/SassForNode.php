@@ -1,6 +1,5 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassForNode class file.
  * This is an enhanced version of the standard SassScript @for loop that adds
@@ -16,15 +15,11 @@
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassForNode class.
  * Represents a Sass @for loop.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassForNode
 extends SassNode
@@ -50,7 +45,8 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
+	 * @throws SassForNodeException
 	 */
 	public function __construct($token)
 	{
@@ -70,7 +66,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array parsed child nodes
 	 */
 	public function parse($context)

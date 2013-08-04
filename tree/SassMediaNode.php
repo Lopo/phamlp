@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id: SassMediaNode.php 49 2010-04-04 10:51:24Z chris.l.yates $ */
 /**
  * SassMediaNode class file.
  * @author      Richard Lyon
  * @copyright   none
  * @license     http://phamlp.googlecode.com/files/license.txt
- * @package     PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassMediaNode class.
  * Represents a CSS @media directive
- * @package     PHamlP
- * @subpackage  Sass.tree
  */
 class SassMediaNode
 extends SassNode
@@ -36,7 +31,7 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 * @param mixed string: an internally generated warning message about the source
 	 * bool: the source token is a @Media or @warn directive containing the message; True if this is a @warn directive
 	 * @param array parameters for the message
@@ -54,6 +49,7 @@ extends SassNode
 	 * Parse this node.
 	 * This raises an error.
 	 *
+	 * @param SassContext $context
 	 * @return array An empty array
 	 */
 	public function parse($context)

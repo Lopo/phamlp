@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassCommentNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassCommentNode class.
  * Represents a CSS comment.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassCommentNode
 extends SassNode
@@ -26,6 +21,7 @@ extends SassNode
 	const TYPE_NORMAL=1;
 	const TYPE_LOUD=2;
 
+	/** @var string */
 	private $value;
 	/** @var int */
 	public $type=SassCommentNode::TYPE_NORMAL;
@@ -69,6 +65,9 @@ extends SassNode
 			}
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function getValue()
 	{
 		return $this->value;
@@ -77,6 +76,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
+	 * @param SassContext $context
 	 * @return array the parsed node - an empty array
 	 */
 	public function parse($context)
@@ -97,7 +97,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)

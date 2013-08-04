@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassRenderer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 require_once 'SassCompactRenderer.php';
 require_once 'SassCompressedRenderer.php';
@@ -16,8 +13,6 @@ require_once 'SassNestedRenderer.php';
 
 /**
  * SassRenderer class.
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 class SassRenderer
 {

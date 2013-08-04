@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @param mixed $file
+ * @param SassParser $parser
+ * @return array
+ */
 function loadCallback($file, $parser)
 {
     $paths=array();
@@ -19,6 +24,10 @@ function loadCallback($file, $parser)
     return $paths;
 }
 
+/**
+ * @param array $extensions
+ * @return array
+ */
 function getFunctions($extensions)
 {
     $output=array();

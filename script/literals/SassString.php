@@ -1,21 +1,16 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassString class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 require_once 'SassLiteral.php';
 
 /**
  * SassString class.
  * Provides operations and type testing for Sass strings.
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassString
 extends SassLiteral
@@ -30,7 +25,7 @@ extends SassLiteral
 
 
 	/**
-	 * @param string string
+	 * @param string $value string
 	 */
 	public function __construct($value)
 	{
@@ -50,8 +45,8 @@ extends SassLiteral
 	 * Concatenates this and other.
 	 * The resulting string will be quoted in the same way as this.
 	 *
-	 * @param sassString string to add to this
-	 * @return sassString the string result
+	 * @param SassString $other string to add to this
+	 * @return SassString the string result
 	 */
 	public function op_plus($other)
 	{
@@ -64,8 +59,9 @@ extends SassLiteral
 	 * String multiplication.
 	 * this is repeated other times
 	 *
-	 * @param sassNumber the number of times to repeat this
-	 * @return sassString the string result
+	 * @param SassNumber $other the number of times to repeat this
+	 * @return SassString the string result
+	 * @throws SassStringException
 	 */
 	public function op_times($other)
 	{
@@ -79,6 +75,9 @@ extends SassLiteral
 
 	/**
 	 * Equals - works better
+	 *
+	 * @param SassLiteral $other
+	 * @return SassBoolean
 	 */
 	public function op_eq($other)
 	{
@@ -86,7 +85,9 @@ extends SassLiteral
 	}
 
 	/**
-	 * Evaluates the value as a boolean.
+	 * Evaluates the value as a bool.
+	 *
+	 * @return bool
 	 */
 	public function toBoolean()
 	{
@@ -120,11 +121,17 @@ extends SassLiteral
 			: (strlen(trim($this->value))? trim($this->value) : $this->value);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function toVar()
 	{
 		return SassScriptParser::$context->getVariable($this->value);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getTypeOf()
 	{
 		if (SassList::isa($this->toString())) {
@@ -137,7 +144,7 @@ extends SassLiteral
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public static function isa($subject)

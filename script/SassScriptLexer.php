@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassScriptLexer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 require_once 'literals/SassBoolean.php';
 require_once 'literals/SassColour.php';
@@ -23,19 +20,20 @@ require_once 'SassScriptVariable.php';
  * Lexes SassSCript into tokens for the parser.
  *
  * Implements a {@link http://en.wikipedia.org/wiki/Shunting-yard_algorithm Shunting-yard algorithm} to provide {@link http://en.wikipedia.org/wiki/Reverse_Polish_notation Reverse Polish notation} output.
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 class SassScriptLexer
 {
 	const MATCH_WHITESPACE='/^\s+/';
 
-	/** Static holder for last instance of SassScriptLexer */
+	/** @var SassScriptLexer Static holder for last instance of SassScriptLexer */
 	public static $instance;
 	/** @var SassScriptParser the parser object */
 	public $parser;
 
 
+	/**
+	 * @param SassScriptParser $parser
+	 */
 	public function __construct($parser)
 	{
 		$this->parser=$parser;
@@ -45,8 +43,8 @@ class SassScriptLexer
 	/**
 	 * Lex an expression into SassScript tokens.
 	 *
-	 * @param string expression to lex
-	 * @param SassContext the context in which the expression is lexed
+	 * @param string $string expression to lex
+	 * @param SassContext $context the context in which the expression is lexed
 	 * @return array tokens
 	 */
 	public function lex($string, $context)
@@ -119,7 +117,7 @@ class SassScriptLexer
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public function isWhitespace($subject)

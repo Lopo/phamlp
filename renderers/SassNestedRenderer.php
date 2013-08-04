@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassNestedRenderer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 require_once 'SassExpandedRenderer.php';
 
@@ -17,8 +14,6 @@ require_once 'SassExpandedRenderer.php';
  * the document in much the same way Sass does. Each rule is indented based on
  * how deeply it's nested. Each property has its own line and is indented
  * within the rule.
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 class SassNestedRenderer
 extends SassExpandedRenderer

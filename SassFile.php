@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassFile class file.
  * File handling utilites.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass
  */
 
 /**
  * SassFile class.
- * @package      PHamlP
- * @subpackage  Sass
  */
 class SassFile
 {
@@ -23,16 +18,19 @@ class SassFile
 	const SCSS='scss';
 //	const SASSC = 'sassc'; # tests for E_NOTICE
 
+	/** @var array */
 	private static $extensions=array(self::SASS, self::SCSS);
+	/** @var string */
 	public static $path=FALSE;
+	/** @var SassParser */
 	public static $parser=FALSE;
 
 
 	/**
 	 * Returns the parse tree for a file.
 	 *
-	 * @param string filename to parse
-	 * @param SassParser Sass parser
+	 * @param string $filename to parse
+	 * @param SassParser $parser Sass parser
 	 * @return SassRootNode
 	 */
 	public static function get_tree($filename, &$parser)
@@ -59,6 +57,11 @@ class SassFile
 		return $tree;
 	}
 
+	/**
+	 * @param string $filename
+	 * @param SassParser $parser
+	 * @return type
+	 */
 	public static function get_file_contents($filename, $parser)
 	{
 		$contents=file_get_contents($filename)."\n\n "; #add some whitespace to fix bug
@@ -70,12 +73,20 @@ class SassFile
 		return $contents;
 	}
 
+	/**
+	 * @param array $matches
+	 * @return string
+	 */
 	public static function resolve_paths($matches)
 	{
 		// Resolve the path into something nicer...
 		return 'url("'.self::resolve_path($matches[1]).'")';
 	}
 
+	/**
+	 * @param string $name
+	 * @return string
+	 */
 	public static function resolve_path($name)
 	{
 		$path=self::$parser->basepath.self::$path;
@@ -96,8 +107,9 @@ class SassFile
 	 * If the filename does not end in .sass or .scss try the current syntax first
 	 * then, if a file is not found, try the other syntax.
 	 *
-	 * @param string filename to find
-	 * @param SassParser Sass parser
+	 * @param string $filename to find
+	 * @param SassParser $parser Sass parser
+	 * @param bool $sass_only
 	 * @return array of string path(s) to file(s) or FALSE if no such file
 	 */
 	public static function get_file($filename, &$parser, $sass_only=TRUE)
@@ -140,8 +152,8 @@ class SassFile
 	 * Looks for the file recursively in the specified directory.
 	 * This will also look for _filename to handle Sass partials.
 	 *
-	 * @param string filename to look for
-	 * @param string path to directory to look in and under
+	 * @param string $filename to look for
+	 * @param string $dir path to directory to look in and under
 	 * @return mixed string: full path to file if found, FALSE if not
 	 */
 	public static function find_file($filename, $dir)

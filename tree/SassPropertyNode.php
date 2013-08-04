@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id: SassPropertyNode.php 118 2010-09-21 09:45:11Z chris.l.yates@gmail.com $ */
 /**
  * SassPropertyNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassPropertyNode class.
  * Represents a CSS property.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassPropertyNode
 extends SassNode
@@ -30,6 +25,7 @@ extends SassNode
 	const VALUE=3;
 	const IS_SCRIPT='= ';
 
+	/** @var array */
 	public static $psuedoSelectors=array(
 		'root',
 		'nth-child(',
@@ -74,8 +70,8 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
-	 * @param string property syntax
+	 * @param object $token source token
+	 * @param string $syntax property syntax
 	 */
 	public function __construct($token, $syntax='new')
 	{
@@ -102,7 +98,7 @@ extends SassNode
 	 * If the node is a property namespace return all parsed child nodes. If not
 	 * return the parsed version of this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node
 	 */
 	public function parse($context)
@@ -195,8 +191,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
-	 * @param string the property syntax being used
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)
@@ -212,7 +207,7 @@ extends SassNode
 		$matches=self::match($token, $syntax);
 
 		if (!empty($matches)) {
-			if (isset($matches[self::VALUE])&&self::isPseudoSelector($matches[self::VALUE])) {
+			if (isset($matches[self::VALUE]) && self::isPseudoSelector($matches[self::VALUE])) {
 				return FALSE;
 				}
 			if ($token->level===0) {
@@ -230,8 +225,8 @@ extends SassNode
 	/**
 	 * Returns the matches for this type of node.
 	 *
-	 * @param array the line to match
-	 * @param string the property syntax being used
+	 * @param array $token the line to match
+	 * @param string $syntax the property syntax being used
 	 * @return array matches
 	 */
 	public static function match($token, $syntax)
@@ -263,7 +258,7 @@ extends SassNode
 	 * It will also match interpolation to allow for constructs such as content:#{$pos}
 	 * @see isa()
 	 *
-	 * @param string the string to test
+	 * @param string $string the string to test
 	 * @return bool TRUE if the string starts with a pseudo selector, FALSE if not
 	 */
 	public static function isPseudoSelector($string)

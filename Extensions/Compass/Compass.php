@@ -5,13 +5,11 @@ require_once dirname(__FILE__).'/../ExtensionInterface.php';
 class Compass
 implements ExtensionInterface
 {
+	/** @var string */
 	public static $filesFolder='stylesheets';
+	/** @var array */
 	public static $filePaths=NULL;
-	/**
-	 * List with alias functions in Compass
-	 *
-	 * @var array
-	 */
+	/** @var array List with alias functions in Compass */
 	public static $functions=array(
 		'resolve-path',
 		'adjust-lightness',
@@ -63,6 +61,10 @@ implements ExtensionInterface
 		);
 
 
+	/**
+	 * @param string $namespace
+	 * @return array
+	 */
 	public static function getFunctions($namespace)
 	{
 		$output=array();
@@ -80,7 +82,7 @@ implements ExtensionInterface
 	/**
 	 * Returns an array with all files in $root path recursively and assign each array Key with clean alias
 	 *
-	 * @param $root
+	 * @param string $root
 	 * @return array
 	 */
 	public static function getFilesArray($root)
@@ -118,6 +120,11 @@ implements ExtensionInterface
 
 	/**
 	 * Implementation of hook_resolve_path_NAMESPACE().
+	 *
+	 * @param mixed $callerImport
+	 * @param $parser
+	 * @param string $syntax
+	 * @return string
 	 */
 	public static function resolveExtensionPath($callerImport, $parser, $syntax='scss')
 	{
@@ -135,6 +142,9 @@ implements ExtensionInterface
 
 	/**
 	 * Resolves requires to the compass namespace (eg namespace/css3/border-radius)
+	 *
+	 * @param string $file
+	 * @return string|FALSE
 	 */
 	public static function compassResolvePath($file)
 	{
@@ -159,6 +169,10 @@ implements ExtensionInterface
 		return FALSE;
 	}
 
+	/**
+	 * @param string $file
+	 * @return SassNumber
+	 */
 	public static function compassImageWidth($file)
 	{
 		if ($info=self::compassImageInfo($file)) {
@@ -168,6 +182,10 @@ implements ExtensionInterface
 		return new SassNumber('0px');
 	}
 
+	/**
+	 * @param string $file
+	 * @return SassNumber
+	 */
 	public static function compassImageHeight($file)
 	{
 		if ($info=self::compassImageInfo($file)) {
@@ -177,6 +195,10 @@ implements ExtensionInterface
 		return new SassNumber('0px');
 	}
 
+	/**
+	 * @param string $file
+	 * @return array|FALSE
+	 */
 	public static function compassImageInfo($file)
 	{
 		if ($path=self::compassResolvePath($file)) {
@@ -188,6 +210,11 @@ implements ExtensionInterface
 		return FALSE;
 	}
 
+	/**
+	 * @param string $file
+	 * @param string $mime
+	 * @return SassString
+	 */
 	public static function compassInlineImage($file, $mime=NULL)
 	{
 		if ($path=self::compassUrl($file, TRUE, FALSE)) {
@@ -202,6 +229,10 @@ implements ExtensionInterface
 		return new SassString('');
 	}
 
+	/**
+	 * @param string $file
+	 * @return SassString
+	 */
 	public static function compassInlineFontFiles($file)
 	{
 		$args=func_get_args();
@@ -232,6 +263,10 @@ implements ExtensionInterface
 		return new SassString(implode(', ', $files));
 	}
 
+	/**
+	 * @param mixed $object
+	 * @return SassBoolean
+	 */
 	public static function compassBlank($object)
 	{
 		if (is_object($object)) {
@@ -248,6 +283,9 @@ implements ExtensionInterface
 		return new SassBoolean($result);
 	}
 
+	/**
+	 * @return SassString
+	 */
 	public static function compassCompact()
 	{
 		$sep=', ';
@@ -271,6 +309,9 @@ implements ExtensionInterface
 		return new SassString(implode($sep, $list));
 	}
 
+	/**
+	 * @return SassBoolean
+	 */
 	public static function compassCompassNth()
 	{
 		$args=func_get_args();
@@ -294,6 +335,9 @@ implements ExtensionInterface
 		return new SassBoolean(FALSE);
 	}
 
+	/**
+	 * @return SassString
+	 */
 	public static function compassCompassList()
 	{
 		$args=func_get_args();
@@ -305,6 +349,9 @@ implements ExtensionInterface
 		return new SassString(implode(', ', $list));
 	}
 
+	/**
+	 * @return SassString
+	 */
 	public static function compassCompassSpaceList()
 	{
 		$args=func_get_args();
@@ -313,6 +360,9 @@ implements ExtensionInterface
 		return new SassString(implode(' ', $list));
 	}
 
+	/**
+	 * @return SassNumber
+	 */
 	public static function compassCompassListSize()
 	{
 		$args=func_get_args();
@@ -321,6 +371,12 @@ implements ExtensionInterface
 		return new SassNumber(count($list));
 	}
 
+	/**
+	 * @param array $list
+	 * @param int $start
+	 * @param int $end
+	 * @return string
+	 */
 	public static function compassCompassListSlice($list, $start, $end)
 	{
 		$args=func_get_args();
@@ -331,6 +387,9 @@ implements ExtensionInterface
 		return implode(',', array_slice($list, $start, $end));
 	}
 
+	/**
+	 * @return SassBoolean
+	 */
 	public static function compassFirstValueOf()
 	{
 		$args=array();
@@ -339,6 +398,11 @@ implements ExtensionInterface
 		return call_user_func_array('self::compassCompassNth', $args);
 	}
 
+	/**
+	 * @param mixed $list
+	 * @param string $seperator
+	 * @return array
+	 */
 	public static function compassList($list, $seperator=',')
 	{
 		if (is_object($list)) {
@@ -382,7 +446,11 @@ implements ExtensionInterface
 		return $out;
 	}
 
-	// http://compass-style.org/reference/compass/helpers/selectors/#nest
+	/**
+	 * http://compass-style.org/reference/compass/helpers/selectors/#nest
+	 *
+	 * @return SassString
+	 */
 	public static function compassNest()
 	{
 		$args=func_get_args();
@@ -402,6 +470,11 @@ implements ExtensionInterface
 		return new SassString(implode(', ', $output));
 	}
 
+	/**
+	 * @param string $initial
+	 * @param string $new
+	 * @return SassString
+	 */
 	public static function compassAppendSelector($initial, $new)
 	{
 		$list=explode(',', $initial);
@@ -412,6 +485,11 @@ implements ExtensionInterface
 		return new SassString(implode(', ', $list));
 	}
 
+	/**
+	 * @param mixed $from
+	 * @param mixed $to
+	 * @return SassString
+	 */
 	public static function compassHeaders($from=FALSE, $to=FALSE)
 	{
 		if (is_object($from)) {
@@ -449,21 +527,36 @@ implements ExtensionInterface
 	{
 	}
 
+	/**
+	 * @return float
+	 */
 	public static function compassPi()
 	{
 		return pi();
 	}
 
+	/**
+	 * @param float $number
+	 * @return SassNumber
+	 */
 	public static function compassSin($number)
 	{
 		return new SassNumber(sin($number));
 	}
 
+	/**
+	 * @param float $number
+	 * @return SassNumber
+	 */
 	public static function compassCos($number)
 	{
 		return new SassNumber(sin($number));
 	}
 
+	/**
+	 * @param float $number
+	 * @return SassNumber
+	 */
 	public static function compassTan($number)
 	{
 		return new SassNumber(sin($number));
@@ -471,21 +564,43 @@ implements ExtensionInterface
 
 # not sure what should happen with these
 
+	/**
+	 * @param string $path
+	 * @param bool $only_path
+	 * @return SassString
+	 */
 	public static function compassStylesheetUrl($path, $only_path=FALSE)
 	{
 		return self::compassUrl($path, $only_path);
 	}
 
+	/**
+	 * @param string $path
+	 * @param bool $only_path
+	 * @return SassString
+	 */
 	public static function compassFontUrl($path, $only_path=FALSE)
 	{
 		return self::compassUrl($path, $only_path);
 	}
 
+	/**
+	 * @param string $path
+	 * @param bool $only_path
+	 * @return SassString
+	 */
 	public static function compassImageUrl($path, $only_path=FALSE)
 	{
 		return self::compassUrl($path, $only_path);
 	}
 
+	/**
+	 * @param string $path
+	 * @param bool $only_path
+	 * @param bool $web_path
+	 * @return SassString
+	 * @throws Exception
+	 */
 	public static function compassUrl($path, $only_path=FALSE, $web_path=TRUE)
 	{
 		$opath=$path;
@@ -506,6 +621,10 @@ implements ExtensionInterface
 		return new SassString("url('$path')");
 	}
 
+	/**
+	 * @param string $from
+	 * @return string
+	 */
 	public static function compassOppositePosition($from)
 	{
 		switch ($from) {

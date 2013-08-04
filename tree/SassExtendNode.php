@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id: SassExtendNode.php 49 2010-04-04 10:51:24Z chris.l.yates $ */
 /**
  * SassExtendNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassExtendNode class.
  * Represents a Sass @debug or @warn directive.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassExtendNode
 extends SassNode
@@ -28,7 +23,7 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -40,6 +35,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
+	 * @param SassContext $context
 	 * @return array An empty array
 	 */
 	public function parse($context)

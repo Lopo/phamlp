@@ -1,21 +1,16 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassIfNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassIfNode class.
  * Represents Sass If, Else If and Else statements.
  * Else If and Else statement nodes are chained below the If statement node.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassIfNode
 extends SassNode
@@ -33,8 +28,8 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
-	 * @param bool TRUE for an "if" node, FALSE for an "else if | else" node
+	 * @param object $token source token
+	 * @param bool $if TRUE for an "if" node, FALSE for an "else if | else" node
 	 */
 	public function __construct($token, $if=TRUE)
 	{
@@ -54,7 +49,7 @@ extends SassNode
 	/**
 	 * Adds an "else" statement to this node.
 	 *
-	 * @param SassIfNode "else" statement node to add
+	 * @param SassIfNode $node "else" statement node to add
 	 * @return SassIfNode this node
 	 */
 	public function addElse($node)
@@ -74,7 +69,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array parsed child nodes
 	 */
 	public function parse($context)

@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassReturnNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassReturnNode class.
  * Represents a Return.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassReturnNode
 extends SassNode
@@ -24,12 +19,12 @@ extends SassNode
 	const IDENTIFIER=1;
 	const STATEMENT=2;
 
-	/** @var statement to execute and return */
+	/** @var string statement to execute and return */
 	private $statement;
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -48,8 +43,8 @@ extends SassNode
 	 * Set passed arguments and any optional arguments not passed to their
 	 * defaults, then render the children of the return definition.
 	 *
-	 * @param SassContext the context in which this node is parsed
-	 * @return array the parsed node
+	 * @param SassContext $pcontext the context in which this node is parsed
+	 * @throws SassReturn
 	 */
 	public function parse($pcontext)
 	{
@@ -69,7 +64,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)
@@ -83,6 +78,9 @@ extends SassNode
 class SassReturn
 extends Exception
 {
+	/**
+	 * @param string $value
+	 */
 	public function __construct($value)
 	{
 		$this->value=$value;

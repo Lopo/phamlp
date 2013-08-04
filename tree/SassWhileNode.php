@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassWhileNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassWhileNode class.
  * Represents a Sass @while loop and a Sass @do loop.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassWhileNode
 extends SassNode
@@ -34,7 +29,7 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -47,7 +42,7 @@ extends SassNode
 	/**
 	 * Parse this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed child nodes
 	 */
 	public function parse($context)

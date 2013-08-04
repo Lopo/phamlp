@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassContext class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
@@ -15,8 +12,6 @@
  * Defines the context that the parser is operating in and so allows variables
  * to be scoped.
  * A new context is created for Mixins and imported files.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassContext
 {
@@ -28,20 +23,24 @@ class SassContext
 	public $functions=array();
 	/** @var array variables defined in this context */
 	public $variables=array();
-	/** @var tree representing any contextual content. */
+	/** @var array tree representing any contextual content. */
 	public $content=array();
 	/** @var SassNode the node being processed */
 	public $node;
 
 
 	/**
-	 * @param SassContext - the enclosing context
+	 * @param SassContext $parent - the enclosing context
 	 */
 	public function __construct($parent=NULL)
 	{
 		$this->parent=$parent;
 	}
 
+	/**
+	 * @return array
+	 * @throws SassContextException
+	 */
 	public function getContent()
 	{
 		if ($this->content) {
@@ -56,8 +55,8 @@ class SassContext
 	/**
 	 * Adds a mixin
 	 *
-	 * @param string name of mixin
-	 * @return SassMixinDefinitionNode the mixin
+	 * @param string $name of mixin
+	 * @return SassMixinDefinitionNode $mixin the mixin
 	 */
 	public function addMixin($name, $mixin)
 	{
@@ -69,7 +68,7 @@ class SassContext
 	/**
 	 * Returns a mixin
 	 *
-	 * @param string name of mixin to return
+	 * @param string $name of mixin to return
 	 * @return SassMixinDefinitionNode the mixin
 	 * @throws SassContextException if mixin not defined in this context
 	 */
@@ -87,8 +86,9 @@ class SassContext
 	/**
 	 * Adds a function
 	 *
-	 * @param string name of function
-	 * @return SassFunctionDefinitionNode the function
+	 * @param string $name of function
+	 * @param SassFunctionDefinitionNode the function
+	 * @return SassContext
 	 */
 	public function addFunction($name, $function)
 	{
@@ -103,7 +103,7 @@ class SassContext
 	/**
 	 * Returns a function
 	 *
-	 * @param string name of function to return
+	 * @param string $name of function to return
 	 * @return SassFunctionDefinitionNode the mixin
 	 * @throws SassContextException if function not defined in this context
 	 */
@@ -118,7 +118,7 @@ class SassContext
 	/**
 	 * Returns a boolean wether this function exists
 	 *
-	 * @param string name of function to check for
+	 * @param string $name of function to check for
 	 * @return bool
 	 */
 	public function hasFunction($name)
@@ -136,9 +136,8 @@ class SassContext
 	/**
 	 * Returns a variable defined in this context
 	 *
-	 * @param string name of variable to return
+	 * @param string $name of variable to return
 	 * @return string the variable
-	 * @throws SassContextException if variable not defined in this context
 	 */
 	public function getVariable($name)
 	{
@@ -157,7 +156,7 @@ class SassContext
 	/**
 	 * Returns a value indicating if the variable exists in this context
 	 *
-	 * @param string name of variable to test
+	 * @param string $name of variable to test
 	 * @return bool TRUE if the variable exists in this context, FALSE if not
 	 */
 	public function hasVariable($name)
@@ -168,8 +167,9 @@ class SassContext
 	/**
 	 * Sets a variable to the given value
 	 *
-	 * @param string name of variable
-	 * @param sassLiteral value of variable
+	 * @param string $name of variable
+	 * @param sassLiteral $value of variable
+	 * @return SassContext
 	 */
 	public function setVariable($name, $value)
 	{
@@ -178,6 +178,9 @@ class SassContext
 		return $this;
 	}
 
+	/**
+	 * @param array $vars
+	 */
 	public function setVariables($vars)
 	{
 		foreach ($vars as $key => $value) {

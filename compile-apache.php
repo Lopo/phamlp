@@ -10,11 +10,19 @@ header('Content-type: text/css');
 
 require_once './SassParser.php';
 
+/**
+ * @param string $text
+ * @param SassContext $context
+ */
 function warn($text, $context)
 {
 	print "/** WARN: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";
 }
 
+/**
+ * @param string $text
+ * @param SassContext $context
+ */
 function debug($text, $context)
 {
 	print "/** DEBUG: $text, on line {$context->node->token->line} of {$context->node->token->filename} **/\n";

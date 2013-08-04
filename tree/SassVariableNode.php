@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassVariableNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassVariableNode class.
  * Represents a variable.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassVariableNode
 extends SassNode
@@ -38,7 +33,8 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
+	 * @throws SassVariableNodeException
 	 */
 	public function __construct($token)
 	{
@@ -50,7 +46,7 @@ extends SassNode
 
 		$this->name=$matches[self::NAME];
 		$this->value=$matches[self::VALUE];
-		$this->isDefault=(!empty($matches[self::SASS_DEFAULT]) || !empty($matches[self::SCSS_DEFAULT]));
+		$this->isDefault=!empty($matches[self::SASS_DEFAULT]) || !empty($matches[self::SCSS_DEFAULT]);
 
 		// Warn about deprecated features
 		if ($matches[self::IDENTIFIER]===self::SASS_IDENTIFIER) {
@@ -65,7 +61,7 @@ extends SassNode
 	 * Parse this node.
 	 * Sets the variable in the current context.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node - an empty array
 	 */
 	public function parse($context)
@@ -81,7 +77,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)

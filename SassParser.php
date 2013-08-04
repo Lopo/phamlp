@@ -1,6 +1,5 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassParser class file.
  * See the {@link http://sass-lang.com/docs Sass documentation}
@@ -18,8 +17,6 @@
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass
  */
 require_once 'SassFile.php';
 require_once 'SassException.php';
@@ -28,8 +25,6 @@ require_once 'tree/SassNode.php';
 /**
  * SassParser class.
  * Parses {@link http://sass-lang.com/ .sass and .sccs} files.
- * @package      PHamlP
- * @subpackage  Sass
  */
 class SassParser
 {
@@ -48,7 +43,7 @@ class SassParser
 	const DOUBLE_QUOTE='"';
 	const SINGLE_QUOTE="'";
 
-	/** Static holder for last instance of a SassParser*/
+	/** @var SassParser Static holder for last instance of a SassParser*/
 	public static $instance;
 	/**
 	 * @var string the character used for indenting
@@ -59,7 +54,7 @@ class SassParser
 	/** @var array allowable characters for indenting */
 	public $indentChars=array(' ', "\t");
 	/**
-	 * @var integer number of spaces for indentation.
+	 * @var int number of spaces for indentation.
 	 * Used to calculate {@link Level} if {@link indentChar} is space.
 	 */
 	public $indentSpaces=2;
@@ -68,9 +63,9 @@ class SassParser
 	/**#@+
 	 * Option
 	 */
+	/** @var string */
 	public $basepath;
 	/**
-	 * debug_info:
 	 * @var bool When TRUE the line number and file where a selector is defined
 	 * is emitted into the compiled CSS in a format that can be understood by the
 	 * {@link https://addons.mozilla.org/en-US/firefox/addon/103988/
@@ -82,19 +77,17 @@ class SassParser
 	 */
 	public $debug_info;
 	/**
-	 * filename:
 	 * @var string The filename of the file being rendered.
 	 * This is used solely for reporting errors.
 	 */
 	public $filename;
 	/**
 	 * function:
-	 * @var An array of (function_name => callback) items.
+	 * @var array An array of (function_name => callback) items.
 	 */
 	public static $functions;
 	/**
-	 * line:
-	 * @var integer The number of the first line of the Sass template. Used for
+	 * @var int The number of the first line of the Sass template. Used for
 	 * reporting line numbers for errors. This is useful to set if the Sass
 	 * template is embedded.
 	 *
@@ -102,7 +95,6 @@ class SassParser
 	 */
 	public $line;
 	/**
-	 * line_numbers:
 	 * @var bool When TRUE the line number and filename where a selector is
 	 * defined is emitted into the compiled CSS as a comment. Useful for debugging
 	 * especially when using imports and mixins.
@@ -114,16 +106,15 @@ class SassParser
 	 */
 	public $line_numbers;
 	/**
-	 * load_paths:
 	 * @var array An array of filesystem paths which should be searched for
 	 * Sass templates imported with the @import directive.
 	 *
 	 * Defaults to './sass-templates'.
 	 */
 	public $load_paths;
+	/** @var */
 	public $load_path_functions;
 	/**
-	 * property_syntax:
 	 * @var string Forces the document to use one syntax for
 	 * properties. If the correct syntax isn't used, an error is thrown.
 	 * Value can be:
@@ -138,20 +129,17 @@ class SassParser
 	 */
 	public $property_syntax;
 	/**
-	 * quiet:
 	 * @var bool When set to TRUE, causes warnings to be disabled.
 	 * Defaults to FALSE.
 	 */
 	public $quiet;
 	/**
-	 * callbacks:
 	 * @var array listing callbacks for @warn and @debug directives.
 	 * Callbacks are executed by call_user_func and thus must conform
 	 * to that standard.
 	 */
 	public $callbacks;
 	/**
-	 * style:
 	 * @var string the style of the CSS output.
 	 * Value can be:
 	 * + nested - Nested is the default Sass style, because it reflects the
@@ -173,7 +161,6 @@ class SassParser
 	 */
 	public $style;
 	/**
-	 * syntax:
 	 * @var string The syntax of the input file.
 	 * 'sass' for the indented syntax and 'scss' for the CSS-extension syntax.
 	 *
@@ -181,13 +168,13 @@ class SassParser
 	 */
 	public $syntax;
 	/**
-	 * debug:
 	 * If enabled it causes exceptions to be thrown on errors. This can be
 	 * useful for tracking down a bug in your sourcefile but will cause a
 	 * site to break if used in production unless the parser in wrapped in
 	 * a try/catch structure.
 	 *
 	 * Defaults to FALSE
+	 * @var bool
 	 */
 	public $debug=FALSE;
 
@@ -196,6 +183,7 @@ class SassParser
 	 * Sets parser options
 	 *
 	 * @param array $options
+	 * @throws SassException
 	 */
 	public function __construct($options=array())
 	{
@@ -258,8 +246,9 @@ class SassParser
 	}
 
 	/**
-	 * @param string name of property to get
+	 * @param string $name of property to get
 	 * @return mixed return value of getter function
+	 * @throws SassException
 	 */
 	public function __get($name)
 	{
@@ -275,76 +264,121 @@ class SassParser
 			}
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getBasepath()
 	{
 		return $this->basepath;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getDebug_info()
 	{
 		return $this->debug_info;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getFilename()
 	{
 		return $this->filename;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getLine()
 	{
 		return $this->line;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSource()
 	{
 		return $this->source;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getLine_numbers()
 	{
 		return $this->line_numbers;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getFunctions()
 	{
 		return self::$functions;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getLoad_paths()
 	{
 		return $this->load_paths;
 	}
 
+	/**
+	 * @return
+	 */
 	public function getLoad_path_functions()
 	{
 		return $this->load_path_functions;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getProperty_syntax()
 	{
 		return $this->property_syntax;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getQuiet()
 	{
 		return $this->quiet;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getStyle()
 	{
 		return $this->style;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getSyntax()
 	{
 		return $this->syntax;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getDebug()
 	{
 		return $this->debug;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCallbacks()
 	{
 		return $this->callbacks+array(
@@ -353,6 +387,9 @@ class SassParser
 			);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getOptions()
 	{
 		return array(
@@ -374,7 +411,8 @@ class SassParser
 	/**
 	 * Parse a sass file or Sass source code and returns the CSS.
 	 *
-	 * @param string name of source file or Sass source
+	 * @param string $source name of source file or Sass source
+	 * @param bool $isFile
 	 * @return string CSS
 	 */
 	public function toCss($source, $isFile=TRUE)
@@ -386,8 +424,10 @@ class SassParser
 	 * Parse a sass file or Sass source code and returns the document tree that can then be rendered.
 	 * The file will be searched for in the directories specified by the load_paths option.
 	 *
-	 * @param string name of source file or Sass source
+	 * @param string $source name of source file or Sass source
+	 * @param bool $isFile
 	 * @return SassRootNode Root node of document tree
+	 * @throws SassException
 	 */
 	public function parse($source, $isFile=TRUE)
 	{
@@ -453,7 +493,7 @@ class SassParser
 	 * Parse Sass source into a document tree.
 	 * If the tree is already created return that.
 	 *
-	 * @param string Sass source
+	 * @param string $source Sass source
 	 * @return SassRootNode the root of this document tree
 	 */
 	public function toTree($source)
@@ -477,7 +517,8 @@ class SassParser
 	 * Builds a parse tree under the parent node.
 	 * Called recursivly until the source is parsed.
 	 *
-	 * @param SassNode the node
+	 * @param SassNode $parent the node
+	 * @return SassNode
 	 */
 	public function buildTree($parent)
 	{
@@ -494,6 +535,7 @@ class SassParser
 	 * Creates and returns the next SassNode.
 	 * The tpye of SassNode depends on the content of the SassToken.
 	 *
+	 * @param SassNode $node
 	 * @return SassNode a SassNode of the appropriate type. Null when no more source to parse.
 	 */
 	public function getNode($node)
@@ -553,6 +595,7 @@ class SassParser
 	 * CSS comments and selectors, are assembled into a single statement.
 	 *
 	 * @return object Statement token. Null if end of source.
+	 * @throws SassException
 	 */
 	public function sass2Token()
 	{
@@ -622,9 +665,9 @@ class SassParser
 	 * Returns the level of the line.
 	 * Used for .sass source
 	 *
-	 * @param string the source
-	 * @return integer the level of the source
-	 * @throws Exception if the source indentation is invalid
+	 * @param string $source the source
+	 * @return int the level of the source
+	 * @throws SassException if the source indentation is invalid
 	 */
 	public function getLevel($source)
 	{
@@ -649,6 +692,7 @@ class SassParser
 	 * Returns an object that contains the next source statement and meta data about it from SCSS source.
 	 *
 	 * @return object Statement token. Null if end of source.
+	 * @throws SassException
 	 */
 	public function scss2Token()
 	{
@@ -740,7 +784,7 @@ class SassParser
 	 * Returns an object that contains the source statement and meta data about it.
 	 * If the statement is just and end block we update the meta data and return null.
 	 *
-	 * @param string source statement
+	 * @param string $statement source statement
 	 * @return SassToken
 	 */
 	public function createToken($statement)
@@ -774,9 +818,10 @@ class SassParser
 	/**
 	 * Parses a directive
 	 *
-	 * @param SassToken token to parse
-	 * @param SassNode parent node
+	 * @param SassToken $token to parse
+	 * @param SassNode $parent node
 	 * @return SassNode a Sass directive node
+	 * @throws SassException
 	 */
 	public function parseDirective($token, $parent)
 	{

@@ -27,15 +27,11 @@
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 
 /**
  * SassScript functions class.
  * A collection of functions for use in SassSCript.
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 class SassScriptFunctions
 {
@@ -45,6 +41,10 @@ class SassScriptFunctions
 	public static $parser=FALSE;
 
 
+	/**
+	 * @param SassString $name
+	 * @return SassBoolean|SassString
+	 */
 	public static function option($name)
 	{
 		$options=SassParser::$instance->getOptions();
@@ -62,14 +62,13 @@ class SassScriptFunctions
 	/**
 	 * Creates a SassColour object from red, green, and blue values.
 	 *
-	 * @param SassNumber the red component.
+	 * @param SassNumber $red the red component.
 	 * A number between 0 and 255 inclusive, or between 0% and 100% inclusive
-	 * @param SassNumber the green component.
+	 * @param SassNumber $green the green component.
 	 * A number between 0 and 255 inclusive, or between 0% and 100% inclusive
-	 * @param SassNumber the blue component.
+	 * @param SassNumber $blue the blue component.
 	 * A number between 0 and 255 inclusive, or between 0% and 100% inclusive
-	 * @return new SassColour SassColour object
-	 * @throws SassScriptFunctionException if red, green, or blue are out of bounds
+	 * @return SassColour new SassColour object
 	 */
 	public static function rgb($red, $green, $blue)
 	{
@@ -92,10 +91,9 @@ class SassScriptFunctions
 	 * @param SassColour a SassColour object
 	 * @param SassNumber The alpha channel. A number between 0 and 1.
 	 *
-	 * @return new SassColour SassColour object
+	 * @return SassColour new SassColour object
 	 * @throws SassScriptFunctionException if any of the red, green, or blue
-	 * colour components are out of bounds, or or the colour is not a colour, or
-	 * alpha is out of bounds
+	 * colour components are out of bounds, or or the colour is not a colour, or alpha is out of bounds
 	 */
 	public static function rgba()
 	{
@@ -137,14 +135,13 @@ class SassScriptFunctions
 	 * Creates a SassColour object from hue, saturation, and lightness.
 	 * Uses the algorithm from the {@link http://www.w3.org/TR/css3-colour/#hsl-colour CSS3 spec}.
 	 *
-	 * @param float The hue of the colour in degrees.
+	 * @param float $h The hue of the colour in degrees.
 	 * Should be between 0 and 360 inclusive
-	 * @param mixed The saturation of the colour as a percentage.
+	 * @param mixed $s The saturation of the colour as a percentage.
 	 * Must be between '0%' and 100%, inclusive
-	 * @param mixed The lightness of the colour as a percentage.
+	 * @param mixed $l The lightness of the colour as a percentage.
 	 * Must be between 0% and 100%, inclusive
-	 * @return new SassColour The resulting colour
-	 * @throws SassScriptFunctionException if saturation or lightness are out of bounds
+	 * @return SassColour new The resulting colour
 	 */
 	public static function hsl($h, $s, $l)
 	{
@@ -157,15 +154,14 @@ class SassScriptFunctions
 	/**
 	 * Creates a SassColour object from hue, saturation, lightness and alpha channel (opacity).
 	 *
-	 * @param SassNumber The hue of the colour in degrees.
+	 * @param SassNumber $h The hue of the colour in degrees.
 	 * Should be between 0 and 360 inclusive
-	 * @param SassNumber The saturation of the colour as a percentage.
+	 * @param SassNumber $s The saturation of the colour as a percentage.
 	 * Must be between 0% and 100% inclusive
-	 * @param SassNumber The lightness of the colour as a percentage.
+	 * @param SassNumber $l The lightness of the colour as a percentage.
 	 * Must be between 0% and 100% inclusive
-	 * @param float The alpha channel. A number between 0 and 1.
-	 * @return new SassColour The resulting colour
-	 * @throws SassScriptFunctionException if saturation, lightness or alpha are out of bounds
+	 * @param float $a The alpha channel. A number between 0 and 1.
+	 * @return SassColour new The resulting colour
 	 */
 	public static function hsla($h, $s, $l, $a)
 	{
@@ -187,9 +183,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the red component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The red component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The red component of colour
 	 */
 	public static function red($colour)
 	{
@@ -201,9 +196,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the green component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The green component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The green component of colour
 	 */
 	public static function green($colour)
 	{
@@ -215,9 +209,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the blue component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The blue component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The blue component of colour
 	 */
 	public static function blue($colour)
 	{
@@ -229,9 +222,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the hue component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The hue component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The hue component of colour
 	 */
 	public static function hue($colour)
 	{
@@ -243,9 +235,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the saturation component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The saturation component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The saturation component of colour
 	 */
 	public static function saturation($colour)
 	{
@@ -257,9 +248,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the lightness component of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The lightness component of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The lightness component of colour
 	 */
 	public static function lightness($colour)
 	{
@@ -271,9 +261,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the alpha component (opacity) of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The alpha component (opacity) of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return mixed SassNumber The alpha component (opacity) of colour
 	 *
 	 * RL modified so that the filter: alpha function doesn't bork
 	 */
@@ -292,9 +281,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the alpha component (opacity) of a colour.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassNumber The alpha component (opacity) of colour
-	 * @throws SassScriptFunctionException If $colour is not a colour
+	 * @param SassColour $colour The colour
+	 * @return SassNumber The alpha component (opacity) of colour
 	 */
 	public static function opacity($colour)
 	{
@@ -310,10 +298,9 @@ class SassScriptFunctions
 	/**
 	 * Changes the hue of a colour while retaining the lightness and saturation.
 	 *
-	 * @param SassColour The colour to adjust
-	 * @param SassNumber The amount to adjust the colour by
-	 * @return new SassColour The adjusted colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $degrees is not a number
+	 * @param SassColour $colour The colour to adjust
+	 * @param SassNumber $degrees The amount to adjust the colour by
+	 * @return SassColour The adjusted colour
 	 */
 	public static function adjust_hue($colour, $degrees)
 	{
@@ -326,15 +313,14 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour lighter.
 	 *
-	 * @param SassColour The colour to lighten
-	 * @param SassNumber The amount to lighten the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @param SassColour $colour The colour to lighten
+	 * @param SassNumber $amount The amount to lighten the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
 	 * The default is false - the amount is a proportion of the total range.
 	 * If the colour lightness value is 40% and the amount is 50%,
 	 * the resulting colour lightness value is 90% if the amount is a proportion
 	 * of the total range, whereas it is 60% if the amount is a proportion of the current value.
-	 * @return new SassColour The lightened colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The lightened colour
 	 * @see lighten_rel
 	 */
 	public static function lighten($colour, $amount, $ofCurrent=FALSE)
@@ -345,15 +331,14 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour darker.
 	 *
-	 * @param SassColour The colour to darken
-	 * @param SassNumber The amount to darken the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @param SassColour $colour The colour to darken
+	 * @param SassNumber $amount The amount to darken the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
 	 * The default is false - the amount is a proportion of the total range.
 	 * If the colour lightness value is 80% and the amount is 50%,
 	 * the resulting colour lightness value is 30% if the amount is a proportion
 	 * of the total range, whereas it is 40% if the amount is a proportion of the current value.
-	 * @return new SassColour The darkened colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The darkened colour
 	 * @see adjust
 	 */
 	public static function darken($colour, $amount, $ofCurrent=FALSE)
@@ -364,15 +349,14 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour more saturated.
 	 *
-	 * @param SassColour The colour to saturate
-	 * @param SassNumber The amount to saturate the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @param SassColour $colour The colour to saturate
+	 * @param SassNumber $amount The amount to saturate the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
 	 * The default is false - the amount is a proportion of the total range.
 	 * If the colour saturation value is 40% and the amount is 50%,
 	 * the resulting colour saturation value is 90% if the amount is a proportion
 	 * of the total range, whereas it is 60% if the amount is a proportion of the current value.
-	 * @return new SassColour The saturated colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The saturated colour
 	 * @see adjust
 	 */
 	public static function saturate($colour, $amount, $ofCurrent=FALSE)
@@ -383,15 +367,14 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour less saturated.
 	 *
-	 * @param SassColour The colour to desaturate
-	 * @param SassNumber The amount to desaturate the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @param SassColour $colour The colour to desaturate
+	 * @param SassNumber $amount The amount to desaturate the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
 	 * The default is false - the amount is a proportion of the total range.
 	 * If the colour saturation value is 80% and the amount is 50%,
 	 * the resulting colour saturation value is 30% if the amount is a proportion
 	 * of the total range, whereas it is 40% if the amount is a proportion of the current value.
-	 * @return new SassColour The desaturateed colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The desaturateed colour
 	 * @see adjust
 	 */
 	public static function desaturate($colour, $amount, $ofCurrent=FALSE)
@@ -402,15 +385,15 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour more opaque.
 	 *
-	 * @param SassColour The colour to opacify
-	 * @param SassNumber The amount to opacify the colour by
+	 * @param SassColour $colour The colour to opacify
+	 * @param SassNumber $amount The amount to opacify the colour by
+	 * @param SassBoolean $ofCurrent
 	 * If this is a unitless number between 0 and 1 the adjustment is absolute,
 	 * if it is a percentage the adjustment is relative.
 	 * If the colour alpha value is 0.4
 	 * if the amount is 0.5 the resulting colour alpha value  is 0.9,
 	 * whereas if the amount is 50% the resulting colour alpha value  is 0.6.
-	 * @return new SassColour The opacified colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The opacified colour
 	 * @see opacify_rel
 	 */
 	public static function opacify($colour, $amount, $ofCurrent=FALSE)
@@ -423,15 +406,15 @@ class SassScriptFunctions
 	/**
 	 * Makes a colour more transparent.
 	 *
-	 * @param SassColour The colour to transparentize
-	 * @param SassNumber The amount to transparentize the colour by.
+	 * @param SassColour $colour The colour to transparentize
+	 * @param SassNumber $amount The amount to transparentize the colour by.
+	 * @param SassBoolean $ofCurrent
 	 * If this is a unitless number between 0 and 1 the adjustment is absolute,
 	 * if it is a percentage the adjustment is relative.
 	 * If the colour alpha value is 0.8
 	 * if the amount is 0.5 the resulting colour alpha value  is 0.3,
 	 * whereas if the amount is 50% the resulting colour alpha value  is 0.4.
-	 * @return new SassColour The transparentized colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @return SassColour The transparentized colour
 	 */
 	public static function transparentize($colour, $amount, $ofCurrent=FALSE)
 	{
@@ -444,11 +427,10 @@ class SassScriptFunctions
 	 * Makes a colour more opaque.
 	 * Alias for {@link opacify}.
 	 *
-	 * @param SassColour The colour to opacify
-	 * @param SassNumber The amount to opacify the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
-	 * @return new SassColour The opacified colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @param SassColour $colour The colour to opacify
+	 * @param SassNumber $amount The amount to opacify the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @return SassColour The opacified colour
 	 * @see opacify
 	 */
 	public static function fade_in($colour, $amount, $ofCurrent=FALSE)
@@ -460,11 +442,10 @@ class SassScriptFunctions
 	 * Makes a colour more transparent.
 	 * Alias for {@link transparentize}.
 	 *
-	 * @param SassColour The colour to transparentize
-	 * @param SassNumber The amount to transparentize the colour by
-	 * @param SassBoolean Whether the amount is a proportion of the current value (true) or the total range (false).
-	 * @return new SassColour The transparentized colour
-	 * @throws SassScriptFunctionException If $colour is not a colour or $amount is not a number
+	 * @param SassColour $colour The colour to transparentize
+	 * @param SassNumber $amount The amount to transparentize the colour by
+	 * @param SassBoolean $ofCurrent Whether the amount is a proportion of the current value (true) or the total range (false).
+	 * @return SassColour The transparentized colour
 	 * @see transparentize
 	 */
 	public static function fade_out($colour, $amount, $ofCurrent=FALSE)
@@ -476,8 +457,8 @@ class SassScriptFunctions
 	 * Returns the complement of a colour.
 	 * Rotates the hue by 180 degrees.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassColour The comlemented colour
+	 * @param SassColour $colour The colour
+	 * @return SassColour The comlemented colour
 	 * @uses adjust_hue()
 	 */
 	public static function complement($colour)
@@ -489,8 +470,8 @@ class SassScriptFunctions
 	/**
 	 * Greyscale for non-english speakers.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassColour The greyscale colour
+	 * @param SassColour $colour The colour
+	 * @return SassColour The greyscale colour
 	 * @see desaturate
 	 */
 	public static function grayscale($colour)
@@ -502,8 +483,8 @@ class SassScriptFunctions
 	 * Converts a colour to greyscale.
 	 * Reduces the saturation to zero.
 	 *
-	 * @param SassColour The colour
-	 * @return new SassColour The greyscale colour
+	 * @param SassColour $colour The colour
+	 * @return SassColour The greyscale colour
 	 * @see desaturate
 	 */
 	public static function greyscale($colour)
@@ -515,8 +496,8 @@ class SassScriptFunctions
 	 * Inverts a colour.
 	 * The red, green, and blue values are inverted value = (255 - value)
 	 *
-	 * @param SassColour: the colour
-	 * @return new SassColour: the inverted colour
+	 * @param SassColour $colour the colour
+	 * @return SassColour the inverted colour
 	 */
 	public static function invert($colour)
 	{
@@ -543,11 +524,10 @@ class SassScriptFunctions
 	 *   mix(#f00, #00f, 25%) => #3f00bf
 	 *   mix(rgba(255, 0, 0, 0.5), #00f) => rgba(63, 0, 191, 0.75)
 	 *
-	 * @param SassColour The first colour
-	 * @param SassColour The second colour
-	 * @param float Percentage of the first colour to use
-	 * @return new SassColour The mixed colour
-	 * @throws SassScriptFunctionException If $colour1 or $colour2 is not a colour
+	 * @param SassColour $colour1 The first colour
+	 * @param SassColour $colour2 The second colour
+	 * @param float $weight Percentage of the first colour to use
+	 * @return SassColour The mixed colour
 	 */
 	public static function mix($colour1, $colour2, $weight='50%')
 	{
@@ -605,8 +585,14 @@ class SassScriptFunctions
 	/**
 	 * Adjusts one or more property of the color by the value requested.
 	 *
-	 * @param SassColour the colour to adjust
-	 * @param SassNumber (red, green, blue, hue, saturation, lightness, alpha) - the amount(s) to adjust by
+	 * @param SassColour $colour the colour to adjust
+	 * @param SassNumber $red (red, green, blue, hue, saturation, lightness, alpha) - the amount(s) to adjust by
+	 * @param SassNumber $green
+	 * @param SassNumber $blue
+	 * @param SassNumber $hue
+	 * @param SassNumber $saturation
+	 * @param SassNumber $lightness
+	 * @param SassNumber $alpha
 	 * @return SassColour
 	 */
 	public static function adjust_color($color, $red=0, $green=0, $blue=0, $hue=0, $saturation=0, $lightness=0, $alpha=0)
@@ -622,8 +608,14 @@ class SassScriptFunctions
 	/**
 	 * Scales one or more property of the color by the percentage requested.
 	 *
-	 * @param SassColour the colour to adjust
-	 * @param SassNumber (red, green, blue, saturation, lightness, alpha) - the amount(s) to scale by
+	 * @param SassColour $colour the colour to adjust
+	 * @param SassNumber $red (red, green, blue, saturation, lightness, alpha) - the amount(s) to scale by
+	 * @param SassNumber $green
+	 * @param SassNumber $blue
+	 * @param SassNumber $hue
+	 * @param SassNumber $saturation
+	 * @param SassNumber $lightness
+	 * @param SassNumber $alpha
 	 * @return SassColour
 	 */
 	public static function scale_color($color, $red=0, $green=0, $blue=0, $saturation=0, $lightness=0, $alpha=0)
@@ -653,8 +645,14 @@ class SassScriptFunctions
 	/**
 	 * Changes one or more properties of the color to the requested value
 	 *
-	 * @param SassColour - the color to change
-	 * @param SassNumber (red, green, blue, hue, saturation, lightness, alpha) - the amounts to scale by
+	 * @param SassColour $colour - the color to change
+	 * @param SassNumber $red (red, green, blue, hue, saturation, lightness, alpha) - the amounts to scale by
+	 * @param SassNumber $green
+	 * @param SassNumber $blue
+	 * @param SassNumber $hue
+	 * @param SassNumber $saturation
+	 * @param SassNumber $lightness
+	 * @param SassNumber $alpha
 	 * @return SassColour
 	 */
 	public static function change_color($color, $red=FALSE, $green=FALSE, $blue=FALSE, $hue=FALSE, $saturation=FALSE, $lightness=FALSE, $alpha=FALSE)
@@ -673,14 +671,15 @@ class SassScriptFunctions
 	/**
 	 * Adjusts the colour
 	 *
-	 * @param SassColour the colour to adjust
-	 * @param SassNumber the amount to adust by
-	 * @param bool whether the amount is a proportion of the current value or the total range
-	 * @param string the attribute to adjust
-	 * @param bool whether to decrease (FALSE) or increase (TRUE) the value of the attribute
-	 * @param float minimum value the amount can be
-	 * @param float maximum value the amount can bemixed
-	 * @param string amount units
+	 * @param SassColour $colour the colour to adjust
+	 * @param SassNumber $amount the amount to adust by
+	 * @param bool $ofCurrent whether the amount is a proportion of the current value or the total range
+	 * @param string $att the attribute to adjust
+	 * @param bool $op whether to decrease (FALSE) or increase (TRUE) the value of the attribute
+	 * @param float $min minimum value the amount can be
+	 * @param float $max maximum value the amount can bemixed
+	 * @param string $units amount units
+	 * @return SassColour
 	 */
 	public static function adjust($colour, $amount, $ofCurrent, $att, $op, $min, $max, $units='')
 	{
@@ -716,6 +715,9 @@ class SassScriptFunctions
 
 	/**
 	 * returns an IE hex string for a color with an alpha channel suitable for passing to IE filters.
+	 *
+	 * @param mixed $color
+	 * @return SassString
 	 */
 	public static function ie_hex_str($color)
 	{
@@ -739,9 +741,8 @@ class SassScriptFunctions
 	 *     abs(10px) => 10px
 	 *     abs(-10px) => 10px
 	 *
-	 * @param SassNumber The number to round
+	 * @param SassNumber $number The number to round
 	 * @return SassNumber The absolute value of the number
-	 * @throws SassScriptFunctionException If $number is not a number
 	 */
 	public static function abs($number)
 	{
@@ -756,9 +757,8 @@ class SassScriptFunctions
 	 *     ceil(10.4px) => 11px
 	 *     ceil(10.6px) => 11px
 	 *
-	 * @param SassNumber The number to round
-	 * @return new SassNumber The rounded number
-	 * @throws SassScriptFunctionException If $number is not a number
+	 * @param SassNumber $number The number to round
+	 * @return SassNumber The rounded number
 	 */
 	public static function ceil($number)
 	{
@@ -773,9 +773,8 @@ class SassScriptFunctions
 	 *     floor(10.4px) => 10px
 	 *     floor(10.6px) => 10px
 	 *
-	 * @param SassNumber The number to round
-	 * @return new SassNumber The rounded number
-	 * @throws SassScriptFunctionException If $value is not a number
+	 * @param SassNumber $number The number to round
+	 * @return SassNumber The rounded number
 	 */
 	public static function floor($number)
 	{
@@ -790,9 +789,8 @@ class SassScriptFunctions
 	 *     round(10.4px) => 10px
 	 *     round(10.6px) => 11px
 	 *
-	 * @param SassNumber The number to round
-	 * @return new SassNumber The rounded number
-	 * @throws SassScriptFunctionException If $number is not a number
+	 * @param SassNumber $number The number to round
+	 * @return SassNumber The rounded number
 	 */
 	public static function round($number)
 	{
@@ -804,10 +802,9 @@ class SassScriptFunctions
 	/**
 	 * Returns true if two numbers are similar enough to be added, subtracted, or compared.
 	 *
-	 * @param SassNumber The first number to test
-	 * @param SassNumber The second number to test
-	 * @return new SassBoolean True if the numbers are similar
-	 * @throws SassScriptFunctionException If $number1 or $number2 is not a number
+	 * @param SassNumber $number1 The first number to test
+	 * @param SassNumber $number2 The second number to test
+	 * @return SassBoolean True if the numbers are similar
 	 */
 	public static function comparable($number1, $number2)
 	{
@@ -822,9 +819,8 @@ class SassScriptFunctions
 	 * For example:
 	 *     percentage(100px / 50px) => 200%
 	 *
-	 * @param SassNumber The decimal number to convert to a percentage
-	 * @return new SassNumber The number as a percentage
-	 * @throws SassScriptFunctionException If $number isn't a unitless number
+	 * @param SassNumber $number The decimal number to convert to a percentage
+	 * @return SassNumber The number as a percentage
 	 */
 	public static function percentage($number)
 	{
@@ -834,6 +830,9 @@ class SassScriptFunctions
 		return $number;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public static function max()
 	{
 		$max=func_get_arg(0);
@@ -846,6 +845,9 @@ class SassScriptFunctions
 		return $max;
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public static function min()
 	{
 		$min=func_get_arg(0);
@@ -862,9 +864,8 @@ class SassScriptFunctions
 	 * Inspects the unit of the number, returning it as a quoted string.
 	 * Alias for units.
 	 *
-	 * @param SassNumber The number to inspect
-	 * @return new SassString The units of the number
-	 * @throws SassScriptFunctionException If $number is not a number
+	 * @param SassNumber $number The number to inspect
+	 * @return SassString The units of the number
 	 * @see units
 	 */
 	public static function unit($number)
@@ -875,9 +876,8 @@ class SassScriptFunctions
 	/**
 	 * Inspects the units of the number, returning it as a quoted string.
 	 *
-	 * @param SassNumber The number to inspect
-	 * @return new SassString The units of the number
-	 * @throws SassScriptFunctionException If $number is not a number
+	 * @param SassNumber $number The number to inspect
+	 * @return SassString The units of the number
 	 */
 	public static function units($number)
 	{
@@ -889,9 +889,8 @@ class SassScriptFunctions
 	/**
 	 * Inspects the unit of the number, returning a boolean indicating if it is unitless.
 	 *
-	 * @param SassNumber The number to inspect
-	 * @return new SassBoolean True if the number is unitless, false if it has units.
-	 * @throws SassScriptFunctionException If $number is not a number
+	 * @param SassNumber $number The number to inspect
+	 * @return SassBoolean True if the number is unitless, false if it has units.
 	 */
 	public static function unitless($number)
 	{
@@ -907,9 +906,8 @@ class SassScriptFunctions
 	/**
 	 * Add quotes to a string if the string isn't quoted, or returns the same string if it is.
 	 *
-	 * @param string String to quote
-	 * @return new SassString Quoted string
-	 * @throws SassScriptFunctionException If $string is not a string
+	 * @param string $string String to quote
+	 * @return SassString Quoted string
 	 * @see unquote
 	 */
 	public static function quote($string)
@@ -922,9 +920,8 @@ class SassScriptFunctions
 	/**
 	 * Removes quotes from a string if the string is quoted, or returns the same string if it's not.
 	 *
-	 * @param string String to unquote
-	 * @return new SassString Unuoted string
-	 * @throws SassScriptFunctionException If $string is not a string
+	 * @param string $string String to unquote
+	 * @return SassString Unuoted string
 	 * @see quote
 	 */
 	public static function unquote($string)
@@ -939,9 +936,8 @@ class SassScriptFunctions
 	/**
 	 * Returns the variable whose name is the string.
 	 *
-	 * @param string String to unquote
+	 * @param string $string String to unquote
 	 * @return SassString
-	 * @throws SassScriptFunctionException If $string is not a string
 	 */
 	public static function get_var($string)
 	{
@@ -957,7 +953,7 @@ class SassScriptFunctions
 	/**
 	 * Returns the length of the $list
 	 *
-	 * @param SassList - the list to count
+	 * @param SassList $list - the list to count
 	 * @return SassNumber
 	 */
 	public static function length($list)
@@ -972,9 +968,9 @@ class SassScriptFunctions
 	/**
 	 * Returns the nth value ofthe $list
 	 *
-	 * @param SassList - the list to get from
-	 * @param SassNumber - the value to get
-	 * @return anything
+	 * @param SassList $list - the list to get from
+	 * @param SassNumber $n - the value to get
+	 * @return mixed
 	 */
 	public static function nth($list, $n)
 	{
@@ -987,11 +983,23 @@ class SassScriptFunctions
 		return $list->nth($n->value);
 	}
 
+	/**
+	 * @param mixed $one
+	 * @param mixed $two
+	 * @param string $sep
+	 * @return SassList
+	 */
 	public static function join($one, $two, $sep=', ')
 	{
 		return self::append($one, $two, $sep);
 	}
 
+	/**
+	 * @param mixed $list
+	 * @param mixed $val
+	 * @param string $sep
+	 * @return SassList
+	 */
 	public static function append($list, $val, $sep=', ')
 	{
 		if ($list instanceOf SassString) {
@@ -1002,6 +1010,11 @@ class SassScriptFunctions
 		return $list;
 	}
 
+	/**
+	 * @param SassList $list
+	 * @param mixed $value
+	 * @return mixed
+	 */
 	public static function index($list, $value)
 	{
 		if (!($list instanceOf SassList)) {
@@ -1011,7 +1024,11 @@ class SassScriptFunctions
 		return $list->index($value);
 	}
 
-	// New function zip allows several lists to be combined into one list of lists. For example: zip(1px 1px 3px, solid dashed solid, red green blue) becomes 1px solid red, 1px dashed green, 3px solid blue
+	/**
+	 * New function zip allows several lists to be combined into one list of lists. For example: zip(1px 1px 3px, solid dashed solid, red green blue) becomes 1px solid red, 1px dashed green, 3px solid blue
+	 *
+	 * @return SassList
+	 */
 	public function zip()
 	{
 		$result=new SassList('', ',');
@@ -1033,9 +1050,10 @@ class SassScriptFunctions
 	/**
 	 * An inline "if-else" statement.
 	 *
-	 * @param SassBoolean condition - values are loosely-evaulated by PHP, so 'false' includes NULL, FALSE, 0, ''
-	 * @param anything - returns if Condition is TRUE
-	 * @param anything - returns if Condition is FALSE
+	 * @param SassBoolean $condition - values are loosely-evaulated by PHP, so 'false' includes NULL, FALSE, 0, ''
+	 * @param mixed $if_true - returns if Condition is TRUE
+	 * @param mixed $if_false - returns if Condition is FALSE
+	 * @return mixed
 	 */
 	public static function _if($condition, $if_true, $if_false)
 	{
@@ -1047,9 +1065,8 @@ class SassScriptFunctions
 	/**
 	 * Inspects the type of the argument, returning it as an unquoted string.
 	 *
-	 * @param SassLiteral The object to inspect
-	 * @return new SassString The type of object
-	 * @throws SassScriptFunctionException If $obj is not an instance of a SassLiteral
+	 * @param SassLiteral $obj The object to inspect
+	 * @return SassString The type of object
 	 */
 	public static function type_of($obj)
 	{
@@ -1061,10 +1078,10 @@ class SassScriptFunctions
 	/**
 	 * Ensures the value is within the given range, clipping it if needed.
 	 *
-	 * @param float the value to test
-	 * @param float the minimum value
-	 * @param float the maximum value
-	 * @return the value clipped to the range
+	 * @param float $value the value to test
+	 * @param float $min the minimum value
+	 * @param float $max the maximum value
+	 * @return float the value clipped to the range
 	 */
 	public static function inRange($value, $min, $max)
 	{

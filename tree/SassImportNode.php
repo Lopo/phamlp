@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassImportNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassImportNode class.
  * Represents a CSS Import.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassImportNode
 extends SassNode
@@ -29,7 +24,8 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
+	 * @param SassNode $parent
 	 */
 	public function __construct($token, $parent)
 	{
@@ -47,7 +43,7 @@ extends SassNode
 	 * If the node is a CSS import return the CSS import rule.
 	 * Else returns the rendered tree for the file.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node
 	 */
 	public function parse($context)

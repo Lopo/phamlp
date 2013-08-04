@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassRuleNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassRuleNode class.
  * Represents a CSS rule.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassRuleNode extends SassNode
 {
@@ -35,8 +30,7 @@ class SassRuleNode extends SassNode
 
 
 	/**
-	 * @param object source token
-	 * @param string rule selector
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -49,7 +43,8 @@ class SassRuleNode extends SassNode
 	 * Adds selector(s) to the rule.
 	 * If the selectors are to continue for the rule the selector must end in a comma
 	 *
-	 * @param string selector
+	 * @param string $selectors selector
+	 * @param bool $explode
 	 */
 	public function addSelectors($selectors, $explode=TRUE)
 	{
@@ -70,7 +65,7 @@ class SassRuleNode extends SassNode
 	/**
 	 * Parse this node and its children into static nodes.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node and its children
 	 */
 	public function parse($context)
@@ -151,7 +146,7 @@ class SassRuleNode extends SassNode
 	/**
 	 * Tests whether the selector is a psuedo selector
 	 *
-	 * @param string selector to test
+	 * @param string $selector to test
 	 * @return bool TRUE if the selector is a psuedo selector, FALSE if not
 	 */
 	private function isPsuedo($selector)
@@ -162,7 +157,7 @@ class SassRuleNode extends SassNode
 	/**
 	 * Tests whether the selector is a sequence selector
 	 *
-	 * @param string selector to test
+	 * @param string $selector to test
 	 * @return bool TRUE if the selector is a sequence selector, FALSE if not
 	 */
 	private function isSequence($selector)
@@ -170,6 +165,10 @@ class SassRuleNode extends SassNode
 		return strpos($selector, ' ')!==FALSE;
 	}
 
+	/**
+	 * @param string $selector
+	 * @return bool
+	 */
 	public function isPlaceholder($selector)
 	{
 		return strpos($selector, '%')!==FALSE;
@@ -178,8 +177,9 @@ class SassRuleNode extends SassNode
 	/**
 	 * Merges selector sequences
 	 *
-	 * @param string the extender selector
-	 * @param string selector to extend
+	 * @param string $extender the extender selector
+	 * @param string $extendee selector to extend
+	 * @param string $selector
 	 * @return array the merged sequences
 	 */
 	private function mergeSequence($extender, $extendee, $selector)
@@ -235,7 +235,8 @@ class SassRuleNode extends SassNode
 	 * Interpolates SassScript in selectors and resolves any parent references or
 	 * appends the parent selectors.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
+	 * @return array
 	 *
 	 * Change: 7/Dec/11 - change to make selector ordering conform to Ruby compiler.
 	 */
@@ -280,6 +281,7 @@ class SassRuleNode extends SassNode
 	 * Returns the parent selector(s) for this node.
 	 * This in an empty array if there is no parent selector.
 	 *
+	 * @param SassContext $context
 	 * @return array the parent selector for this node
 	 */
 	protected function getParentSelectors($context)
@@ -302,8 +304,8 @@ class SassRuleNode extends SassNode
 	 * Note that the return value may be non-Boolean that evaluates to FALSE,
 	 * i.e. 0. The return value should be tested using the === operator.
 	 *
-	 * @param string selector to test
-	 * @return mixed integer: position of the the first parent reference, bool: FALSE if there is no parent reference.
+	 * @param string $selector to test
+	 * @return mixed int: position of the the first parent reference, bool: FALSE if there is no parent reference.
 	 */
 	private function parentReferencePos($selector)
 	{
@@ -327,7 +329,7 @@ class SassRuleNode extends SassNode
 	/**
 	 * Determines if there is a parent reference in the selector
 	 *
-	 * @param string selector
+	 * @param string $selector
 	 * @return bool TRUE if there is a parent reference in the selector
 	 */
 	private function hasParentReference($selector)
@@ -338,8 +340,10 @@ class SassRuleNode extends SassNode
 	/**
 	 * Resolves parent references in the selector
 	 *
-	 * @param string selector
+	 * @param string $selector
+	 * @param SassContext $context
 	 * @return string selector with parent references resolved
+	 * @throws SassRuleNodeException
 	 */
 	private function resolveParentReferences($selector, $context)
 	{
@@ -359,7 +363,7 @@ class SassRuleNode extends SassNode
 	 * We can't use PHP::explode as this will potentially explode attribute
 	 * matches in the selector, e.g. div[title="some,value"] and interpolations.
 	 *
-	 * @param string selectors
+	 * @param string $string selectors
 	 * @return array selectors
 	 */
 	private function explode($string)

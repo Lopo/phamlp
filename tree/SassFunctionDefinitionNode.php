@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassFunctionDefinitionNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassFunctionDefinitionNode class.
  * Represents a Function definition.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassFunctionDefinitionNode
 extends SassNode
@@ -32,11 +27,12 @@ extends SassNode
 	 * default value or NULL for required arguments
 	 */
 	private $args=array();
+	/** @var */
 	public $parent;
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -64,7 +60,7 @@ extends SassNode
 	 * Parse this node.
 	 * Add this function to  the current context.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node - an empty array
 	 */
 	public function parse($context)
@@ -87,7 +83,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)
@@ -98,10 +94,10 @@ extends SassNode
 	/**
 	 * Evalutes the function in the given context, with the provided arguments
 	 *
-	 * @param SassContext - the parent context
-	 * @param array - the list of provided variables
+	 * @param SassContext $pcontext - the parent context
+	 * @param array $provided - the list of provided variables
 	 * @throws SassReturn - if the @return is fired then this is thrown to break early
-	 * @return SassBoolean(false) - if no @return was fired, return false
+	 * @return SassBoolean (false) - if no @return was fired, return false
 	 */
 	public function execute($pcontext, $provided)
 	{

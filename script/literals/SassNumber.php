@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassNumber class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 require_once 'SassLiteral.php';
 
@@ -16,8 +13,6 @@ require_once 'SassLiteral.php';
  * Provides operations and type testing for Sass numbers.
  * Units are of the passed value are converted the those of the class value
  * if it has units. e.g. 2cm + 20mm = 4cm while 2 + 20mm = 22mm.
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassNumber
 extends SassLiteral
@@ -53,6 +48,7 @@ extends SassLiteral
 		'pt' => 72,
 		'px' => 96
 		);
+	/** @var array */
 	private static $validUnits=array(
 		'in', 'cm', 'mm', 'pc', 'pt', 'em', 'rem', 'ex', 'px', '%', 's', 'deg'
 		);
@@ -70,7 +66,7 @@ extends SassLiteral
 	/**
 	 * Sets the value and units of the number.
 	 *
-	 * @param string number
+	 * @param string $value number
 	 */
 	public function __construct($value)
 	{
@@ -100,8 +96,9 @@ extends SassLiteral
 	/**
 	 * Adds the value of other to the value of this
 	 *
-	 * @param mixed SassNumber|SassColour: value to add
+	 * @param mixed $other SassNumber|SassColour: value to add
 	 * @return mixed SassNumber if other is a SassNumber or SassColour if it is a SassColour
+	 * @throws SassNumberException
 	 */
 	public function op_plus($other)
 	{
@@ -135,8 +132,9 @@ extends SassLiteral
 	/**
 	 * Subtracts the value of other from this value
 	 *
-	 * @param mixed SassNumber|SassColour: value to subtract
+	 * @param mixed $other SassNumber|SassColour: value to subtract
 	 * @return mixed SassNumber if other is a SassNumber or SassColour if it is a SassColour
+	 * @throws SassNumberException
 	 */
 	public function op_minus($other)
 	{
@@ -161,6 +159,9 @@ extends SassLiteral
 		return new SassNumber(($this->value*-1).$this->units);
 	}
 
+	/**
+	 * @return SassNumber
+	 */
 	public function op_unary_concat()
 	{
 		return $this;
@@ -169,8 +170,9 @@ extends SassLiteral
 	/**
 	 * Multiplies this value by the value of other
 	 *
-	 * @param mixed SassNumber|SassColour: value to multiply by
+	 * @param mixed $other SassNumber|SassColour: value to multiply by
 	 * @return mixed SassNumber if other is a SassNumber or SassColour if it is a SassColour
+	 * @throws SassNumberException
 	 */
 	public function op_times($other)
 	{
@@ -192,8 +194,9 @@ extends SassLiteral
 	/**
 	 * Divides this value by the value of other
 	 *
-	 * @param mixed SassNumber|SassColour: value to divide by
+	 * @param mixed $other SassNumber|SassColour: value to divide by
 	 * @return mixed SassNumber if other is a SassNumber or SassColour if it is a SassColour
+	 * @throws SassNumberException
 	 */
 	public function op_div($other)
 	{
@@ -224,6 +227,7 @@ extends SassLiteral
 	/**
 	 * The SassScript == operation.
 	 *
+	 * @param SassNumber $other
 	 * @return SassBoolean SassBoolean object with the value true if the values
 	 * of this and other are equal, false if they are not
 	 */
@@ -243,9 +247,10 @@ extends SassLiteral
 	/**
 	 * The SassScript > operation.
 	 *
-	 * @param sassLiteral the value to compare to this
+	 * @param SassLiteral $other the value to compare to this
 	 * @return SassBoolean SassBoolean object with the value true if the values
 	 * of this is greater than the value of other, false if it is not
+	 * @throws SassNumberException
 	 */
 	public function op_gt($other)
 	{
@@ -259,9 +264,10 @@ extends SassLiteral
 	/**
 	 * The SassScript >= operation.
 	 *
-	 * @param sassLiteral the value to compare to this
+	 * @param SassLiteral $other the value to compare to this
 	 * @return SassBoolean SassBoolean object with the value true if the values
 	 * of this is greater than or equal to the value of other, false if it is not
+	 * @throws SassNumberException
 	 */
 	public function op_gte($other)
 	{
@@ -275,9 +281,10 @@ extends SassLiteral
 	/**
 	 * The SassScript < operation.
 	 *
-	 * @param sassLiteral the value to compare to this
+	 * @param SassLiteral $other the value to compare to this
 	 * @return SassBoolean SassBoolean object with the value true if the values
 	 * of this is less than the value of other, false if it is not
+	 * @throws SassNumberException
 	 */
 	public function op_lt($other)
 	{
@@ -291,9 +298,10 @@ extends SassLiteral
 	/**
 	 * The SassScript <= operation.
 	 *
-	 * @param sassLiteral the value to compare to this
+	 * @param SassLiteral $other the value to compare to this
 	 * @return SassBoolean SassBoolean object with the value true if the values
 	 * of this is less than or equal to the value of other, false if it is not
+	 * @throws SassNumberException
 	 */
 	public function op_lte($other)
 	{
@@ -307,8 +315,9 @@ extends SassLiteral
 	/**
 	 * Takes the modulus (remainder) of this value divided by the value of other
 	 *
-	 * @param string value to divide by
+	 * @param string $other value to divide by
 	 * @return mixed SassNumber if other is a SassNumber or SassColour if it is a SassColour
+	 * @throws SassNumberException
 	 */
 	public function op_modulo($other)
 	{
@@ -324,7 +333,7 @@ extends SassLiteral
 	 * Converts values and units.
 	 * If this is a unitless numeber it will take the units of other; if not other is coerced to the units of this.
 	 *
-	 * @param SassNumber the other number
+	 * @param SassNumber $other the other number
 	 * @return SassNumber the other number with its value and units coerced if neccessary
 	 * @throws SassNumberException if the units are incompatible
 	 */
@@ -370,9 +379,10 @@ extends SassLiteral
 	/**
 	 * Calculates the corecion factor to apply to the value
 	 *
-	 * @param array units being converted from
-	 * @param array units being converted to
+	 * @param array $fromUnits units being converted from
+	 * @param array $toUnits units being converted to
 	 * @return float the coercion factor to apply
+	 * @throws SassNumberException
 	 */
 	private function coercionFactor($fromUnits, $toUnits)
 	{
@@ -404,7 +414,7 @@ extends SassLiteral
 	/**
 	 * Returns a value indicating if all the units are capable of being converted
 	 *
-	 * @param array units to test
+	 * @param array $units to test
 	 * @return bool TRUE if all units can be converted, FALSE if not
 	 */
 	private function areConvertable($units)
@@ -422,8 +432,8 @@ extends SassLiteral
 	/**
 	 * Removes common units from each set.
 	 * We don't use array_diff because we want (for eaxmple) mm*mm/mm*cm to end up as mm/cm.
-	 * @param array first set of units
-	 * @param array second set of units
+	 * @param array $u1 first set of units
+	 * @param array $u2 second set of units
 	 * @return array both sets of units with common units removed
 	 */
 	private function removeCommonUnits($u1, $u2)
@@ -440,7 +450,7 @@ extends SassLiteral
 				}
 			}
 
-		return (array($_u1, $u2));
+		return array($_u1, $u2);
 	}
 
 	/**
@@ -455,6 +465,7 @@ extends SassLiteral
 
 	/**
 	 * Returns a value indicating if this number has units.
+	 *
 	 * @return bool TRUE if this number has, FALSE if not
 	 */
 	public function hasUnits()
@@ -475,6 +486,8 @@ extends SassLiteral
 	/**
 	 * Returns a string representation of the units.
 	 *
+	 * @param array $numeratorUnits
+	 * @param array $denominatorUnits
 	 * @return string the units
 	 */
 	public function unitString($numeratorUnits, $denominatorUnits)
@@ -527,6 +540,7 @@ extends SassLiteral
 	/**
 	 * Returns a value indicating if this number can be compared to other.
 	 *
+	 * @param mixed $other
 	 * @return bool TRUE if this number can be compared to other, FALSE if not
 	 */
 	public function isComparableTo($other)
@@ -564,7 +578,7 @@ extends SassLiteral
 	/**
 	 * Returns the integer value.
 	 *
-	 * @return integer the integer value.
+	 * @return int the integer value.
 	 * @throws SassNumberException if the number is not an integer
 	 */
 	public function toInt()
@@ -596,7 +610,7 @@ extends SassLiteral
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public static function isa($subject)
@@ -619,7 +633,7 @@ extends SassLiteral
 	/**
 	 * Returns the nth value of the SassNumber
 	 *
-	 * @param int - the nth position of value
+	 * @param int $i the nth position of value
 	 * @return SassBoolean|SassNumber
 	 */
 	public function nth($i)

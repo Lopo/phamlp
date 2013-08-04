@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassMixinDefinitionNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassMixinDefinitionNode class.
  * Represents a Mixin definition.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassMixinDefinitionNode
 extends SassNode
@@ -35,7 +30,7 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -52,9 +47,9 @@ extends SassNode
 
 	/**
 	 * Parse this node.
-	 * Add this mixin to  the current context.
+	 * Add this mixin to the current context.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array the parsed node - an empty array
 	 */
 	public function parse($context)
@@ -77,7 +72,7 @@ extends SassNode
 	/**
 	 * Returns a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)

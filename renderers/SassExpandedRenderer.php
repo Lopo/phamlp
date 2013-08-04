@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassExpandedRenderer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 require_once 'SassCompactRenderer.php';
 
@@ -16,8 +13,6 @@ require_once 'SassCompactRenderer.php';
  * Expanded is the typical human-made CSS style, with each property and rule
  * taking up one line. Properties are indented within the rules, but the rules
  * are not indented in any special way.
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 class SassExpandedRenderer
 extends SassCompactRenderer
@@ -62,6 +57,7 @@ extends SassCompactRenderer
 	/**
 	 * Renders properties.
 	 *
+	 * @param SassNode $node
 	 * @param array properties to render
 	 * @return string the rendered properties
 	 */

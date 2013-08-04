@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassScriptParser class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 require_once 'SassScriptLexer.php';
 require_once 'SassScriptParserExceptions.php';
@@ -16,8 +13,6 @@ require_once 'SassScriptParserExceptions.php';
  * SassScriptParser class.
  * Parses SassScript. SassScript is lexed into {@link http://en.wikipedia.org/wiki/Reverse_Polish_notation Reverse Polish notation} by the SassScriptLexer and
  *  the calculated result returned.
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 class SassScriptParser
 {
@@ -30,7 +25,7 @@ class SassScriptParser
 	public static $context;
 	/** @var SassScriptLexer the lexer object */
 	public $lexer;
-	/** Hold a copy of a parser available to the general public. */
+	/** @var SassScriptLexer Hold a copy of a parser available to the general public. */
 	public static $instance;
 
 
@@ -43,8 +38,8 @@ class SassScriptParser
 	/**
 	 * Replace interpolated SassScript contained in '#{}' with the parsed value.
 	 *
-	 * @param string the text to interpolate
-	 * @param SassContext the context in which the string is interpolated
+	 * @param string $string the text to interpolate
+	 * @param SassContext $context the context in which the string is interpolated
 	 * @return string the interpolated text
 	 */
 	public function interpolate($string, $context)
@@ -77,9 +72,9 @@ class SassScriptParser
 	/**
 	 * Evaluate a SassScript.
 	 *
-	 * @param string expression to parse
-	 * @param SassContext the context in which the expression is evaluated
-	 * @param  integer the environment in which the expression is evaluated
+	 * @param string $expression to parse
+	 * @param SassContext $context the context in which the expression is evaluated
+	 * @param int $environment the environment in which the expression is evaluated
 	 * @return SassLiteral parsed value
 	 */
 	public function evaluate($expression, $context, $environment=self::DEFAULT_ENV)
@@ -116,10 +111,11 @@ class SassScriptParser
 	/**
 	 * Parse SassScript to a set of tokens in RPN using the Shunting Yard Algorithm.
 	 *
-	 * @param string expression to parse
-	 * @param SassContext the context in which the expression is parsed
-	 * @param  integer the environment in which the expression is parsed
+	 * @param string $expression to parse
+	 * @param SassContext $context the context in which the expression is parsed
+	 * @param int $environment the environment in which the expression is parsed
 	 * @return array tokens in RPN
+	 * @throws SassScriptParserException
 	 */
 	public function parse($expression, $context, $environment=self::DEFAULT_ENV)
 	{
@@ -190,8 +186,8 @@ class SassScriptParser
 						// the o1 has left associativty and greater precedence than o2, or
 						// the o1 has right associativity and lower or equal precedence than o2
 						if (($operation->operator==SassScriptOperation::$operators['('][0])
-							|| ($token->associativity=='l'&&$token->precedence>$operation->precedence)
-							|| ($token->associativity=='r'&&$token->precedence<=$operation->precedence)
+							|| ($token->associativity=='l' && $token->precedence>$operation->precedence)
+							|| ($token->associativity=='r' && $token->precedence<=$operation->precedence)
 							) {
 							break; // stop checking operators
 							}
@@ -219,6 +215,9 @@ class SassScriptParser
 
 	/**
 	 * Reduces a set down to a singular form
+	 *
+	 * @param array $$operands
+	 * @return mixed
 	 */
 	public static function makeSingular($operands)
 	{

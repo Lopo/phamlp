@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id: SassDebugNode.php 49 2010-04-04 10:51:24Z chris.l.yates $ */
 /**
  * SassDebugNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassDebugNode class.
  * Represents a Sass @debug or @warn directive.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassDebugNode
 extends SassNode
@@ -35,10 +30,9 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
-	 * @param mixed string: an internally generated warning message about the source
+	 * @param object $token source token
+	 * @param mixed $message string: an internally generated warning message about the source
 	 * bool: the source token is a @debug or @warn directive containing the message; TRUE if this is a @warn directive
-	 * @param array parameters for the message
 	 */
 	public function __construct($token, $message=FALSE)
 	{
@@ -58,6 +52,7 @@ extends SassNode
 	 * Parse this node.
 	 * This raises an error.
 	 *
+	 * @param SassContext $context
 	 * @return array An empty array
 	 */
 	public function parse($context)
@@ -81,8 +76,8 @@ extends SassNode
 	/**
 	 * Error handler for degug and warning statements.
 	 *
-	 * @param int Error number
-	 * @param string Message
+	 * @param int $errno Error number
+	 * @param string $message Message
 	 */
 	public function errorHandler($errno, $message)
 	{

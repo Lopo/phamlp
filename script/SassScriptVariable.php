@@ -1,19 +1,14 @@
 <?php
 
-/* SVN FILE: $Id: SassVariable.php 49 2010-04-04 10:51:24Z chris.l.yates $ */
 /**
  * SassVariable class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 
 /**
  * SassVariable class.
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassScriptVariable
 {
@@ -25,7 +20,7 @@ class SassScriptVariable
 
 
 	/**
-	 * @param string value of the Variable type
+	 * @param string $value of the Variable type
 	 */
 	public function __construct($value)
 	{
@@ -35,7 +30,7 @@ class SassScriptVariable
 	/**
 	 * Returns the SassScript object for this variable.
 	 *
-	 * @param SassContext context of the variable
+	 * @param SassContext $context of the variable
 	 * @return SassLiteral the SassScript object for this variable
 	 */
 	public function evaluate($context)
@@ -46,7 +41,7 @@ class SassScriptVariable
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public static function isa($subject)

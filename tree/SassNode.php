@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassNode class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 require_once 'SassContext.php';
 require_once 'SassCommentNode.php';
@@ -37,8 +34,6 @@ require_once 'SassMediaNode.php';
 /**
  * SassNode class.
  * Base class for all Sass nodes.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassNode
 {
@@ -53,7 +48,7 @@ class SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -61,8 +56,9 @@ class SassNode
 	}
 
 	/**
-	 * @param string name of property to get
+	 * @param string $name of property to get
 	 * @return mixed return value of getter function
+	 * @throws SassNodeException
 	 */
 	public function __get($name)
 	{
@@ -74,9 +70,10 @@ class SassNode
 	}
 
 	/**
-	 * @param string name of property to set
-	 * @return mixed value of property
+	 * @param string $name of property to set
+	 * @return mixed $value of property
 	 * @return SassNode this node
+	 * @throws SassNodeException
 	 */
 	public function __set($name, $value)
 	{
@@ -101,7 +98,7 @@ class SassNode
 	/**
 	 * Return a value indicating if this node has a parent
 	 *
-	 * @return array the node's parent
+	 * @return bool
 	 */
 	public function hasParent()
 	{
@@ -121,7 +118,9 @@ class SassNode
 	/**
 	 * Adds a child to this node.
 	 *
+	 * @param SassNode $child
 	 * @return SassNode the child to add
+	 * @throws SassException
 	 */
 	public function addChild($child)
 	{
@@ -167,6 +166,7 @@ class SassNode
 	 * This just checks the levels of the nodes. If this node is at a greater
 	 * level than the passed node if is a child of it.
 	 *
+	 * @param SassNode $node
 	 * @return bool TRUE if the node is a child of the passed node, FALSE if not
 	 */
 	public function isChildOf($node)
@@ -187,7 +187,7 @@ class SassNode
 	/**
 	 * Returns the level of this node.
 	 *
-	 * @return integer the level of this node
+	 * @return int the level of this node
 	 */
 	public function getLevel()
 	{
@@ -325,8 +325,9 @@ class SassNode
 	/**
 	 * Evaluates a SassScript expression.
 	 *
-	 * @param string expression to evaluate
-	 * @param SassContext the context in which the expression is evaluated
+	 * @param string $expression to evaluate
+	 * @param SassContext $context the context in which the expression is evaluated
+	 * @param int $x
 	 * @return SassLiteral value of parsed expression
 	 */
 	public function evaluate($expression, $context, $x=NULL)
@@ -339,8 +340,8 @@ class SassNode
 	/**
 	 * Replace interpolated SassScript contained in '#{}' with the parsed value.
 	 *
-	 * @param string the text to interpolate
-	 * @param SassContext the context in which the string is interpolated
+	 * @param string $expression the text to interpolate
+	 * @param SassContext $context the context in which the string is interpolated
 	 * @return string the interpolated text
 	 */
 	public function interpolate($expression, $context)
@@ -353,7 +354,7 @@ class SassNode
 	/**
 	 * Adds a warning to the node.
 	 *
-	 * @param string warning message
+	 * @param string $message warning message
 	 * @param array line
 	 */
 	public function addWarning($message)
@@ -364,7 +365,7 @@ class SassNode
 	/**
 	 * Parse the children of the node.
 	 *
-	 * @param SassContext the context in which the children are parsed
+	 * @param SassContext $context the context in which the children are parsed
 	 * @return array the parsed child nodes
 	 */
 	public function parseChildren($context)
@@ -386,12 +387,16 @@ class SassNode
 	 *
 	 * @param object token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
+	 * @throws SassNodeException
 	 */
 	public static function isa($token)
 	{
 		throw new SassNodeException('Child classes must override this method');
 	}
 
+	/**
+	 * @param int $i
+	 */
 	public function printDebugTree($i=0)
 	{
 		echo str_repeat(' ', $i*2).get_class($this).' '.$this->getSource()."\n";

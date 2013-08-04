@@ -1,31 +1,27 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassBoolean class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 require_once 'SassLiteral.php';
 
 /**
  * SassBoolean class.
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassList
 extends SassLiteral
 {
+	/** @var string */
 	public $separator=' ';
 
 
 	/**
-	 * SassBoolean constructor
-	 *
-	 * @param string value of the boolean type
+	 * @param string $value of the boolean type
+	 * @param string $separator
+	 * @throws SassListException
 	 */
 	public function __construct($value, $separator='auto')
 	{
@@ -52,6 +48,10 @@ extends SassLiteral
 			}
 	}
 
+	/**
+	 * @param int $i
+	 * @return mixed
+	 */
 	public function nth($i)
 	{
 		$i--; # SASS uses 1-offset arrays
@@ -62,11 +62,19 @@ extends SassLiteral
 		return new SassBoolean(FALSE);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function length()
 	{
 		return count($this->value);
 	}
 
+	/**
+	 * @param mixed $other
+	 * @param string $separator
+	 * @throws SassListException
+	 */
 	public function append($other, $separator=NULL)
 	{
 		if ($separator) {
@@ -83,7 +91,12 @@ extends SassLiteral
 			}
 	}
 
-	// New function index returns the list index of a value within a list. For example: index(1px solid red, solid) returns 2. When the value is not found false is returned.
+	/**
+	 * New function index returns the list index of a value within a list. For example: index(1px solid red, solid) returns 2. When the value is not found false is returned.
+	 *
+	 * @param type $value
+	 * @return mixed SassNumber|SassBoolean
+	 */
 	public function index($value)
 	{
 		for ($i=0; $i<count($this->value); $i++) {
@@ -96,9 +109,7 @@ extends SassLiteral
 	}
 
 	/**
-	 * Returns the value of this boolean.
-	 *
-	 * @return bool the value of this boolean
+	 * @return array
 	 */
 	public function getValue()
 	{
@@ -129,6 +140,7 @@ extends SassLiteral
 
 	/**
 	 * Returns a string representation of the value.
+	 *
 	 * @return string string representation of the value.
 	 */
 	public function toString()
@@ -160,6 +172,13 @@ extends SassLiteral
 			: FALSE;
 	}
 
+	/**
+	 * @param string $list
+	 * @param string $separator
+	 * @param bool $lex
+	 * @param SassContext $context
+	 * @return array
+	 */
 	public static function _parse_list($list, $separator='auto', $lex=TRUE, $context=NULL)
 	{
 		if ($lex) {
@@ -189,6 +208,11 @@ extends SassLiteral
 		return array($list, $separator);
 	}
 
+	/**
+	 * @param mixed $list
+	 * @param string $separator
+	 * @return array
+	 */
 	public static function _build_list($list, $separator=',')
 	{
 		if (is_object($list)) {

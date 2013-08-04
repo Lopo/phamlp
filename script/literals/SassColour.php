@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassColour class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 require_once 'SassLiteral.php';
 
@@ -31,9 +28,6 @@ require_once 'SassLiteral.php';
  * component is added independantly; Rr = R1 + R2, Gr = G1 + G2, Br = B1 + B2.
  *
  * Colours are returned as a named colour if possible or #rrggbb.
- *
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassColour
 extends SassLiteral
@@ -46,10 +40,9 @@ extends SassLiteral
 	const EXTRACT_6='/#([\da-f]{2})([\da-f]{2})([\da-f]{2})/';
 	const TRANSPARENT='transparent';
 
-
 	/**@#- */
-
 	/**@#- */
+	/** @var array */
 	public static $svgColours=array(
 		'aliceblue' => '#f0f8ff',
 		'antiquewhite' => '#faebd7',
@@ -218,17 +211,18 @@ extends SassLiteral
 		'#ffff00' => 'yellow',
 		'#ffffff' => 'white',
 		);
+	/** @var string */
 	public static $regex;
 	/**@#+
 	 * RGB colour components
 	 */
 	/** @var array RGB colour components. Used to check for RGB attributes. */
 	public static $rgb=array('red', 'green', 'blue');
-	/** @var integer red component. 0 - 255 */
+	/** @var int red component. 0 - 255 */
 	public $red;
-	/** @var integer green component. 0 - 255 */
+	/** @var int green component. 0 - 255 */
 	public $green;
-	/** @var integer blue component. 0 - 255 */
+	/** @var int blue component. 0 - 255 */
 	public $blue;
 	/**@#- */
 	/**@#+
@@ -328,8 +322,8 @@ extends SassLiteral
 	/**
 	 * Colour addition
 	 *
-	 * @param mixed SassColour|SassNumber value to add
-	 * @return sassColour the colour result
+	 * @param mixed $other SassColour|SassNumber value to add
+	 * @return mixed SassColour the colour result
 	 */
 	public function op_plus($other)
 	{
@@ -358,8 +352,9 @@ extends SassLiteral
 	/**
 	 * Colour subraction
 	 *
-	 * @param mixed value (SassColour or SassNumber) to subtract
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to subtract
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_minus($other)
 	{
@@ -386,8 +381,9 @@ extends SassLiteral
 	/**
 	 * Colour multiplication
 	 *
-	 * @param mixed SassColour|SassNumber value to multiply by
-	 * @return sassColour the colour result
+	 * @param mixed $other SassColour|SassNumber value to multiply by
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_times($other)
 	{
@@ -414,8 +410,9 @@ extends SassLiteral
 	/**
 	 * Colour division
 	 *
-	 * @param mixed value (SassColour or SassNumber) to divide by
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to divide by
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_div($other)
 	{
@@ -442,8 +439,9 @@ extends SassLiteral
 	/**
 	 * Colour modulus
 	 *
-	 * @param mixed value (SassColour or SassNumber) to divide by
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to divide by
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_modulo($other)
 	{
@@ -470,8 +468,9 @@ extends SassLiteral
 	/**
 	 * Colour bitwise AND
 	 *
-	 * @param mixed value (SassColour or SassNumber) to bitwise AND with
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to bitwise AND with
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_bw_and($other)
 	{
@@ -498,8 +497,9 @@ extends SassLiteral
 	/**
 	 * Colour bitwise OR
 	 *
-	 * @param mixed value (SassColour or SassNumber) to bitwise OR with
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to bitwise OR with
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_bw_or($other)
 	{
@@ -526,8 +526,9 @@ extends SassLiteral
 	/**
 	 * Colour bitwise XOR
 	 *
-	 * @param mixed value (SassColour or SassNumber) to bitwise XOR with
-	 * @return sassColour the colour result
+	 * @param mixed $other value (SassColour or SassNumber) to bitwise XOR with
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_bw_xor($other)
 	{
@@ -554,7 +555,7 @@ extends SassLiteral
 	/**
 	 * Colour bitwise NOT
 	 *
-	 * @return sassColour the colour result
+	 * @return SassColour the colour result
 	 */
 	public function op_not()
 	{
@@ -568,8 +569,9 @@ extends SassLiteral
 	/**
 	 * Colour bitwise Shift Left
 	 *
-	 * @param sassNumber amount to shift left by
-	 * @return sassColour the colour result
+	 * @param SassNumber $other amount to shift left by
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_shiftl($other)
 	{
@@ -586,8 +588,9 @@ extends SassLiteral
 	/**
 	 * Colour bitwise Shift Right
 	 *
-	 * @param sassNumber amount to shift right by
-	 * @return sassColour the colour result
+	 * @param SassNumber $other amount to shift right by
+	 * @return SassColour the colour result
+	 * @throws SassColourException
 	 */
 	public function op_shiftr($other)
 	{
@@ -605,7 +608,8 @@ extends SassLiteral
 	 * Returns a copy of this colour with one or more channels changed.
 	 * RGB or HSL attributes may be changed, but not both at once.
 	 *
-	 * @param array attributes to change
+	 * @param array $attributes to change
+	 * @return SassColour
 	 */
 	public function with($attributes)
 	{
@@ -637,6 +641,7 @@ extends SassLiteral
 	/**
 	 * Returns the alpha component (opacity) of this colour.
 	 *
+	 * @param bool $value
 	 * @return float the alpha component (opacity) of this colour.
 	 */
 	public function getAlpha($value=FALSE)
@@ -651,6 +656,7 @@ extends SassLiteral
 	/**
 	 * Returns the hue of this colour.
 	 *
+	 * @param bool $value
 	 * @return float the hue of this colour.
 	 */
 	public function getHue($value=FALSE)
@@ -668,6 +674,7 @@ extends SassLiteral
 	/**
 	 * Returns the saturation of this colour.
 	 *
+	 * @param bool $value
 	 * @return float the saturation of this colour.
 	 */
 	public function getSaturation($value=FALSE)
@@ -685,6 +692,7 @@ extends SassLiteral
 	/**
 	 * Returns the lightness of this colour.
 	 *
+	 * @param bool $value
 	 * @return float the lightness of this colour.
 	 */
 	public function getLightness($value=FALSE)
@@ -702,7 +710,8 @@ extends SassLiteral
 	/**
 	 * Returns the blue component of this colour.
 	 *
-	 * @return integer the blue component of this colour.
+	 * @param bool $value
+	 * @return int the blue component of this colour.
 	 */
 	public function getBlue($value=FALSE)
 	{
@@ -719,7 +728,8 @@ extends SassLiteral
 	/**
 	 * Returns the green component of this colour.
 	 *
-	 * @return integer the green component of this colour.
+	 * @param bool $value
+	 * @return int the green component of this colour.
 	 */
 	public function getGreen($value=FALSE)
 	{
@@ -736,7 +746,8 @@ extends SassLiteral
 	/**
 	 * Returns the red component of this colour.
 	 *
-	 * @return integer the red component of this colour.
+	 * @param bool $value
+	 * @return int the red component of this colour.
 	 */
 	public function getRed($value=FALSE)
 	{
@@ -791,10 +802,10 @@ extends SassLiteral
 	}
 
 	/**
+	 * @deprecated
 	 * Returns the value of this colour.
 	 *
 	 * @return array the colour
-	 * @deprecated
 	 */
 	public function getValue()
 	{
@@ -851,9 +862,18 @@ extends SassLiteral
 			: $colour;
 	}
 
+	/**
+	 * @param bool $inc_hash
+	 * @return string
+	 */
 	public function asHex($inc_hash=TRUE)
 	{
-		return sprintf(($inc_hash? '#' : '').'%02x%02x%02x', str_replace(',', '.', round($this->red)), str_replace(',', '.', round($this->green)), str_replace(',', '.', round($this->blue)));
+		return sprintf(
+			($inc_hash? '#' : '').'%02x%02x%02x',
+			str_replace(',', '.', round($this->red)),
+			str_replace(',', '.', round($this->green)),
+			str_replace(',', '.', round($this->blue))
+			);
 	}
 
 	/**
@@ -879,6 +899,11 @@ extends SassLiteral
 
 	/**
 	 * Converts from hue to RGB colourspace
+	 *
+	 * @param $p
+	 * @param $q
+	 * @param float $t
+	 * @return string
 	 */
 	public function hue2rgb($p, $q, $t)
 	{
@@ -998,6 +1023,10 @@ extends SassLiteral
 			: FALSE;
 	}
 
+	/**
+	 * @param int $i
+	 * @return SassColour|SassBoolean
+	 */
 	public function nth($i)
 	{
 		if ($i==1) {
@@ -1006,6 +1035,9 @@ extends SassLiteral
 		return new SassBoolean(FALSE);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function length()
 	{
 		return 1;

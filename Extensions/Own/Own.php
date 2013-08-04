@@ -5,18 +5,20 @@ require_once dirname(__FILE__).'/../ExtensionInterface.php';
 class Own
 implements ExtensionInterface
 {
+	/** @var string */
 	public static $filesFolder='css';
+	/** @var array */
 	public static $filePaths=NULL;
-	/**
-	 * List with alias functions in Compass
-	 *
-	 * @var array
-	 */
+	/** @var array List with alias functions in Own */
 	public static $functions=array(
 		'demo-function',
 		);
 
 
+	/**
+	 * @param string $namespace
+	 * @return array
+	 */
 	public static function getFunctions($namespace)
 	{
 		$output=array();
@@ -34,14 +36,14 @@ implements ExtensionInterface
 	/**
 	 * Returns an array with all files in $root path recursively and assign each array Key with clean alias
 	 *
-	 * @param $root
+	 * @param string $root
 	 * @return array
 	 */
 	public static function getFilesArray($root)
 	{
 		$alias=array();
 		$directories=array();
-		$last_letter=$root[strlen($root) - 1];
+		$last_letter=$root[strlen($root)-1];
 		$root= ($last_letter=='\\' || $last_letter=='/')
 			? $root
 			: $root.DIRECTORY_SEPARATOR;
@@ -74,6 +76,11 @@ implements ExtensionInterface
 
 	/**
 	 * Implementation of hook_resolve_path_NAMESPACE().
+	 *
+	 * @param string $callerImport
+	 * @param type $parser
+	 * @param string $syntax
+	 * @return string
 	 */
 	public static function resolveExtensionPath($callerImport, $parser, $syntax='scss')
 	{
@@ -89,6 +96,9 @@ implements ExtensionInterface
 			}
 	}
 
+	/**
+	 * @return SassString
+	 */
 	public static function ownDemoFunction()
 	{
 		return new SassString("'This is my own Demo Function'");

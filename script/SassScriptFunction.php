@@ -5,16 +5,12 @@
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 require_once 'SassScriptFunctions.php';
 
 /**
  * SassScriptFunction class.
  * Preforms a SassScript function.
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 class SassScriptFunction
 {
@@ -33,8 +29,8 @@ class SassScriptFunction
 
 
 	/**
-	 * @param string name of the function
-	 * @param array arguments for the function
+	 * @param string $name name of the function
+	 * @param array $args arguments for the function
 	 */
 	public function __construct($name, $args)
 	{
@@ -42,6 +38,10 @@ class SassScriptFunction
 		$this->args=$args;
 	}
 
+	/**
+	 * @param mixed $input
+	 * @return string
+	 */
 	private function process_arguments($input)
 	{
 		if (is_array($input)) {
@@ -78,7 +78,7 @@ class SassScriptFunction
 	 * Look for a user defined function first - this allows users to override
 	 * pre-defined functions, then try the pre-defined functions.
 	 *
-	 * @return Function the value of this Function
+	 * @return mixed Function the value of this Function
 	 */
 	public function perform()
 	{
@@ -146,7 +146,7 @@ class SassScriptFunction
 	/**
 	 * Imports files in the specified directory.
 	 *
-	 * @param string path to directory to import
+	 * @param string $dir path to directory to import
 	 * @return array filenames imported
 	 */
 	private function import($dir)
@@ -166,7 +166,7 @@ class SassScriptFunction
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public static function isa($subject)
@@ -196,6 +196,12 @@ class SassScriptFunction
 		return $match;
 	}
 
+	/**
+	 * @param string $string
+	 * @param bool $include_null
+	 * @param SassContext $context
+	 * @return array
+	 */
 	public static function extractArgs($string, $include_null=TRUE, $context)
 	{
 		$args=array();
@@ -229,6 +235,10 @@ class SassScriptFunction
 		return $return;
 	}
 
+	/**
+	 * @param mixed $method
+	 * @return array
+	 */
 	public static function get_reflection($method)
 	{
 		if (is_array($method)) {
@@ -261,6 +271,14 @@ class SassScriptFunction
 		return $return;
 	}
 
+	/**
+	 * @param array $required
+	 * @param array $provided
+	 * @param SassContext $context
+	 * @param object $source
+	 * @return array
+	 * @throws SassMixinNodeException
+	 */
 	public static function fill_parameters($required, $provided, $context, $source)
 	{
 		$context=new SassContext($context);

@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassContentNode class file.
  * @author      Richard Lyon
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassContentNode class.
  * Represents a Content.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassContentNode
 extends SassNode
@@ -27,7 +22,7 @@ extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
 	 */
 	public function __construct($token)
 	{
@@ -44,7 +39,7 @@ extends SassNode
 	 * Set passed arguments and any optional arguments not passed to their
 	 * defaults, then render the children of the return definition.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $pcontext the context in which this node is parsed
 	 * @return array the parsed node
 	 */
 	public function parse($pcontext)
@@ -66,7 +61,7 @@ extends SassNode
 	/**
 	 * Contents a value indicating if the token represents this type of node.
 	 *
-	 * @param object token
+	 * @param object $token
 	 * @return bool TRUE if the token represents this type of node, FALSE if not
 	 */
 	public static function isa($token)

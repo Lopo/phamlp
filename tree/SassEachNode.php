@@ -1,6 +1,5 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassEachNode class file.
  * The syntax is:
@@ -13,15 +12,11 @@
  * @author  Pavol (Lopo) Hluchy <lopo@losys.eu>
  * @copyright  Copyright (c) 2011 Lopo
  * @license  http://www.gnu.org/licenses/gpl.html GNU General Public License Version 3
- * @package  PHamlP
- * @subpackage  Sass.tree
  */
 
 /**
  * SassEachNode class.
  * Represents a Sass @each loop.
- * @package  PHamlP
- * @subpackage  Sass.tree
  */
 class SassEachNode extends SassNode
 {
@@ -36,7 +31,8 @@ class SassEachNode extends SassNode
 
 
 	/**
-	 * @param object source token
+	 * @param object $token source token
+	 * @throws SassEachNodeException
 	 */
 	public function __construct($token)
 	{
@@ -51,7 +47,7 @@ class SassEachNode extends SassNode
 	/**
 	 * Parse this node.
 	 *
-	 * @param SassContext the context in which this node is parsed
+	 * @param SassContext $context the context in which this node is parsed
 	 * @return array parsed child nodes
 	 */
 	public function parse($context)

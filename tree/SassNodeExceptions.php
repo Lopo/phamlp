@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassNode exception classes.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 require_once(dirname(__FILE__).'/../SassException.php');
 
 /**
  * SassNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassNodeException
 extends SassException
@@ -23,8 +18,6 @@ extends SassException
 
 /**
  * SassContextException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassContextException
 extends SassNodeException
@@ -33,8 +26,6 @@ extends SassNodeException
 
 /**
  * SassCommentNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassCommentNodeException
 extends SassNodeException
@@ -43,8 +34,6 @@ extends SassNodeException
 
 /**
  * SassDebugNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassDebugNodeException
 extends SassNodeException
@@ -53,8 +42,6 @@ extends SassNodeException
 
 /**
  * SassDirectiveNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassDirectiveNodeException
 extends SassNodeException
@@ -63,8 +50,6 @@ extends SassNodeException
 
 /**
  * SassEachNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassEachNodeException
 extends SassNodeException
@@ -73,8 +58,6 @@ extends SassNodeException
 
 /**
  * SassExtendNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassExtendNodeException
 extends SassNodeException
@@ -83,8 +66,6 @@ extends SassNodeException
 
 /**
  * SassForNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassForNodeException
 extends SassNodeException
@@ -93,8 +74,6 @@ extends SassNodeException
 
 /**
  * SassFunctionDefinitionNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassFunctionDefinitionNodeException
 extends SassNodeException
@@ -103,8 +82,6 @@ extends SassNodeException
 
 /**
  * SassIfNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassIfNodeException
 extends SassNodeException
@@ -113,8 +90,6 @@ extends SassNodeException
 
 /**
  * SassImportNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassImportNodeException
 extends SassNodeException
@@ -123,8 +98,6 @@ extends SassNodeException
 
 /**
  * SassMixinDefinitionNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassMixinDefinitionNodeException
 extends SassNodeException
@@ -133,8 +106,6 @@ extends SassNodeException
 
 /**
  * SassMixinNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassMixinNodeException
 extends SassNodeException
@@ -143,8 +114,6 @@ extends SassNodeException
 
 /**
  * SassPropertyNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassPropertyNodeException
 extends SassNodeException
@@ -153,8 +122,6 @@ extends SassNodeException
 
 /**
  * SassRuleNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassRuleNodeException
 extends SassNodeException
@@ -163,8 +130,6 @@ extends SassNodeException
 
 /**
  * SassVariableNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassVariableNodeException
 extends SassNodeException
@@ -173,8 +138,6 @@ extends SassNodeException
 
 /**
  * SassWhileNodeException class.
- * @package      PHamlP
- * @subpackage  Sass.tree
  */
 class SassWhileNodeException
 extends SassNodeException

@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassBoolean class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 require_once 'SassLiteral.php';
 
 /**
  * SassBoolean class.
- * @package      PHamlP
- * @subpackage  Sass.script.literals
  */
 class SassBoolean
 extends SassLiteral
@@ -27,6 +22,7 @@ extends SassLiteral
 
 	/**
 	 * @param string value of the boolean type
+	 * @throws SassBooleanException
 	 */
 	public function __construct($value)
 	{
@@ -63,11 +59,18 @@ extends SassLiteral
 			: 'false';
 	}
 
+	/**
+	 * @return int
+	 */
 	public function length()
 	{
 		return 1;
 	}
 
+	/**
+	 * @param int $i
+	 * @return SassBoolean
+	 */
 	public function nth($i)
 	{
 		if ($i==1 && isset($this->value)) {
@@ -86,6 +89,8 @@ extends SassLiteral
 	 */
 	public static function isa($subject)
 	{
-		return (preg_match(self::MATCH, $subject, $matches)? $matches[0] : FALSE);
+		return preg_match(self::MATCH, $subject, $matches)
+			? $matches[0]
+			: FALSE;
 	}
 }

@@ -55,6 +55,11 @@
 				}
 			}
 
+		/**
+		 * @param array $files
+		 * @param string $dir
+		 * @return bool
+		 */
 		function test_files($files, $dir='.')
 		{
 			sort($files);
@@ -84,21 +89,39 @@
 			return TRUE;
 		}
 
+		/**
+		 * @param string $file
+		 * @return string
+		 */
 		function parse_scss($file)
 		{
 			return __parse($file, 'scss');
 		}
 
+		/**
+		 * @param string $file
+		 * @return string
+		 */
 		function parse_sass($file)
 		{
 			return __parse($file, 'sass');
 		}
 
+		/**
+		 * @param string $file
+		 * @return string
+		 */
 		function parse_css($file)
 		{
 			return file_get_contents($file);
 		}
 
+		/**
+		 * @param string $file
+		 * @param string $syntax
+		 * @param string $style
+		 * @return string
+		 */
 		function __parse($file, $syntax, $style='nested')
 		{
 			$options=array(
@@ -116,6 +139,10 @@
 			return $parser->toCss($file);
 		}
 
+		/**
+		 * @param mixed $message
+		 * @param SassContext $context
+		 */
 		function cb_warn($message, $context)
 		{
 			print "<p class='warn'>WARN : ";
@@ -123,6 +150,9 @@
 			print "</p>";
 		}
 
+		/**
+		 * @param mixed $message
+		 */
 		function cb_debug($message)
 		{
 			print "<p class='debug'>DEBUG : ";
@@ -130,6 +160,10 @@
 			print "</p>";
 		}
 
+		/**
+		 * @param string $dir
+		 * @return array
+		 */
 		function find_files($dir)
 		{
 			$op=opendir($dir);

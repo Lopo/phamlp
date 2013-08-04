@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassCompactRenderer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 require_once 'SassCompressedRenderer.php';
 
@@ -16,8 +13,6 @@ require_once 'SassCompressedRenderer.php';
  * Each CSS rule takes up only one line, with every property defined on that
  * line. Nested rules are placed next to each other with no newline, while
  * groups of rules have newlines between them.
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 class SassCompactRenderer
 extends SassCompressedRenderer
@@ -113,7 +108,9 @@ extends SassCompressedRenderer
 	 */
 	public function renderRule($node, $properties, $rules)
 	{
-		return $this->renderDebug($node).parent::renderRule($node, $properties, str_replace("\n\n", "\n", $rules))."\n";
+		return $this->renderDebug($node)
+				.parent::renderRule($node, $properties, str_replace("\n\n", "\n", $rules))
+				."\n";
 	}
 
 	/**
@@ -121,8 +118,7 @@ extends SassCompressedRenderer
 	 * If the node has the debug_info options set TRUE the line number and filename
 	 * are rendered in a format compatible with
 	 * {@link https://addons.mozilla.org/en-US/firefox/addon/103988/ FireSass}.
-	 * Else if the node has the line_numbers option set TRUE the line number and
-	 * filename are rendered in a comment.
+	 * Else if the node has the line_numbers option set TRUE the line number and filename are rendered in a comment.
 	 *
 	 * @param SassNode the node being rendered
 	 * @return string the debug information

@@ -1,20 +1,15 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassScriptOperation class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 
 /**
  * SassScriptOperation class.
  * The operation to perform.
- * @package      PHamlP
- * @subpackage  Sass.script
  */
 class SassScriptOperation
 {
@@ -60,16 +55,16 @@ class SassScriptOperation
 	private $operator;
 	/** @var string associativity of the operator; left or right */
 	private $associativity;
-	/** @var integer precedence of the operator */
+	/** @var int precedence of the operator */
 	private $precedence;
-	/** @var integer number of operands required by the operator */
+	/** @var int number of operands required by the operator */
 	private $operandCount=0;
 
 
 	/**
 	 * SassScriptOperation constructor
 	 *
-	 * @param mixed string: operator symbol; array: operator token
+	 * @param mixed $operation string: operator symbol; array: operator token
 	 * @return SassScriptOperation
 	 */
 	public function __construct($operation)
@@ -90,7 +85,7 @@ class SassScriptOperation
 	/**
 	 * Getter function for properties
 	 *
-	 * @param string name of property
+	 * @param string $name of property
 	 * @return mixed value of the property
 	 * @throws SassScriptOperationException if the property does not exist
 	 */
@@ -105,7 +100,7 @@ class SassScriptOperation
 	/**
 	 * Performs this operation.
 	 *
-	 * @param array operands for the operation. The operands are SassLiterals
+	 * @param array $operands for the operation. The operands are SassLiterals
 	 * @return SassLiteral the result of the operation
 	 * @throws SassScriptOperationException if the oprand count is incorrect or the operation is undefined
 	 */
@@ -160,7 +155,7 @@ class SassScriptOperation
 	/**
 	 * Returns a value indicating if a token of this type can be matched at the start of the subject string.
 	 *
-	 * @param string the subject string
+	 * @param string $subject the subject string
 	 * @return mixed match at the start of the string or FALSE if no match
 	 */
 	public static function isa($subject)
@@ -177,6 +172,8 @@ class SassScriptOperation
 
 	/**
 	 * Converts the operation back into it's SASS representation
+	 *
+	 * @return string
 	 */
 	public function __toString()
 	{

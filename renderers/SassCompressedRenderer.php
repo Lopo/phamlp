@@ -1,13 +1,10 @@
 <?php
 
-/* SVN FILE: $Id$ */
 /**
  * SassCompressedRenderer class file.
  * @author      Chris Yates <chris.l.yates@gmail.com>
  * @copyright   Copyright (c) 2010 PBM Web Development
  * @license      http://phamlp.googlecode.com/files/license.txt
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 
 /**
@@ -15,8 +12,6 @@
  * Compressed style takes up the minimum amount of space possible, having no
  * whitespace except that necessary to separate selectors and a newline at the
  * end of the file. It's not meant to be human-readable
- * @package      PHamlP
- * @subpackage  Sass.renderers
  */
 class SassCompressedRenderer
 extends SassRenderer
@@ -80,7 +75,10 @@ extends SassRenderer
 	 */
 	public function renderDirective($node, $properties)
 	{
-		return $node->directive.$this->between().$this->renderProperties($node, $properties).$this->end();
+		return $node->directive
+				.$this->between()
+				.$this->renderProperties($node, $properties)
+				.$this->end();
 	}
 
 	/**
