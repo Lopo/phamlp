@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id$ */
 /**
  * Sass literal exception classes.
@@ -8,7 +9,6 @@
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-
 require_once(dirname(__FILE__).'/../SassScriptParserExceptions.php');
 
 /**
@@ -16,32 +16,47 @@ require_once(dirname(__FILE__).'/../SassScriptParserExceptions.php');
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-class SassLiteralException extends SassScriptParserException {}
+class SassLiteralException
+extends SassScriptParserException
+{
+}
 
 /**
  * SassBooleanException class.
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-class SassBooleanException extends SassLiteralException {}
+class SassBooleanException
+extends SassLiteralException
+{
+}
 
 /**
  * SassColourException class.
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-class SassColourException extends SassLiteralException {}
+class SassColourException
+extends SassLiteralException
+{
+}
 
 /**
  * SassNumberException class.
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-class SassNumberException extends SassLiteralException {}
+class SassNumberException
+extends SassLiteralException
+{
+}
 
 /**
  * SassStringException class.
  * @package      PHamlP
  * @subpackage  Sass.script.literals
  */
-class SassStringException extends SassLiteralException {}
+class SassStringException
+extends SassLiteralException
+{
+}

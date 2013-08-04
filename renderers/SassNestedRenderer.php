@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id$ */
 /**
  * SassNestedRenderer class file.
@@ -8,7 +9,6 @@
  * @package      PHamlP
  * @subpackage  Sass.renderers
  */
-
 require_once 'SassExpandedRenderer.php';
 
 /**
@@ -20,56 +20,61 @@ require_once 'SassExpandedRenderer.php';
  * @package      PHamlP
  * @subpackage  Sass.renderers
  */
-class SassNestedRenderer extends SassExpandedRenderer
+class SassNestedRenderer
+extends SassExpandedRenderer
 {
-  /**
-   * Renders the brace at the end of the rule
-   * @return string the brace between the rule and its properties
-   */
-  protected function end()
-  {
-    return " }\n";
-  }
+	/**
+	 * Renders the brace at the end of the rule
+	 *
+	 * @return string the brace between the rule and its properties
+	 */
+	protected function end()
+	{
+		return " }\n";
+	}
 
-  /**
-   * Returns the indent string for the node
-   * @param SassNode the node being rendered
-   * @return string the indent string for this SassNode
-   */
-  protected function getIndent($node)
-  {
-    return str_repeat(self::INDENT, $node->level);
-  }
+	/**
+	 * Returns the indent string for the node
+	 *
+	 * @param SassNode the node being rendered
+	 * @return string the indent string for this SassNode
+	 */
+	protected function getIndent($node)
+	{
+		return str_repeat(self::INDENT, $node->level);
+	}
 
-  /**
-   * Renders a directive.
-   * @param SassNode the node being rendered
-   * @param array properties of the directive
-   * @return string the rendered directive
-   */
-  public function renderDirective($node, $properties)
-  {
-    $directive = $this->getIndent($node) . $node->directive . $this->between() . $this->renderProperties($node, $properties);
+	/**
+	 * Renders a directive.
+	 *
+	 * @param SassNode the node being rendered
+	 * @param array properties of the directive
+	 * @return string the rendered directive
+	 */
+	public function renderDirective($node, $properties)
+	{
+		$directive=$this->getIndent($node).$node->directive.$this->between().$this->renderProperties($node, $properties);
 
-    return preg_replace('/(.*})\n$/', '\1', $directive) . $this->end();
-  }
+		return preg_replace('/(.*})\n$/', '\1', $directive).$this->end();
+	}
 
-  /**
-   * Renders rule selectors.
-   * @param SassNode the node being rendered
-   * @return string the rendered selectors
-   */
-  protected function renderSelectors($node)
-  {
-    $selectors = array();
-    foreach ($node->selectors as $selector) {
-      if (!$node->isPlaceholder($selector)) {
-        $selectors[] = $selector;
-      }
-    }
+	/**
+	 * Renders rule selectors.
+	 *
+	 * @param SassNode the node being rendered
+	 * @return string the rendered selectors
+	 */
+	protected function renderSelectors($node)
+	{
+		$selectors=array();
+		foreach ($node->selectors as $selector) {
+			if (!$node->isPlaceholder($selector)) {
+				$selectors[]=$selector;
+				}
+			}
 
-    $indent = $this->getIndent($node);
+		$indent=$this->getIndent($node);
 
-    return $indent.join(",\n$indent", $selectors);
-  }
+		return $indent.join(",\n$indent", $selectors);
+	}
 }

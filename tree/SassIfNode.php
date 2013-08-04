@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id$ */
 /**
  * SassIfNode class file.
@@ -16,83 +17,84 @@
  * @package      PHamlP
  * @subpackage  Sass.tree
  */
-class SassIfNode extends SassNode
+class SassIfNode
+extends SassNode
 {
-  const MATCH_IF = '/^@if\s*(.+)$/i';
-  const MATCH_ELSE = '/@else(\s*if\s*(.+))?/i';
-  const IF_EXPRESSION = 1;
-  const ELSE_IF = 1;
-  const ELSE_EXPRESSION = 2;
-  /**
-   * @var SassIfNode the next else node.
-   */
-  private $else;
-  /**
-   * @var string expression to evaluate
-   */
-  private $expression;
+	const MATCH_IF='/^@if\s*(.+)$/i';
+	const MATCH_ELSE='/@else(\s*if\s*(.+))?/i';
+	const IF_EXPRESSION=1;
+	const ELSE_IF=1;
+	const ELSE_EXPRESSION=2;
 
-  /**
-   * SassIfNode constructor.
-   * @param object source token
-   * @param boolean true for an "if" node, false for an "else if | else" node
-   * @return SassIfNode
-   */
-  public function __construct($token, $if=true)
-  {
-    parent::__construct($token);
-    if ($if) {
-      preg_match(self::MATCH_IF, $token->source, $matches);
-      $this->expression = $matches[SassIfNode::IF_EXPRESSION];
-    } else {
-      preg_match(self::MATCH_ELSE, $token->source, $matches);
-      $this->expression = (sizeof($matches)==1 ? null : $matches[SassIfNode::ELSE_EXPRESSION]);
-    }
-  }
+	/** @var SassIfNode the next else node. */
+	private $else;
+	/** @var string expression to evaluate */
+	private $expression;
 
-  /**
-   * Adds an "else" statement to this node.
-   * @param SassIfNode "else" statement node to add
-   * @return SassIfNode this node
-   */
-  public function addElse($node)
-  {
-    if (is_null($this->else)) {
-      $node->parent  = $this;
-      $node->root    = $this->root;
-      $this->else    = $node;
-    } else {
-      $this->else->addElse($node);
-    }
 
-    return $this;
-  }
+	/**
+	 * @param object source token
+	 * @param bool TRUE for an "if" node, FALSE for an "else if | else" node
+	 */
+	public function __construct($token, $if=TRUE)
+	{
+		parent::__construct($token);
+		if ($if) {
+			preg_match(self::MATCH_IF, $token->source, $matches);
+			$this->expression=$matches[SassIfNode::IF_EXPRESSION];
+			}
+		else {
+			preg_match(self::MATCH_ELSE, $token->source, $matches);
+			$this->expression= sizeof($matches)==1
+				? NULL
+				: $matches[SassIfNode::ELSE_EXPRESSION];
+			}
+	}
 
-  /**
-   * Parse this node.
-   * @param SassContext the context in which this node is parsed
-   * @return array parsed child nodes
-   */
-  public function parse($context)
-  {
-    if ($this->isElse() || $this->evaluate($this->expression, $context)->toBoolean()) {
-      $children = $this->parseChildren($context);
-    } elseif (!empty($this->else)) {
-      $children = $this->else->parse($context);
-    } else {
-      $children = array();
-    }
+	/**
+	 * Adds an "else" statement to this node.
+	 *
+	 * @param SassIfNode "else" statement node to add
+	 * @return SassIfNode this node
+	 */
+	public function addElse($node)
+	{
+		if (is_null($this->else)) {
+			$node->parent=$this;
+			$node->root=$this->root;
+			$this->else=$node;
+			}
+		else {
+			$this->else->addElse($node);
+			}
 
-    return $children;
-  }
+		return $this;
+	}
 
-  /**
-   * Returns a value indicating if this node is an "else" node.
-   * @return true if this node is an "else" node, false if this node is an "if"
-   * or "else if" node
-   */
-  private function isElse()
-  {
-    return ($this->expression=='');
-  }
+	/**
+	 * Parse this node.
+	 *
+	 * @param SassContext the context in which this node is parsed
+	 * @return array parsed child nodes
+	 */
+	public function parse($context)
+	{
+		if ($this->isElse() || $this->evaluate($this->expression, $context)->toBoolean()) {
+			return $this->parseChildren($context);
+			}
+		if (!empty($this->else)) {
+			return $this->else->parse($context);
+			}
+		return array();
+	}
+
+	/**
+	 * Returns a value indicating if this node is an "else" node.
+	 *
+	 * @return TRUE if this node is an "else" node, FALSE if this node is an "if" or "else if" node
+	 */
+	private function isElse()
+	{
+		return $this->expression=='';
+	}
 }

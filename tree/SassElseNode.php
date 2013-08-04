@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id: SassIfNode.php 49 2010-04-04 10:51:24Z chris.l.yates $ */
 /**
  * SassElseNode class file.
@@ -16,15 +17,14 @@
  * @package      PHamlP
  * @subpackage  Sass.tree
  */
-class SassElseNode extends SassIfNode
+class SassElseNode
+extends SassIfNode
 {
-  /**
-   * SassElseNode constructor.
-   * @param object source token
-   * @return SassElseNode
-   */
-  public function __construct($token)
-  {
-    parent::__construct($token, false);
-  }
+	/**
+	 * @param object source token
+	 */
+	public function __construct($token)
+	{
+		parent::__construct($token, FALSE);
+	}
 }

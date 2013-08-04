@@ -1,4 +1,5 @@
 <?php
+
 /* SVN FILE: $Id$ */
 /**
  * SassContentNode class file.
@@ -15,61 +16,61 @@
  * @package      PHamlP
  * @subpackage  Sass.tree
  */
-class SassContentNode extends SassNode
+class SassContentNode
+extends SassNode
 {
-  const MATCH = '/^(@content)(.*)$/i';
-  const IDENTIFIER = 1;
+	const MATCH='/^(@content)(.*)$/i';
+	const IDENTIFIER=1;
 
-  /**
-   * @var statement to execute and return
-   */
-  private $statement;
+	/** @var statement to execute and return */
+	private $statement;
 
-  /**
-   * SassContentNode constructor.
-   * @param object source token
-   * @return SassContentNode
-   */
-  public function __construct($token)
-  {
-    parent::__construct($token);
-    preg_match(self::MATCH, $token->source, $matches);
 
-    if (empty($matches)) {
-      return new SassBoolean('false');
-    }
-  }
+	/**
+	 * @param object source token
+	 */
+	public function __construct($token)
+	{
+		parent::__construct($token);
+		preg_match(self::MATCH, $token->source, $matches);
 
-  /**
-   * Parse this node.
-   * Set passed arguments and any optional arguments not passed to their
-   * defaults, then render the children of the return definition.
-   * @param SassContext the context in which this node is parsed
-   * @return array the parsed node
-   */
-  public function parse($pcontext)
-  {
-    $return = $this;
-    $context = new SassContext($pcontext);
+		if (empty($matches)) {
+			return new SassBoolean(FALSE);
+			}
+	}
 
-    $children = array();
-    foreach ($context->getContent() as $child) {
-      $child->parent = $this->parent;
-      $ctx = new SassContext($pcontext->parent);
-      $ctx->variables = $pcontext->variables;
-      $children = array_merge($children, $child->parse($ctx));
-    }
+	/**
+	 * Parse this node.
+	 * Set passed arguments and any optional arguments not passed to their
+	 * defaults, then render the children of the return definition.
+	 *
+	 * @param SassContext the context in which this node is parsed
+	 * @return array the parsed node
+	 */
+	public function parse($pcontext)
+	{
+		$return=$this;
+		$context=new SassContext($pcontext);
 
-    return $children;
-  }
+		$children=array();
+		foreach ($context->getContent() as $child) {
+			$child->parent=$this->parent;
+			$ctx=new SassContext($pcontext->parent);
+			$ctx->variables=$pcontext->variables;
+			$children=array_merge($children, $child->parse($ctx));
+			}
 
-  /**
-   * Contents a value indicating if the token represents this type of node.
-   * @param object token
-   * @return boolean true if the token represents this type of node, false if not
-   */
-  public static function isa($token)
-  {
-    return $token->source[0] === self::NODE_IDENTIFIER;
-  }
+		return $children;
+	}
+
+	/**
+	 * Contents a value indicating if the token represents this type of node.
+	 *
+	 * @param object token
+	 * @return bool TRUE if the token represents this type of node, FALSE if not
+	 */
+	public static function isa($token)
+	{
+		return $token->source[0]===self::NODE_IDENTIFIER;
+	}
 }
