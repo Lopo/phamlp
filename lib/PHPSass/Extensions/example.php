@@ -52,7 +52,7 @@ try {
 		'debug_info' => FALSE,
 		'load_path_functions' => array('loadCallback'),
 		'load_paths' => array(dirname($file)),
-		'functions' => getFunctions(array('Compass' => '\PHPSass\Extensions\Compass', 'Own' => '\Sass\Extensions\Own')),
+		'functions' => getFunctions(array('Compass' => '\PHPSass\Extensions\Compass', 'Own' => '\PHPSass\Extensions\Own')),
 		'extensions' => array('Compass', 'Own')
 		);
 	// Execute the compiler.
