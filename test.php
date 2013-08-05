@@ -1,7 +1,7 @@
 <!-- Just load this in a browser and the tests will run! -->
 <html>
 	<head>
-		<title>PHamlP Test Suite</title>
+		<title>PHPSass Test Suite</title>
 		<link rel="stylesheet" type="text/css" href="test.css">
 	</head>
 	<body>
@@ -22,7 +22,7 @@
 		 *  Testing is eased by stripping out all whitespace, which may
 		 *  introduce bugs of their own.
 		 */
-		include 'SassParser.php';
+		require_once 'vendor/autoload.php';
 
 		$test_dir='./tests';
 
@@ -135,13 +135,13 @@
 					),
 				);
 			// Execute the compiler.
-			$parser=new SassParser($options);
+			$parser=new \PHPSass\Parser($options);
 			return $parser->toCss($file);
 		}
 
 		/**
 		 * @param mixed $message
-		 * @param SassContext $context
+		 * @param \PHPSass\Context $context
 		 */
 		function cb_warn($message, $context)
 		{

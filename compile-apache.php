@@ -8,11 +8,11 @@
  */
 header('Content-type: text/css');
 
-require_once './SassParser.php';
+require_once './vendor/autoload.php';
 
 /**
  * @param string $text
- * @param SassContext $context
+ * @param \PHPSass\Context $context
  */
 function warn($text, $context)
 {
@@ -21,7 +21,7 @@ function warn($text, $context)
 
 /**
  * @param string $text
- * @param SassContext $context
+ * @param \PHPSass\Context $context
  */
 function debug($text, $context)
 {
@@ -43,7 +43,7 @@ $options=array(
 	);
 
 // Execute the compiler.
-$parser=new SassParser($options);
+$parser=new \PHPSass\Parser($options);
 try {
 	print "\n\n".$parser->toCss($file);
 	}
