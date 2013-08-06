@@ -10,15 +10,14 @@ function loadCallback($file, $parser)
     $paths=array();
     foreach ($parser->extensions as $extensionName) {
         $namespace=ucwords(preg_replace('/[^0-9a-z]+/', '_', strtolower($extensionName)));
-        $extensionPath='./'.$namespace.'/'.$namespace.'.php';
-        if (file_exists($extensionPath)) {
-            require_once($extensionPath);
-            $hook=$namespace.'::resolveExtensionPath';
-            $returnPath=call_user_func($hook, $file, $parser);
-            if (!empty($returnPath)) {
+		try {
+			$returnPath=call_user_func("\PHPSass\Extensions\\$namespace::resolveExtensionPath", $file, $parser);
+			if (!empty($returnPath)) {
                 $paths[]=$returnPath;
 				}
-	        }
+			}
+		catch (\Exception $e) {
+			}
 		}
 
     return $paths;

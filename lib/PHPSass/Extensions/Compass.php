@@ -76,7 +76,7 @@ implements ExtensionInterface
 			$function[0]=strtoupper($function[0]);
 			$func=create_function('$c', 'return strtoupper($c[1]);');
 			$function=preg_replace_callback('/-([a-z])/', $func, $function);
-			$output[$originalFunction]=$namespace.strtolower(__CLASS__).$function;
+			$output[$originalFunction]=__CLASS__.'::'.strtolower($namespace).$function;
 			}
 
 		return $output;
@@ -125,7 +125,7 @@ implements ExtensionInterface
 	 * Implementation of hook_resolve_path_NAMESPACE().
 	 *
 	 * @param mixed $callerImport
-	 * @param $parser
+	 * @param \PHPSass\Parser $parser
 	 * @param string $syntax
 	 * @return string
 	 */

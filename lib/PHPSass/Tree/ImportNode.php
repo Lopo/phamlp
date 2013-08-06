@@ -94,7 +94,7 @@ extends Node
 				# parent may be either RootNode (returns an object) or RuleNode (returns an array of nodes)
 				# so we parse then try get the children.
 				$parsed=$tree->parse($context);
-				if (!is_array($parsed)&&isset($parsed->children)) {
+				if (!is_array($parsed) && isset($parsed->children)) {
 					$parsed=$parsed->children;
 					}
 				if (is_array($parsed)) {
