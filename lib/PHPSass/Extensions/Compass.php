@@ -3,7 +3,9 @@ namespace PHPSass\Extensions;
 
 use PHPSass\Script\Literals\Boolean,
 	PHPSass\Script\Literals\Number,
-	PHPSass\Script\Literals\String;
+	PHPSass\Script\Literals\String,
+	PHPSass\Script\Literals\Colour,
+	PHPSass\Script\Functions;
 
 class Compass
 implements ExtensionInterface
@@ -60,7 +62,9 @@ implements ExtensionInterface
 		'prefixed-for-transition',
 		'stylesheet-url',
 		'font-url',
-		'image-url'
+		'image-url',
+		'shade',
+		'tint'
 		);
 
 
@@ -643,5 +647,39 @@ implements ExtensionInterface
 				return 'center';
 			}
 		return '';
+	}
+
+	/**
+	 * @param Colour $colour
+	 * @param Number $percentage
+	 * @return Colour
+	 */
+	public static function compassShade($colour, $percentage)
+	{
+		if (!($colour instanceof Colour)) {
+			$colour=new Colour($colour);
+			}
+		if (!($percentage instanceof Number)) {
+			$percentage=new Number($percentage);
+			}
+
+		return Functions::mix(Functions::rgb(0, 0, 0), $colour, $percentage);
+	}
+
+	/**
+	 * @param Colour $colour
+	 * @param Number $percentage
+	 * @return Colour
+	 */
+	public static function compassTint($colour, $percentage)
+	{
+		if (!($colour instanceof Colour)) {
+			$colour=new Colour($colour);
+			}
+		if (!($percentage instanceof Number)) {
+			$percentage=new Number($percentage);
+			}
+
+		return Functions::mix(Functions::rgb(255, 255, 255), $colour, $percentage);
 	}
 }
