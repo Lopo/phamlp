@@ -711,24 +711,6 @@ class Functions
 		return $colour;
 	}
 
-	/**
-	 * returns an IE hex string for a color with an alpha channel suitable for passing to IE filters.
-	 *
-	 * @param mixed $color
-	 * @return Literals\String
-	 */
-	public static function ie_hex_str($color)
-	{
-		if (!($color instanceof Literals\Colour)) {
-			$color=new Literals\Colour($color);
-			}
-		$alpha=str_replace(',', '.', round($color->alpha*255));
-		$alpha_str=str_pad(dechex($alpha), 2, '0', STR_PAD_LEFT);
-		$col=$color->asHex(FALSE);
-
-		return new Literals\String(strtoupper('#'.$alpha_str.$col));
-	}
-
 	/*
 	 * Number Functions
 	 */
