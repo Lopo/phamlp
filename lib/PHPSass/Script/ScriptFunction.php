@@ -56,7 +56,7 @@ class ScriptFunction
 			}
 
 		$token=$input;
-		if (is_null($token)) {
+		if ($token===NULL) {
 			return ' ';
 			}
 		if (!is_object($token)) {
@@ -103,7 +103,7 @@ class ScriptFunction
 				return Parser::$context->getFunction($name)->execute(Parser::$context, $this->args);
 				}
 			}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			throw $e;
 			}
 

@@ -58,7 +58,7 @@ extends Node
 		try {
 			$statement=$this->evaluate($this->statement, $context)->toString();
 			}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			}
 
 		if (Parser::$instance->options['callbacks']['warn']) {

@@ -239,7 +239,7 @@ extends Literal
 		try {
 			return new Boolean($this->value==$this->convert($other)->value);
 			}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			return new Boolean(FALSE);
 			}
 	}

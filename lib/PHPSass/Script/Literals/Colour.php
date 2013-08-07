@@ -663,7 +663,7 @@ extends Literal
 	 */
 	public function getHue($value=FALSE)
 	{
-		if (is_null($this->hue)) {
+		if ($this->hue===NULL) {
 			$this->rgb2hsl();
 			}
 		if ($value && isset($this->hue->value)) {
@@ -681,7 +681,7 @@ extends Literal
 	 */
 	public function getSaturation($value=FALSE)
 	{
-		if (is_null($this->saturation)) {
+		if ($this->saturation===NULL) {
 			$this->rgb2hsl();
 			}
 		if ($value && isset($this->saturation->value)) {
@@ -699,7 +699,7 @@ extends Literal
 	 */
 	public function getLightness($value=FALSE)
 	{
-		if (is_null($this->lightness)) {
+		if ($this->lightness===NULL) {
 			$this->rgb2hsl();
 			}
 		if ($value && isset($this->lightness->value)) {
@@ -717,7 +717,7 @@ extends Literal
 	 */
 	public function getBlue($value=FALSE)
 	{
-		if (is_null($this->blue)) {
+		if ($this->blue===NULL) {
 			$this->hsl2rgb();
 			}
 		if ($value && isset($this->blue->value)) {
@@ -735,7 +735,7 @@ extends Literal
 	 */
 	public function getGreen($value=FALSE)
 	{
-		if (is_null($this->green)) {
+		if ($this->green===NULL) {
 			$this->hsl2rgb();
 			}
 		if ($value && isset($this->green->value)) {
@@ -753,7 +753,7 @@ extends Literal
 	 */
 	public function getRed($value=FALSE)
 	{
-		if (is_null($this->red)) {
+		if ($this->red===NULL) {
 			$this->hsl2rgb();
 			}
 		if ($value && isset($this->red->value)) {

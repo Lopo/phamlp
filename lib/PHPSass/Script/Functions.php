@@ -269,7 +269,7 @@ class Functions
 		try {
 			Literals\Literal::assertType($colour, 'Colour');
 			}
-		catch (Exception $e) {
+		catch (\Exception $e) {
 			return new Literals\String('alpha(100)');
 			}
 

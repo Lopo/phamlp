@@ -596,7 +596,7 @@ class Parser
 		$statement=''; // source line being tokenised
 		$token=NULL;
 
-		while (is_null($token) && !empty($this->source)) {
+		while ($token===NULL && !empty($this->source)) {
 			while (empty($statement) && is_array($this->source) && !empty($this->source)) {
 				$source=array_shift($this->source);
 				$statement=trim($source);
@@ -698,7 +698,7 @@ class Parser
 		if (empty($srclen)) {
 			$srclen=strlen($this->source);
 			}
-		while (is_null($token) && $srcpos<strlen($this->source)) {
+		while ($token===NULL && $srcpos<strlen($this->source)) {
 			$c=$this->source[$srcpos++];
 			switch ($c) {
 				case self::BEGIN_COMMENT:
@@ -757,7 +757,7 @@ class Parser
 				case self::END_BLOCK:
 				case self::END_STATEMENT:
 					$token=$this->createToken($statement.$c);
-					if (is_null($token)) {
+					if ($token===NULL) {
 						$statement='';
 						}
 					break;
@@ -767,7 +767,7 @@ class Parser
 				}
 			}
 
-		if (is_null($token)) {
+		if ($token===NULL) {
 			$srclen= $srcpos= 0;
 			}
 

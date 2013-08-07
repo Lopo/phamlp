@@ -55,7 +55,7 @@ extends Node
 	 */
 	public function addElse($node)
 	{
-		if (is_null($this->else)) {
+		if ($this->else===NULL) {
 			$node->parent=$this;
 			$node->root=$this->root;
 			$this->else=$node;

@@ -80,7 +80,7 @@ implements ExtensionInterface
 			$alias=substr($alias, strrpos($alias, '/')+1);
 			}
 		if (self::$filePaths==NULL) {
-			self::$filePaths=self::getFilesArray(dirname(__FILE__).'/'.self::$filesFolder.'/');
+			self::$filePaths=self::getFilesArray(__DIR__.'/'.self::$filesFolder.'/');
 			}
 		if (isset(self::$filePaths[$alias]) && $extension!='compass') {
 			return self::$filePaths[$alias];

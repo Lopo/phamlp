@@ -24,8 +24,7 @@ implements ExtensionInterface
 		foreach (self::$functions as $function) {
 			$originalFunction=$function;
 			$function[0]=strtoupper($function[0]);
-			$func=create_function('$c', 'return strtoupper($c[1]);');
-			$function=preg_replace_callback('/-([a-z])/', $func, $function);
+			$function=preg_replace_callback('/-([a-z])/', function ($c) {return strtoupper($c[1]);}, $function);
 			$output[$originalFunction]=__CLASS__.'::'.strtolower($namespace).$function;
 			}
 
@@ -88,7 +87,7 @@ implements ExtensionInterface
 			$alias=substr($alias, strrpos($alias, '/')+1);
 			}
 		if (self::$filePaths==NULL) {
-			self::$filePaths=self::getFilesArray(dirname(__FILE__).'/'.self::$filesFolder.'/');
+			self::$filePaths=self::getFilesArray(__DIR__.'/'.self::$filesFolder.'/');
 			}
 		if (isset(self::$filePaths[$alias])) {
 			return self::$filePaths[$alias];

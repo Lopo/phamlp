@@ -275,11 +275,6 @@ extends Literal
 				}
 			}
 
-		foreach ($out as $k => $v) {
-			$v=trim($v, ', ');
-			$out[$k]=$v;
-			}
-
-		return $out;
+		return array_map(function ($v) {return trim($v, ', ');}, $out);
 	}
 }
