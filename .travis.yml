@@ -6,6 +6,8 @@ php:
 env:
   - PHPUNIT_ARGS=--group=sass
 before_script:
+  - composer self-update
+  - composer install --no-interaction --prefer-dist --dev
   - cd tests
 script: phpunit $PHPUNIT_ARGS
 notifications:
