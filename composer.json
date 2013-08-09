@@ -19,6 +19,9 @@
 	"require": {
 		"php": ">=5.3.0"
 	},
+	"suggest": {
+		"lopo/phpsass-compass": "for limited support of Compass framework"
+	},
     "autoload": {
 		"psr-0": {
 			"PHPSass\\": "lib/"
