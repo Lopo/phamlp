@@ -24,7 +24,7 @@
 		 */
 		require_once 'vendor/autoload.php';
 
-		$test_dir='./tests';
+		$test_dir='./tests/files';
 
 		$files=find_files($test_dir);
 		foreach ($files['by_name'] as $name => $test) {
