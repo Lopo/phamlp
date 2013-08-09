@@ -1,28 +1,28 @@
 {
-    "name": "lopo/phpsass",
-    "description": "PHPSass is a PHP compiler for SASS, a popular CSS pre-processor language.",
-    "license": "BSD-2-Clause",
-    "support": {
-        "issues": "https://github.com/Lopo/phpsass/issues",
-        "source": "https://github.com/Lopo/phpsass"
-    },
-    "authors": [
-        {
-            "name": "Pavol Hluchý (Lopo)",
-            "homepage": "https://github.com/Lopo"
-        },
-        {
-            "name": "Richard Lyon",
-            "homepage": "https://github.com/richthegeek"
-        }
-    ],
+	"name": "lopo/phpsass",
+	"description": "PHPSass is a PHP compiler for SASS, a popular CSS pre-processor language.",
+	"license": "BSD-2-Clause",
+	"support": {
+		"issues": "https://github.com/Lopo/phpsass/issues",
+		"source": "https://github.com/Lopo/phpsass"
+	},
+	"authors": [
+		{
+			"name": "Pavol Hluchý (Lopo)",
+			"homepage": "https://github.com/Lopo"
+		},
+		{
+			"name": "Richard Lyon",
+			"homepage": "https://github.com/richthegeek"
+		}
+	],
 	"require": {
 		"php": ">=5.3.0"
 	},
 	"suggest": {
 		"lopo/phpsass-compass": "for limited support of Compass framework"
 	},
-    "autoload": {
+	"autoload": {
 		"psr-0": {
 			"PHPSass\\": "lib/"
 		},
@@ -31,5 +31,5 @@
 			"lib/PHPSass/Script/Literals/LiteralExceptions.php",
 			"lib/PHPSass/Tree/NodeExceptions.php"
 		]
-    }
+	}
 }

@@ -11,43 +11,13 @@ extends PHPUnit_Framework_TestCase
 	 * This is the path to a directory of SASS, SCSS and CSS files used in tests.
 	 */
 	public $css_tests_path;
-	/**
-	 * This is the location of the PHPSass library being used.
-	 */
-	public $phpsass_library_path;
 
 
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$this->requirePHPSassLibrary();
-		$this->css_tests_path=__DIR__;
-	}
-
-	/**
-	 * Require the PHPSass Library.
-	 *
-	 * We try to include it from the local site if it's around, otherwise we try a
-	 * few known locations, and then failing all of that we fall back to
-	 * downloading it from the web.
-	 */
-	protected function requirePHPSassLibrary()
-	{
-		// Allow people to specify the library before we are called.
-		if (isset($this->phpsass_library_path)) {
-			}
-		// Try to use libraries first.
-		elseif (($library_path=__DIR__.'/../lib') && file_exists($library_path.'/PHPSass/Parser.php')) {
-			$this->phpsass_library_path=$library_path;
-			}
-
-		if (isset($this->phpsass_library_path)) {
-			require_once '../vendor/autoload.php';
-			}
-		else {
-			throw new Exception('Could not find PHPSass compiler.');
-			}
+		$this->css_tests_path=__DIR__.'/files';
 	}
 
 	protected function runSassTest($input, $output=FALSE, $settings=array())
