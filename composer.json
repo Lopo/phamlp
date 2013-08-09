@@ -22,6 +22,9 @@
 	"suggest": {
 		"lopo/phpsass-compass": "for limited support of Compass framework"
 	},
+	"bin": [
+		"PHPSass.php"
+	],
 	"autoload": {
 		"psr-0": {
 			"PHPSass\\": "lib/"
