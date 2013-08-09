@@ -9,7 +9,6 @@ env:
 before_script:
   - composer self-update
   - composer install --no-interaction --prefer-dist --dev
-  - cd tests
 script: php tests/lint.php tests/ lib/ && phpunit --verbose $PHPUNIT_ARGS
 notifications:
   email: false
