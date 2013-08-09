@@ -27,9 +27,6 @@
 		$test_dir='./tests';
 
 		$files=find_files($test_dir);
-
-		$i=0;
-
 		foreach ($files['by_name'] as $name => $test) {
 			if (isset($_GET['name']) && $name!=$_GET['name']) {
 				continue;
@@ -48,10 +45,6 @@
 					print "<pre>$result</pre>";
 					}
 				flush();
-
-				if ($i++==100) {
-					die;
-					}
 				}
 			}
 
@@ -63,6 +56,10 @@
 		function test_files($files, $dir='.')
 		{
 			sort($files);
+			$tmpdir=sys_get_temp_dir();
+			if (substr($tmpdir, -1)==DIRECTORY_SEPARATOR) {
+				$tmpdir=substr($tmpdir, 0, -1);
+				}
 			foreach ($files as $i => $file) {
 				$name=explode('.', $file);
 				$ext=array_pop($name);
@@ -72,14 +69,14 @@
 					try {
 						$result=$fn($dir.'/'.$file);
 						}
-					catch (Exception $e) {
+					catch (\Exception $e) {
 						$result=$e->__toString();
 						}
-					file_put_contents('/tmp/scss_test_'.$i, trim($result)."\n");
+					file_put_contents($tmpdir.'/scss_test_'.$i, trim($result)."\n");
 					}
 				}
 
-			$diff=exec('diff -ibwB /tmp/scss_test_0 /tmp/scss_test_1', $out);
+			$diff=exec('diff -ibwB '.escapeshellarg($tmpdir.'/scss_test_0').' '.escapeshellarg($tmpdir.'/scss_test_1'), $out);
 			if (count($out)) {
 				if (isset($_GET['full'])) {
 					$out[]="\n\n\n".$result;
@@ -147,7 +144,7 @@
 		{
 			print "<p class='warn'>WARN : ";
 			print_r($message);
-			print "</p>";
+			print '</p>';
 		}
 
 		/**
@@ -157,7 +154,7 @@
 		{
 			print "<p class='debug'>DEBUG : ";
 			print_r($message);
-			print "</p>";
+			print '</p>';
 		}
 
 		/**
@@ -167,7 +164,10 @@
 		function find_files($dir)
 		{
 			$op=opendir($dir);
-			$return=array('by_type' => array(), 'by_name' => array());
+			$return=array(
+				'by_type' => array(),
+				'by_name' => array()
+				);
 			if ($op) {
 				while (FALSE!==($file=readdir($op))) {
 					if (substr($file, 0, 1)=='.') {
