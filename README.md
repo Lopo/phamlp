@@ -1,4 +1,4 @@
-#PHPSass [![build status](https://travis-ci.org/Lopo/phpsass.png)](https://travis-ci.org/Lopo/phpsass)  [![GitTip donations gladly recieved](https://www.gittip.com/assets/10.0.5/logo.png)](https://www.gittip.com/Lopo/)
+#PHPSass [![build status](https://travis-ci.org/Lopo/phpsass.png)](https://travis-ci.org/Lopo/phpsass)  [![GitTip donations gladly recieved](https://www.gittip.com/assets/gittip.png)](https://www.gittip.com/Lopo/)
 
 ## About
 This version of the compiler is NOT compatible with other forks of PHamlP, and
