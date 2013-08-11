@@ -13,7 +13,7 @@ $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 		'syntax' => File::SASS,
 		'style' => Renderers\Renderer::STYLE_NESTED
 		);
-	foreach ($opts=getopt('st:qglh', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'help')) as $arg => $val) {
+	foreach ($opts=getopt('st:qglI:h', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'help')) as $arg => $val) {
 		switch ($arg) {
 			case 's':
 			case 'stdin':
@@ -41,6 +41,10 @@ $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 			case 'line-numbers':
 				$options['line_numbers']=TRUE;
 				break;
+			case 'I':
+			case 'load-path':
+				$options['load_paths'][]=$val;
+				break;
 			case 'h':
 			case 'help':
 			default:
@@ -58,6 +62,7 @@ Options:
     -q, --quiet                      Silence warnings and status messages during compilation.
     -g, --debug-info                 Emit extra information in the generated CSS that can be used by the FireSass Firebug plugin.
     -l, --line-numbers               Emit comments in the generated CSS indicating the corresponding source line.
+    -I, --load-path PATH             Add a sass import path.
     -h, --help                       Show this message
 
 HELP;
