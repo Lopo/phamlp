@@ -175,8 +175,10 @@ class Parser
 	/**
 	 * If set, save compiled css to disk, in the directory specified by diskcache,
 	 * only recompiling if the source file is newer than the cache.
+	 * @var string
 	 */
 	public $diskcache=NULL;
+
 
 	/**
 	 * Sets parser options
@@ -224,8 +226,8 @@ class Parser
 			}
 
 		// Ensure that the diskcache path includes a trailing slash
-		if (!empty($options['diskcache']) && substr($options['diskcache'], -1) != '/') {
-			$options['diskcache'] = $options['diskcache'] . '/';
+		if (!empty($options['diskcache']) && substr($options['diskcache'], -1)!='/') {
+			$options['diskcache']=$options['diskcache'].'/';
 			}
 
 		$options=array_merge($defaultOptions, $options);
@@ -423,28 +425,21 @@ class Parser
 	 */
 	public function toCss($source, $isFile=TRUE)
 	{
-		if(!empty($this->diskcache) && $isFile)
-		{
-			if( !file_exists($this->diskcache) && !mkdir($this->diskcache, 0755, true) )
-			{ 
-				error_log("PHPSass: Could not create cache directory '".$this->diskcache."'");
+		if (!empty($this->diskcache) && $isFile) {
+			if (!file_exists($this->diskcache) && !mkdir($this->diskcache, 0755, TRUE)) { 
+				error_log("PHPSass: Could not create cache directory '{$this->diskcache}'");
 				return; 
 				}
-	      
-			$cached_file = $this->diskcache . str_replace('/','_',$source);
-			if( file_exists($cached_file) && filemtime($source) < filemtime($cached_file) )
+
+			$cached_file=$this->diskcache.str_replace('/', '_', $source);
+			if (file_exists($cached_file) && filemtime($source)<filemtime($cached_file)) {
 				return file_get_contents($cached_file);
-
-			else
-			{
-				$result = $this->parse($source, $isFile)->render();
-				file_put_contents($cached_file, $result);
-				return $result;
 				}
-
-		}
-		else
-			return $this->parse($source, $isFile)->render();
+			$result=$this->parse($source, $isFile)->render();
+			file_put_contents($cached_file, $result);
+			return $result;
+			}
+		return $this->parse($source, $isFile)->render();
 	}
 
 	/**

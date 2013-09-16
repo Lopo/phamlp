@@ -34,7 +34,6 @@ $syntax=substr($file, -4, 4);
 $options=array(
 	'style' => 'expanded',
 	'cache' => FALSE,
-	'load_paths' => array('/var/www/content/styles/'),
 	'diskcache' => NULL,
 	'syntax' => $syntax,
 	'debug' => FALSE,
