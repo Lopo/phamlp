@@ -173,11 +173,11 @@ class Parser
 	 */
 	public $debug=FALSE;
 	/**
-	 * If set, save compiled css to disk, in the directory specified by diskcache,
+	 * If set, save compiled css to disk, in the directory specified by cache_location,
 	 * only recompiling if the source file is newer than the cache.
 	 * @var string
 	 */
-	public $diskcache=NULL;
+	public $cache_location=NULL;
 
 
 	/**
@@ -214,7 +214,7 @@ class Parser
 			'syntax' => File::SASS,
 			'debug' => FALSE,
 			'quiet' => FALSE,
-			'diskcache' => NULL,
+			'cache_location' => NULL,
 			'callbacks' => array(
 				'warn' => FALSE,
 				'debug' => FALSE,
@@ -225,9 +225,9 @@ class Parser
 			$defaultOptions['load_paths']=self::$instance->load_paths;
 			}
 
-		// Ensure that the diskcache path includes a trailing slash
-		if (!empty($options['diskcache']) && substr($options['diskcache'], -1)!='/') {
-			$options['diskcache']=$options['diskcache'].'/';
+		// Ensure that the cache_location path includes a trailing slash
+		if (!empty($options['cache_location']) && substr($options['cache_location'], -1)!='/') {
+			$options['cache_location']=$options['cache_location'].'/';
 			}
 
 		$options=array_merge($defaultOptions, $options);
@@ -412,7 +412,7 @@ class Parser
 			'quiet' => $this->quiet,
 			'style' => $this->style,
 			'syntax' => $this->syntax,
-			'diskcache' => $this->diskcache
+			'cache_location' => $this->cache_location
 			);
 	}
 
@@ -425,13 +425,13 @@ class Parser
 	 */
 	public function toCss($source, $isFile=TRUE)
 	{
-		if (!empty($this->diskcache) && $isFile) {
-			if (!file_exists($this->diskcache) && !mkdir($this->diskcache, 0755, TRUE)) { 
-				error_log("PHPSass: Could not create cache directory '{$this->diskcache}'");
+		if (!empty($this->cache_location) && $isFile) {
+			if (!file_exists($this->cache_location) && !mkdir($this->cache_location, 0755, TRUE)) {
+				error_log("PHPSass: Could not create cache directory '{$this->cache_location}'");
 				return; 
 				}
 
-			$cached_file=$this->diskcache.str_replace('/', '_', $source);
+			$cached_file=$this->cache_location.str_replace('/', '_', $source);
 			if (file_exists($cached_file) && filemtime($source)<filemtime($cached_file)) {
 				return file_get_contents($cached_file);
 				}

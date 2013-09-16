@@ -12,9 +12,9 @@ $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 	$options=array(
 		'syntax' => File::SASS,
 		'style' => Renderers\Renderer::STYLE_NESTED,
-		'diskcache' => NULL
+		'cache-location' => NULL
 		);
-	foreach ($opts=getopt('st:qglI:ch', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'diskcache', 'help')) as $arg => $val) {
+	foreach ($opts=getopt('st:qglI:h', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'cache-location:', 'help')) as $arg => $val) {
 		switch ($arg) {
 			case 's':
 			case 'stdin':
@@ -46,9 +46,8 @@ $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 			case 'load-path':
 				$options['load_paths'][]=$val;
 				break;
-			case 'c':
-			case 'diskcache':
-				$options['diskcache']=$val;
+			case 'cache-location':
+				$options['cache_location']=$val;
 				break;
 			case 'h':
 			case 'help':
@@ -68,6 +67,7 @@ Options:
     -g, --debug-info                 Emit extra information in the generated CSS that can be used by the FireSass Firebug plugin.
     -l, --line-numbers               Emit comments in the generated CSS indicating the corresponding source line.
     -I, --load-path PATH             Add a sass import path.
+        --cache-location PATH        The path to put cached Sass files.
     -h, --help                       Show this message
 
 HELP;
