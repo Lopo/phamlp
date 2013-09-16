@@ -173,8 +173,8 @@ class Parser
 	 */
 	public $debug=FALSE;
 	/**
-	 * If enabled, save compiled css to disk, only recompiling if the source
-	 * file is newer than the cache.
+	 * If set, save compiled css to disk, in the directory specified by diskcache,
+	 * only recompiling if the source file is newer than the cache.
 	 */
 	public $diskcache=NULL;
 
@@ -221,6 +221,11 @@ class Parser
 
 		if (isset(self::$instance)) {
 			$defaultOptions['load_paths']=self::$instance->load_paths;
+			}
+
+		// Ensure that the diskcache path includes a trailing slash
+		if (!empty($options['diskcache']) && substr($options['diskcache'], -1) != '/') {
+			$options['diskcache'] = $options['diskcache'] . '/';
 			}
 
 		$options=array_merge($defaultOptions, $options);
@@ -424,7 +429,7 @@ class Parser
 			{ 
 				error_log("PHPSass: Could not create cache directory '".$this->diskcache."'");
 				return; 
-			}
+				}
 	      
 			$cached_file = $this->diskcache . str_replace('/','_',$source);
 			if( file_exists($cached_file) && filemtime($source) < filemtime($cached_file) )
@@ -435,7 +440,7 @@ class Parser
 				$result = $this->parse($source, $isFile)->render();
 				file_put_contents($cached_file, $result);
 				return $result;
-			}
+				}
 
 		}
 		else
