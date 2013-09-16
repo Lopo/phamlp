@@ -176,8 +176,7 @@ class Parser
 	 * If enabled, save compiled css to disk, only recompiling if the source
 	 * file is newer than the cache.
 	 */
-	public $diskcache=FALSE;
-	public $diskcache_path;
+	public $diskcache=NULL;
 
 	/**
 	 * Sets parser options
@@ -213,8 +212,7 @@ class Parser
 			'syntax' => File::SASS,
 			'debug' => FALSE,
 			'quiet' => FALSE,
-			'diskcache' => FALSE,
-			'diskcache_path' => (__DIR__ . '/cache/'),
+			'diskcache' => NULL,
 			'callbacks' => array(
 				'warn' => FALSE,
 				'debug' => FALSE,
@@ -407,8 +405,7 @@ class Parser
 			'quiet' => $this->quiet,
 			'style' => $this->style,
 			'syntax' => $this->syntax,
-			'diskcache' => $this->diskcache,
-			'diskcache_path' => $this->diskcache_path
+			'diskcache' => $this->diskcache
 			);
 	}
 
@@ -421,23 +418,28 @@ class Parser
 	 */
 	public function toCss($source, $isFile=TRUE)
 	{
-	  if($this->diskcache && $isFile)
-	    {
-	      if( !file_exists($this->diskcache_path) && !mkdir($this->diskcache_path) )
-		{ error_log("PHPSass: Could not create cache directory '".$this->diskcache_path."'"); return; }
+		if(!empty($this->diskcache) && $isFile)
+		{
+			if( !file_exists($this->diskcache) && !mkdir($this->diskcache, 0755, true) )
+			{ 
+				error_log("PHPSass: Could not create cache directory '".$this->diskcache."'");
+				return; 
+			}
 	      
-	    $cached_file = $this->diskcache_path . str_replace('/','_',$source);
-	    if( file_exists($cached_file) && filemtime($source) < filemtime($cached_file) )
-	      return file_get_contents($cached_file);
-	    else
-	      {
-		$result = $this->parse($source, $isFile)->render();
-		file_put_contents($cached_file, $result);
-		return $result;
-	      }
+			$cached_file = $this->diskcache . str_replace('/','_',$source);
+			if( file_exists($cached_file) && filemtime($source) < filemtime($cached_file) )
+				return file_get_contents($cached_file);
 
-	    }
-	  else return $this->parse($source, $isFile)->render();
+			else
+			{
+				$result = $this->parse($source, $isFile)->render();
+				file_put_contents($cached_file, $result);
+				return $result;
+			}
+
+		}
+		else
+			return $this->parse($source, $isFile)->render();
 	}
 
 	/**
