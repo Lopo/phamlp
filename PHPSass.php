@@ -11,9 +11,10 @@ $args=array($argv[0]);
 $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 	$options=array(
 		'syntax' => File::SASS,
-		'style' => Renderers\Renderer::STYLE_NESTED
+		'style' => Renderers\Renderer::STYLE_NESTED,
+		'diskcache' => NULL
 		);
-	foreach ($opts=getopt('st:qglI:h', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'help')) as $arg => $val) {
+	foreach ($opts=getopt('st:qglI:ch', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'diskcache', 'help')) as $arg => $val) {
 		switch ($arg) {
 			case 's':
 			case 'stdin':
@@ -44,6 +45,10 @@ $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
 			case 'I':
 			case 'load-path':
 				$options['load_paths'][]=$val;
+				break;
+			case 'c':
+			case 'diskcache':
+				$options['diskcache']=$val;
 				break;
 			case 'h':
 			case 'help':
