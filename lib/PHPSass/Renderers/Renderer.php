@@ -42,5 +42,5 @@ class Renderer
 			case self::STYLE_NESTED:
 				return new NestedRenderer;
 			}
-		}
+	}
 }

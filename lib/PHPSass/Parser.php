@@ -408,7 +408,7 @@ class Parser
 			'line_numbers' => $this->line_numbers,
 			'load_path_functions' => $this->load_path_functions,
 			'load_paths' => $this->load_paths,
-			'property_syntax' => ($this->property_syntax=='scss'? NULL : $this->property_syntax),
+			'property_syntax' => ($this->property_syntax==File::SCSS? NULL : $this->property_syntax),
 			'quiet' => $this->quiet,
 			'style' => $this->style,
 			'syntax' => $this->syntax,
@@ -558,7 +558,7 @@ class Parser
 	 * The type of Node depends on the content of the Token.
 	 *
 	 * @param Tree\Node $node
-	 * @return Tree\Node a Node of the appropriate type. Null when no more source to parse.
+	 * @return Tree\Node a Node of the appropriate type. NULL when no more source to parse.
 	 */
 	public function getNode($node)
 	{
@@ -615,7 +615,7 @@ class Parser
 	 * Sass statements are passed over. Statements spanning multiple lines, e.g.
 	 * CSS comments and selectors, are assembled into a single statement.
 	 *
-	 * @return object Statement token. Null if end of source.
+	 * @return object Statement token. NULL if end of source.
 	 * @throws \PHPSass\Exception
 	 */
 	public function sass2Token()
@@ -712,7 +712,7 @@ class Parser
 	/**
 	 * Returns an object that contains the next source statement and meta data about it from SCSS source.
 	 *
-	 * @return object Statement token. Null if end of source.
+	 * @return object Statement token. NULL if end of source.
 	 * @throws \PHPSass\Exception
 	 */
 	public function scss2Token()

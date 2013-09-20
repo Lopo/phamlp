@@ -46,10 +46,7 @@ extends CompactRenderer
 	public function renderComment($node)
 	{
 		$indent=$this->getIndent($node);
-		$lines=explode("\n", $node->value);
-		foreach ($lines as &$line) {
-			$line=trim($line);
-			}
+		$lines=array_map(function($line) {return trim($line);}, explode("\n", $node->value));
 
 		return "$indent/*\n$indent * ".join("\n$indent * ", $lines)."\n$indent */".(empty($indent)? "\n" : '');
 	}

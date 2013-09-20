@@ -47,7 +47,7 @@ extends CompressedRenderer
 	 * Comments within a rule are on the same line as the rule.
 	 *
 	 * @param \PHPSass\Tree\Node the node being rendered
-	 * @return string the rendered commnt
+	 * @return string the rendered comment
 	 */
 	public function renderComment($node)
 	{
