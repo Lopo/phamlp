@@ -22,11 +22,9 @@ extends Node
 	const PARENT_REFERENCE='&';
 
 	/** @var array selector(s) */
-	private $selectors=array();
+	private $selectors=[];
 	/** @var array parent selectors */
-	private $parentSelectors=array();
-	/** @var array resolved selectors */
-	private $resolvedSelectors=array();
+	private $parentSelectors=[];
 	/** @var bool whether the node expects more selectors */
 	private $isContinued;
 
@@ -100,7 +98,7 @@ extends Node
 				}
 			}
 
-		return $this->renderer->renderRule($this, $properties, $rules);
+		return $this->getRenderer()->renderRule($this, $properties, $rules);
 	}
 
 	/**
@@ -173,7 +171,7 @@ extends Node
 	 */
 	public function isPlaceholder($selector)
 	{
-		return strpos($selector, '%')!==FALSE;
+		return strpos($selector, '%')!==FALSE && !preg_match("/^[\d]+%$/", $selector);
 	}
 
 	/**
@@ -197,7 +195,7 @@ extends Node
 		$selector=explode(' ', $selector);
 		array_pop($selector);
 
-		$common=array();
+		$common=[];
 		if (count($extender) && count($selector)) {
 			while (trim($extender[0])===trim($selector[0])) {
 				$common[]=array_shift($selector);
@@ -247,17 +245,17 @@ extends Node
 		$resolvedSelectors= $normalSelectors= array();
 		$this->parentSelectors=$this->getParentSelectors($context);
 
-		foreach ($this->selectors as $key => $selector) {
+		foreach ($this->selectors as $selector) {
 			$selector=$this->interpolate($selector, $context);
 			$selectors=\PHPSass\Script\Literals\SassList::_build_list($selector);
 
-			foreach ($selectors as $selector) {
-				$selector=trim($selector, ' \'"'); // strip whitespace and quotes, just-in-case.
-				if ($this->hasParentReference($selector)) {
-					$resolvedSelectors=array_merge($resolvedSelectors, $this->resolveParentReferences($selector, $context));
+			foreach ($selectors as $selector_inner) {
+				$selector_inner=trim($selector_inner, ' \'"'); // strip whitespace and quotes, just-in-case.
+				if ($this->hasParentReference($selector_inner)) {
+					$resolvedSelectors=array_merge($resolvedSelectors, $this->resolveParentReferences($selector_inner, $context));
 					}
 				else {
-					$normalSelectors[]=$selector;
+					$normalSelectors[]=$selector_inner;
 					}
 				}
 			}

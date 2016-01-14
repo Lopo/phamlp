@@ -9,7 +9,7 @@ namespace PHPSass\Script\Literals;
  */
 
 /**
- * Sass literal exception.
+ * Sass literal exception
  */
 class LiteralException
 extends \PHPSass\Script\ParserException
@@ -17,7 +17,7 @@ extends \PHPSass\Script\ParserException
 }
 
 /**
- * BooleanException class.
+ * BooleanException class
  */
 class BooleanException
 extends LiteralException
@@ -25,7 +25,7 @@ extends LiteralException
 }
 
 /**
- * ColourException class.
+ * ColourException class
  */
 class ColourException
 extends LiteralException
@@ -33,7 +33,15 @@ extends LiteralException
 }
 
 /**
- * NumberException class.
+ * SassListException class
+ */
+class SassListException
+extends LiteralException
+{
+}
+
+/**
+ * NumberException class
  */
 class NumberException
 extends LiteralException
@@ -41,7 +49,7 @@ extends LiteralException
 }
 
 /**
- * StringException class.
+ * StringException class
  */
 class StringException
 extends LiteralException

@@ -17,10 +17,7 @@ class File
 	const CSS='css';
 	const SASS='sass';
 	const SCSS='scss';
-//	const SASSC = 'sassc'; # tests for E_NOTICE
 
-	/** @var array */
-	private static $extensions=array(self::SASS, self::SCSS);
 	/** @var string */
 	public static $path=FALSE;
 	/** @var Parser */
@@ -38,7 +35,7 @@ class File
 	{
 		$contents=self::get_file_contents($filename, $parser);
 
-		$options=array_merge($parser->options, array('line' => 1));
+		$options=array_merge($parser->getOptions(), ['line' => 1]);
 
 		# attempt at cross-syntax imports.
 		$ext=substr($filename, strrpos($filename, '.')+1);
@@ -46,9 +43,9 @@ class File
 			$options['syntax']=$ext;
 			}
 
-		$dirname=dirname($filename);
-		$options['load_paths'][]=$dirname;
-		if (!in_array($dirname, $parser->load_paths)) {
+		$dirName=dirname($filename);
+		$options['load_paths'][]=$dirName;
+		if (!in_array($dirName, $parser->load_paths)) {
 			$parser->load_paths[]=dirname($filename);
 			}
 
@@ -63,43 +60,14 @@ class File
 	 * @param Parser $parser
 	 * @return mixed
 	 */
-	public static function get_file_contents($filename, $parser)
+	public static function get_file_contents($filename, $parser=NULL)
 	{
-		$contents=file_get_contents($filename)."\n\n "; #add some whitespace to fix bug
+		$content=file_get_contents($filename);//."\n\n "; #add some whitespace to fix bug
 		# strip // comments at this stage, with allowances for http:// style locations.
-		$contents=preg_replace("/(^|\s)\/\/[^\n]+/", '', $contents);
+		$content=preg_replace("/(^|\s)\/\/[^\n]+/", '', $content);
 		// File::$parser = $parser;
 		// File::$path = $filename;
-		// $contents = preg_replace_callback('/url\(\s*[\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\s*\)/i', 'File::resolve_paths', $contents);
-		return $contents;
-	}
-
-	/**
-	 * @param array $matches
-	 * @return string
-	 */
-	public static function resolve_paths($matches)
-	{
-		// Resolve the path into something nicer...
-		return 'url("'.self::resolve_path($matches[1]).'")';
-	}
-
-	/**
-	 * @param string $name
-	 * @return string
-	 */
-	public static function resolve_path($name)
-	{
-		$path=self::$parser->basepath.self::$path;
-		$path=substr($path, 0, strrpos($path, '/')).'/';
-		$path=$path.$name;
-		$last='';
-		while ($path!=$last) {
-			$last=$path;
-			$path=preg_replace('`(^|/)(?!\.\./)([^/]+)/\.\./`', '$1', $path);
-			}
-
-		return $path;
+		return $content;
 	}
 
 	/**
@@ -124,8 +92,8 @@ class File
 				? $sass
 				: self::get_file($filename.'.'.self::SCSS, $parser);
 			}
-		if (file_exists($filename)) {
-			return array($filename);
+		if (is_file($filename)) {
+			return [$filename];
 			}
 		$paths=$parser->load_paths;
 		if (is_string($parser->filename) && $path=dirname($parser->filename)) {
@@ -135,9 +103,12 @@ class File
 				}
 			}
 		foreach ($paths as $path) {
-			$filepath=self::find_file($filename, realpath($path));
-			if ($filepath!==FALSE) {
-				return array($filepath);
+			$filePath=self::find_file($filename, realpath($path));
+			if ($filePath!==FALSE) {
+				if (!is_array($filePath)) {
+					return array($filePath);
+					}
+				return $filePath;
 				}
 			}
 		foreach ($parser->load_path_functions as $function) {
@@ -159,27 +130,72 @@ class File
 	 */
 	public static function find_file($filename, $dir)
 	{
-		$partialname=dirname($filename).DIRECTORY_SEPARATOR.'_'.basename($filename);
+		static $pathCache=[];
+		$cacheKey=$filename.'@'.$dir;
+		if (isset($pathCache[$cacheKey])) {
+			return $pathCache[$cacheKey];
+			}
+		if (strstr($filename, DIRECTORY_SEPARATOR.'**')) {
+			$specialDirectory=$dir.DIRECTORY_SEPARATOR.substr($filename, 0, strpos($filename, DIRECTORY_SEPARATOR.'**'));
+			if (is_dir($specialDirectory)) {
+				$paths=[];
+				foreach (scandir($specialDirectory) as $file) {
+					if ($file==='..') {
+						continue;
+						}
+					if (is_dir($specialDirectory.DIRECTORY_SEPARATOR.$file)) {
+						$new_filename= $file==='.'
+							? str_replace(DIRECTORY_SEPARATOR.'**', '', $filename)
+							: str_replace('**', $file, $filename);
+						$path=self::find_file($new_filename, $dir);
+						if ($path!==FALSE) {
+							if (!is_array($path)) {
+								$path=[$path];
+								}
+							$paths=array_merge($paths, $path);
+							}
+						}
+					}
+				// cache and return
+				return $pathCache[$cacheKey]=$paths;
+				}
+			}
 
-		foreach (array($filename, $partialname) as $file) {
-			if (file_exists($dir.DIRECTORY_SEPARATOR.$file)) {
-				return realpath($dir.DIRECTORY_SEPARATOR.$file);
+		if (substr($filename, -2)==DIRECTORY_SEPARATOR.'*') {
+			$checkDir=$dir.DIRECTORY_SEPARATOR.substr($filename, 0, strlen($filename)-2);
+			if (is_dir($checkDir)) {
+				$dir=$checkDir;
+				$paths=[];
+				foreach (scandir($dir) as $file) {
+					if (($file==='.') || ($file==='..')) {
+						continue;
+						}
+					$ext=substr($file, strrpos($file, '.')+1);
+					if (substr($file, -1)!='*' && ($ext==self::SASS || $ext==self::SCSS || $ext==self::CSS)) {
+						$paths[]=$dir.DIRECTORY_SEPARATOR.$file;
+						}
+					}
+				// cache and return
+				return $pathCache[$cacheKey]=$paths;
+				}
+			}
+
+		foreach ([$filename, str_replace(basename($filename), ('_'.basename($filename)), $filename)] as $file) {
+			$checkFile=$dir.DIRECTORY_SEPARATOR.$file;
+			if (is_file($checkFile)) {
+				return $pathCache[$cacheKey]=realpath($checkFile);
 				}
 			}
 
 		if (is_dir($dir)) {
-			$files=array_slice(scandir($dir), 2);
-
-			foreach ($files as $file) {
-				if (substr($file, 0, 1)!='.' && is_dir($dir.DIRECTORY_SEPARATOR.$file)) {
-					$path=self::find_file($filename, $dir.DIRECTORY_SEPARATOR.$file);
-					if ($path!==FALSE) {
-						return $path;
-						}
+			foreach (glob($dir.DIRECTORY_SEPARATOR.'*', GLOB_ONLYDIR) as $deepDir) {
+				$path=self::find_file($filename, $deepDir);
+				if ($path!==FALSE) {
+					return $pathCache[$cacheKey]=$path;
 					}
 				}
 			}
 
-		return FALSE;
+		return $pathCache[$cacheKey]=FALSE;
 	}
 }

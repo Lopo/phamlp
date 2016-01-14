@@ -46,7 +46,7 @@ class Parser
 		for ($i=0, $n=preg_match_all(self::MATCH_INTERPOLATION, $string, $matches); $i<$n; $i++) {
 			$var=$this->evaluate($matches[1][$i], $context);
 
-			$var= $var instanceOf Literals\String
+			$var= $var instanceOf Literals\SassString
 				? $var->value
 				: $var->toString();
 
@@ -90,8 +90,8 @@ class Parser
 				array_push($operands, $perform);
 				}
 			elseif ($token instanceof Literals\Literal) {
-				if ($token instanceof Literals\String) {
-					$token=new Literals\String($this->interpolate($token->toString(), self::$context));
+				if ($token instanceof Literals\SassString) {
+					$token=new Literals\SassString($this->interpolate($token->toString(), self::$context));
 					}
 				array_push($operands, $token);
 				}
@@ -173,9 +173,8 @@ class Parser
 					// If the stack runs out without finding a left parenthesis
 					// there are mismatched parentheses.
 					if ($c<=0) {
-						array_push($outputQueue, new Literals\String(')'));
+						array_push($outputQueue, new Literals\SassString(')'));
 						break;
-						throw new ParserException('Unmatched parentheses', $context->node);
 						}
 					}
 				// the token is an operator, o1, so:
@@ -217,7 +216,7 @@ class Parser
 	/**
 	 * Reduces a set down to a singular form
 	 *
-	 * @param array $$operands
+	 * @param array $operands
 	 * @return mixed
 	 */
 	public static function makeSingular($operands)
@@ -233,12 +232,12 @@ class Parser
 					$result=$operand;
 					continue;
 					}
-				$result= $result instanceOf Literals\String
+				$result= $result instanceOf Literals\SassString
 					? $result->op_concat($operand)
 					: $result->op_plus($operand);
 				}
 			else {
-				$string=new Literals\String(' ');
+				$string=new Literals\SassString(' ');
 				$result= !$result
 					? $string
 					: $result->op_plus($string);

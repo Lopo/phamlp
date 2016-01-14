@@ -66,9 +66,9 @@ extends Node
 			}
 
 		if (Parser::$instance->getQuiet()) {
-			return array(new Literals\String(''));
+			return array(new Literals\SassString(''));
 			}
-		return array(new Literals\String('/* @warn: '.str_replace('*/', '', $statement).' */'));
+		return array(new Literals\SassString('/* @warn: '.str_replace('*/', '', $statement).' */'));
 	}
 
 	/**

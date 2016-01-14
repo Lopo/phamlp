@@ -29,16 +29,27 @@ class Parser
 	 * Default option values
 	 */
 	const BEGIN_COMMENT='/';
+	const BEGIN_COMMENT_STRLEN=1;
 	const BEGIN_CSS_COMMENT='/*';
+	const BEGIN_CSS_COMMENT_STRLEN=2;
 	const END_CSS_COMMENT='*/';
+	const END_CSS_COMMENT_STRLEN=2;
 	const BEGIN_SASS_COMMENT='//';
+	const BEGIN_SASS_COMMENT_STRLEN=2;
 	const BEGIN_INTERPOLATION='#';
+	const BEGIN_INTERPOLATION_STRLEN=1;
 	const BEGIN_INTERPOLATION_BLOCK='#{';
+	const BEGIN_INTERPOLATION_BLOCK_STRLEN=2;
 	const BEGIN_BLOCK='{';
+	const BEGIN_BLOCK_STRLEN=1;
 	const END_BLOCK='}';
+	const END_BLOCK_STRLEN=1;
 	const END_STATEMENT=';';
+	const END_STATEMENT_STRLEN=1;
 	const DOUBLE_QUOTE='"';
+	const DOUBLE_QUOTE_STRLEN=1;
 	const SINGLE_QUOTE="'";
+	const SINGLE_QUOTE_STRLEN=1;
 
 	/** @var Parser Static holder for last instance of a Parser */
 	public static $instance;
@@ -55,7 +66,7 @@ class Parser
 	 * Used to calculate {@link Level} if {@link indentChar} is space.
 	 */
 	public $indentSpaces=2;
-	/** @var string source */
+	/** @var array source */
 	public $source;
 	/**#@+
 	 * Option
@@ -162,6 +173,8 @@ class Parser
 	 * This is set automatically when parsing a file, else defaults to 'sass'.
 	 */
 	public $syntax;
+	/** @var int */
+	private $_tokenLevel=0;
 	/**
 	 * If enabled it causes exceptions to be thrown on errors. This can be
 	 * useful for tracking down a bug in your sourcefile but will cause a
@@ -186,7 +199,7 @@ class Parser
 	 * @param array $options
 	 * @throws \PHPSass\Exception
 	 */
-	public function __construct($options=array())
+	public function __construct($options=[])
 	{
 		if (!is_array($options)) {
 			if (isset($options['debug']) && $options['debug']) {
@@ -269,6 +282,7 @@ class Parser
 		if ($this->debug) {
 			throw new Exception('No getter function for '.$name);
 			}
+		return NULL;
 	}
 
 	/**
@@ -403,9 +417,9 @@ class Parser
 			'callbacks' => $this->callbacks,
 			// 'debug' => $this->debug,
 			'filename' => $this->filename,
-			'functions' => $this->functions,
-			'line' => $this->line,
-			'line_numbers' => $this->line_numbers,
+			'functions' => $this->getFunctions(),
+			'line' => $this->getLine(),
+			'line_numbers' => $this->getLine_numbers(),
 			'load_path_functions' => $this->load_path_functions,
 			'load_paths' => $this->load_paths,
 			'property_syntax' => ($this->property_syntax==File::SCSS? NULL : $this->property_syntax),
@@ -474,6 +488,7 @@ class Parser
 					$return=$this->parse($code, $type);
 					}
 				else {
+					/** @var \PHPSass\Tree\Node $newnode */
 					$newNode=$this->parse($code, $type);
 					foreach ($newNode->children as $children) {
 						array_push($return->children, $children);
@@ -503,7 +518,7 @@ class Parser
 
 					return FALSE;
 					}
-				$files_source.=File::get_file_contents($this->filename, $this);
+				$files_source.=File::get_file_contents($this->filename);
 				}
 
 			return $this->toTree($files_source);
@@ -532,6 +547,13 @@ class Parser
 		$root=new Tree\RootNode($this);
 		$this->buildTree($root);
 
+		if (!$this->_tokenLevel && $this->debug) {
+			$message= $this->_tokenLevel<0
+				? 'Too many closing brackets'
+				: 'One or more missing closing brackets';
+			throw new Exception($message, $this);
+			}
+
 		return $root;
 	}
 
@@ -558,7 +580,7 @@ class Parser
 	 * The type of Node depends on the content of the Token.
 	 *
 	 * @param Tree\Node $node
-	 * @return Tree\Node a Node of the appropriate type. NULL when no more source to parse.
+	 * @return Tree\Node|NULL a Node of the appropriate type. NULL when no more source to parse.
 	 */
 	public function getNode($node)
 	{
@@ -573,7 +595,7 @@ class Parser
 				return new Tree\CommentNode($token);
 			case Tree\VariableNode::isa($token):
 				return new Tree\VariableNode($token);
-			case Tree\PropertyNode::isa(array('token' => $token, 'syntax' => $this->property_syntax)):
+			case Tree\PropertyNode::isa(array('token' => $token, 'syntax' => $this->getProperty_syntax())):
 				return new Tree\PropertyNode($token, $this->property_syntax);
 			case Tree\FunctionDefinitionNode::isa($token):
 				return new Tree\FunctionDefinitionNode($token);
@@ -582,7 +604,7 @@ class Parser
 					if ($this->debug) {
 						throw new Exception('Mixin definition shortcut not allowed in SCSS', $this);
 						}
-					return;
+					return NULL;
 					}
 				return new Tree\MixinDefinitionNode($token);
 			case Tree\MixinNode::isa($token):
@@ -590,7 +612,7 @@ class Parser
 					if ($this->debug) {
 						throw new Exception('Mixin include shortcut not allowed in SCSS', $this);
 						}
-					return;
+					return NULL;
 					}
 				return new Tree\MixinNode($token);
 			default:
@@ -639,7 +661,7 @@ class Parser
 			// Comment statements can span multiple lines
 			if ($statement[0]===self::BEGIN_COMMENT) {
 				// Consume Sass comments
-				if (substr($statement, 0, strlen(self::BEGIN_SASS_COMMENT))===self::BEGIN_SASS_COMMENT) {
+				if (substr($statement, 0, self::BEGIN_SASS_COMMENT_STRLEN)===self::BEGIN_SASS_COMMENT) {
 					unset($statement);
 					while ($this->getLevel($this->source[0])>$level) {
 						array_shift($this->source);
@@ -648,7 +670,7 @@ class Parser
 					continue;
 					}
 				// Build CSS comments
-				elseif (substr($statement, 0, strlen(self::BEGIN_CSS_COMMENT))===self::BEGIN_CSS_COMMENT) {
+				elseif (substr($statement, 0, self::BEGIN_CSS_COMMENT_STRLEN)===self::BEGIN_CSS_COMMENT) {
 					while ($this->getLevel($this->source[0])>$level) {
 						$statement.="\n".ltrim(array_shift($this->source));
 						$this->line++;
@@ -729,7 +751,7 @@ class Parser
 			$c=$this->source[$srcpos++];
 			switch ($c) {
 				case self::BEGIN_COMMENT:
-					if (substr($this->source, $srcpos-1, strlen(self::BEGIN_SASS_COMMENT))===self::BEGIN_SASS_COMMENT) {
+					if (substr($this->source, $srcpos-1, self::BEGIN_SASS_COMMENT_STRLEN)===self::BEGIN_SASS_COMMENT) {
 						while ($this->source[$srcpos++]!=="\n") {
 							if ($srcpos>=$srclen)
 								throw new Exception('Unterminated commend', (object)array(
@@ -740,7 +762,7 @@ class Parser
 							}
 						$statement.="\n";
 						}
-					elseif (substr($this->source, $srcpos-1, strlen(self::BEGIN_CSS_COMMENT))===self::BEGIN_CSS_COMMENT) {
+					elseif (substr($this->source, $srcpos-1, self::BEGIN_CSS_COMMENT_STRLEN)===self::BEGIN_CSS_COMMENT) {
 						if (ltrim($statement)) {
 							if ($this->debug) {
 								throw new Exception('Invalid comment', (object)array(
@@ -751,10 +773,10 @@ class Parser
 								}
 							}
 						$statement.=$c.$this->source[$srcpos++];
-						while (substr($this->source, $srcpos, strlen(self::END_CSS_COMMENT))!==self::END_CSS_COMMENT) {
+						while (substr($this->source, $srcpos, self::END_CSS_COMMENT_STRLEN)!==self::END_CSS_COMMENT) {
 							$statement.=$this->source[$srcpos++];
 							}
-						$srcpos+=strlen(self::END_CSS_COMMENT);
+						$srcpos+=self::END_CSS_COMMENT_STRLEN;
 						$token=$this->createToken($statement.self::END_CSS_COMMENT);
 						}
 					else {
@@ -773,7 +795,7 @@ class Parser
 					break;
 				case self::BEGIN_INTERPOLATION:
 					$statement.=$c;
-					if (substr($this->source, $srcpos-1, strlen(self::BEGIN_INTERPOLATION_BLOCK))===self::BEGIN_INTERPOLATION_BLOCK) {
+					if (substr($this->source, $srcpos-1, self::BEGIN_INTERPOLATION_BLOCK_STRLEN)===self::BEGIN_INTERPOLATION_BLOCK) {
 						while ($this->source[$srcpos]!==self::END_BLOCK) {
 							$statement.=$this->source[$srcpos++];
 							}
@@ -806,15 +828,13 @@ class Parser
 	 * If the statement is just and end block we update the meta data and return null.
 	 *
 	 * @param string $statement source statement
-	 * @return object Token
+	 * @return object|NULL
 	 */
 	public function createToken($statement)
 	{
-		static $level=0;
-
 		$this->line+=substr_count($statement, "\n");
 		$statement=trim($statement);
-		if (substr($statement, 0, strlen(self::BEGIN_CSS_COMMENT))!==self::BEGIN_CSS_COMMENT) {
+		if (substr($statement, 0, self::BEGIN_CSS_COMMENT_STRLEN)!==self::BEGIN_CSS_COMMENT) {
 			$statement=str_replace(array("\n", "\r"), '', $statement);
 			}
 		$last=substr($statement, -1);
@@ -826,12 +846,12 @@ class Parser
 		$token= $statement
 				? (object)array(
 					'source' => $statement,
-					'level' => $level,
+					'level' => $this->_tokenLevel,
 					'filename' => $this->filename,
 					'line' => $this->line,
 					)
 				: NULL;
-		$level+= $last===self::BEGIN_BLOCK
+		$this->_tokenLevel+= $last===self::BEGIN_BLOCK
 				? 1
 				: ($last===self::END_BLOCK? -1 : 0);
 
@@ -841,7 +861,7 @@ class Parser
 	/**
 	 * Parses a directive
 	 *
-	 * @param Token $token to parse
+	 * @param stdClass $token to parse
 	 * @param Tree\Node $parent node
 	 * @return Tree\Node a Sass directive node
 	 * @throws \PHPSass\Exception
@@ -858,6 +878,7 @@ class Parser
 			case '@return':
 				return new Tree\ReturnNode($token);
 			case '@media':
+			case '@supports':
 				return new Tree\MediaNode($token);
 			case '@mixin':
 				return new Tree\MixinDefinitionNode($token);

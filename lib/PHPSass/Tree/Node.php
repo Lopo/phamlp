@@ -102,19 +102,23 @@ class Node
 	public function addChild($child)
 	{
 		if ($child instanceof ElseNode) {
-			if (!$this->lastChild instanceof IfNode) {
+			if (!$this->getLastChild() instanceof IfNode) {
 				throw new \PHPSass\Exception('@else(if) directive must come after @(else)if', $child);
 				}
-			$this->lastChild->addElse($child);
+			$this->getLastChild()->addElse($child);
 			}
 		else {
 			$this->children[]=$child;
 			$child->parent=$this;
-			$child->root=$this->root;
+			$child->setRoot($this->root);
 			}
-		// The child will have children if a debug node has been added
-		foreach ($child->children as $grandchild) {
-			$grandchild->root=$this->root;
+	}
+
+	public function setRoot($root)
+	{
+		$this->root=$root;
+		foreach ($this->children as $child) {
+			$child->setRoot($this->root);
 			}
 	}
 
@@ -148,7 +152,7 @@ class Node
 	 */
 	public function isChildOf($node)
 	{
-		return $this->level>$node->level;
+		return $this->getLevel()>$node->getLevel();
 	}
 
 	/**
@@ -188,7 +192,7 @@ class Node
 	 */
 	public function getDebug_info()
 	{
-		return $this->parser->debug_info;
+		return $this->getParser()->debug_info;
 	}
 
 	/**
@@ -208,7 +212,7 @@ class Node
 	 */
 	public function getLine_numbers()
 	{
-		return $this->parser->line_numbers;
+		return $this->getParser()->line_numbers;
 	}
 
 	/**
@@ -238,7 +242,7 @@ class Node
 	 */
 	public function getPropertySyntax()
 	{
-		return $this->root->parser->propertySyntax;
+		return $this->root->getParser()->propertySyntax;
 	}
 
 	/**
@@ -268,7 +272,7 @@ class Node
 	 */
 	public function getStyle()
 	{
-		return $this->root->parser->style;
+		return $this->root->getParser()->style;
 	}
 
 	/**
@@ -325,7 +329,7 @@ class Node
 	{
 		$context->node=$this;
 
-		return $this->script->interpolate($expression, $context);
+		return $this->getScript()->interpolate($expression, $context);
 	}
 
 	/**
@@ -379,7 +383,7 @@ class Node
 		echo str_repeat(' ', $i*2).get_class($this).' '.$this->getSource()."\n";
 		$p=$this->getParent();
 		if ($p) {
-			echo str_repeat(' ', $i*2)." parent: ".get_class($p)."\n";
+			echo str_repeat(' ', $i*2).' parent: '.get_class($p)."\n";
 			}
 		foreach ($this->getChildren() as $c) {
 			$c->printDebugTree($i+1);

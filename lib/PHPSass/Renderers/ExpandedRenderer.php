@@ -45,6 +45,9 @@ extends CompactRenderer
 	 */
 	public function renderComment($node)
 	{
+		if ($node->isInvisible(Renderer::STYLE_EXPANDED)) {
+			return '';
+			}
 		$indent=$this->getIndent($node);
 		$lines=array_map(function($line) {return trim($line);}, explode("\n", $node->value));
 

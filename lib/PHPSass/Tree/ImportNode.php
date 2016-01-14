@@ -8,7 +8,7 @@ namespace PHPSass\Tree;
  * @license      http://phamlp.googlecode.com/files/license.txt
  */
 
-use PHPSass\Script\Literals\String;
+use PHPSass\Script\Literals\SassString;
 
 /**
  * ImportNode class.
@@ -58,7 +58,7 @@ extends Node
 					? $matches[1]
 					: "url('$file')";
 
-				return array(new String("@import $file;"), new String("\n"));
+				return array(new SassString("@import $file;"), new SassString("\n"));
 				}
 			$file=trim($file, '\'"');
 			$files=\PHPSass\File::get_file($file, $this->parser);
@@ -79,7 +79,7 @@ extends Node
 
 				foreach ($files as $subfile) {
 					if (preg_match(self::MATCH_CSS, $subfile)) {
-						$tree->addChild(new String("@import url('$subfile');"));
+						$tree->addChild(new SassString("@import url('$subfile');"));
 						}
 					else {
 						$this->parser->filename=$subfile;

@@ -23,7 +23,7 @@ abstract class Literal
 		'PHPSass\Script\Literals\Boolean' => 'bool',
 		'PHPSass\Script\Literals\Colour' => 'color',
 		'PHPSass\Script\Literals\Number' => 'number',
-		'PHPSass\Script\Literals\String' => 'string',
+		'PHPSass\Script\Literals\SassString' => 'string',
 		'PHPSass\Script\Literals\SassList' => 'list'
 		);
 	/** @var mixed value of the literal type */
@@ -115,44 +115,44 @@ abstract class Literal
 	 * Script '+' operation.
 	 *
 	 * @param Literal $sassLiteral value to add
-	 * @return String the string values of this and other with no seperation
+	 * @return SassString the string values of this and other with no seperation
 	 */
 	public function op_plus($other)
 	{
-		return new String($this->toString().$other->toString());
+		return new SassString($this->toString().$other->toString());
 	}
 
 	/**
 	 * Script '-' operation.
 	 *
 	 * @param Literal $other value to subtract
-	 * @return String the string values of this and other seperated by '-'
+	 * @return SassString the string values of this and other seperated by '-'
 	 */
 	public function op_minus($other)
 	{
-		return new String($this->toString().'-'.$other->toString());
+		return new SassString($this->toString().'-'.$other->toString());
 	}
 
 	/**
 	 * Script '*' operation.
 	 *
 	 * @param Literal $other value to multiply by
-	 * @return String the string values of this and other seperated by '*'
+	 * @return SassString the string values of this and other seperated by '*'
 	 */
 	public function op_times($other)
 	{
-		return new String($this->toString().'*'.$other->toString());
+		return new SassString($this->toString().'*'.$other->toString());
 	}
 
 	/**
 	 * Script '/' operation.
 	 *
 	 * @param Literal $other value to divide by
-	 * @return String the string values of this and other seperated by '/'
+	 * @return SassString the string values of this and other seperated by '/'
 	 */
 	public function op_div($other)
 	{
-		return new String($this->toString().' / '.$other->toString());
+		return new SassString($this->toString().' / '.$other->toString());
 	}
 
 	/**
@@ -369,22 +369,22 @@ abstract class Literal
 	 * The Script default operation (e.g. $a $b, "foo" "bar").
 	 *
 	 * @param Literal $other the value to concatenate with a space to this
-	 * @return String the string values of this and other seperated by " "
+	 * @return SassString the string values of this and other seperated by " "
 	 */
 	public function op_concat($other)
 	{
-		return new String($this->toString().' '.$other->toString());
+		return new SassString($this->toString().' '.$other->toString());
 	}
 
 	/**
 	 * Script ',' operation.
 	 *
 	 * @param Literal $other the value to concatenate with a comma to this
-	 * @return String the string values of this and other seperated by ","
+	 * @return SassString the string values of this and other seperated by ","
 	 */
 	public function op_comma($other)
 	{
-		return new String($this->toString().', '.$other->toString());
+		return new SassString($this->toString().', '.$other->toString());
 	}
 
 	/**

@@ -51,11 +51,14 @@ extends CompressedRenderer
 	 */
 	public function renderComment($node)
 	{
+		if ($node->isInvisible(Renderer::STYLE_COMPACT)) {
+			return '';
+			}
 		$nl= $node->parent instanceof \PHPSass\Tree\RuleNode
 			? ''
 			: "\n";
 
-		return "$nl/* ".join("\n * ", $node->children)." */$nl";
+		return "$nl/* ".join(' ', explode("\n", $node->value))." */$nl";
 	}
 
 	/**
@@ -68,7 +71,7 @@ extends CompressedRenderer
 	public function renderDirective($node, $properties)
 	{
 		return str_replace("\n", '', parent::renderDirective($node, $properties))
-			."\n\n";
+			."\n";
 	}
 
 	/**
@@ -108,6 +111,15 @@ extends CompressedRenderer
 	 */
 	public function renderRule($node, $properties, $rules)
 	{
+//		$ruleSeparator=', ';
+//		$lineSeparator=' ';
+//		$ruleIndent='';
+//		$perRuleIndent='';
+//		$totalIndent='';
+//		$joinedRules=$rules->
+//		foreach ($rules as $seq) {
+//			$rulePart=\PHPSass\Script\Functions::join((array)$seq);
+//			}
 		return $this->renderDebug($node)
 				.parent::renderRule($node, $properties, str_replace("\n\n", "\n", $rules))
 				."\n";
@@ -128,14 +140,14 @@ extends CompressedRenderer
 		$indent=$this->getIndent($node);
 		$debug='';
 
-		if ($node->debug_info) {
+		if ($node->getDebug_info()) {
 			$debug=$indent.self::DEBUG_INFO_RULE.'{'
 				.'filename{'.self::DEBUG_INFO_PROPERTY.':'.preg_replace('/([^-\w])/', '\\\\\1', "file://{$node->filename}").';}'
 				.'line{'.self::DEBUG_INFO_PROPERTY.":'{$node->line}';}"
 				."}\n";
 			}
-		elseif ($node->line_numbers) {
-			$debug.="$indent/* line {$node->line} {$node->filename} */\n";
+		elseif ($node->getLine_numbers()) {
+			$debug="$indent/* line {$node->line} {$node->filename} */\n";
 			}
 
 		return $debug;
@@ -149,6 +161,12 @@ extends CompressedRenderer
 	 */
 	protected function renderSelectors($node)
 	{
-		return join(', ', $node->selectors);
+		$selectors=[];
+		foreach ($node->selectors as $selector) {
+			if (!$node->isPlaceholder($selector)) {
+				$selectors[]=$selector;
+				}
+			}
+		return join(', ', $selectors);
 	}
 }

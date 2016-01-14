@@ -117,7 +117,7 @@ class ScriptFunction
 							return $lexed[0];
 							}
 
-						return new Literals\String(implode('', $this->process_arguments($lexed)));
+						return new Literals\SassString(implode('', $this->process_arguments($lexed)));
 						}
 
 					return $result;
@@ -134,15 +134,15 @@ class ScriptFunction
 
 		foreach ($this->args as $i => $arg) {
 			if (is_object($arg) && isset($arg->quote)) {
-				$args[$i]=$arg->toString();
+				$args[$i]=(string)$arg;
 				}
 			if (!is_numeric($i) && Parser::$context->hasVariable($i)) {
 				$args[$i]=Parser::$context->getVariable($i);
 				}
 			}
 
-		// CSS function: create a String that will emit the function into the CSS
-		return new Literals\String($this->name.'('.join(', ', $args).')');
+		// CSS function: create a SassString that will emit the function into the CSS
+		return new Literals\SassString($this->name.'('.join(', ', $args).')');
 	}
 
 	/**
@@ -155,7 +155,10 @@ class ScriptFunction
 	{
 		$files=array();
 
-		foreach (array_slice(scandir($dir), 2) as $file) {
+		foreach (scandir($dir) as $file) {
+			if (($file==='.') || ($file==='..')) {
+				continue;
+				}
 			if (is_file($dir.DIRECTORY_SEPARATOR.$file)) {
 				$files[]=$file;
 				require_once($dir.DIRECTORY_SEPARATOR.$file);
@@ -261,7 +264,7 @@ class ScriptFunction
 					? new Literals\Boolean($default)
 					: Parser::$instance->evaluate($default, new Tree\Context);
 				$parsed= $parsed===NULL
-					? new Literals\String($default)
+					? new Literals\SassString($default)
 					: $parsed;
 				}
 			else {

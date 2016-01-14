@@ -15,7 +15,10 @@ namespace PHPSass\Tree;
 class CommentNode
 extends Node
 {
-	const NODE_IDENTIFIER='/';
+	const COMMENT_CHAR='/';
+	const SASS_COMMENT_CHAR='/';
+	const SASS_LOUD_COMMENT_CHAR='!';
+	const CSS_COMMENT_CHAR='*';
 	const MATCH='%^/\*\s*?(.*?)\s*?(\*/)?$%s';
 	const COMMENT=1;
 	const TYPE_SILENT=0; // unused: removed in \PHPSass\File::get_file_contents()
@@ -34,9 +37,17 @@ extends Node
 	public function __construct($token)
 	{
 		parent::__construct($token);
+		$silent= $token->source{1}==self::SASS_COMMENT_CHAR;
+		$loud= !$silent && $token->source{2}==self::SASS_LOUD_COMMENT_CHAR;
 		preg_match(self::MATCH, $token->source, $matches);
+		$value= $silent
+				? array($token->source)
+				: array();
 		$this->value=$matches[self::COMMENT];
-		if (substr($matches[self::COMMENT], 0, 1)=='!') {
+		if ($silent) {
+			$this->type=self::TYPE_SILENT;
+			}
+		elseif ($loud) {
 			$this->type=self::TYPE_LOUD;
 			$this->value=substr($this->value, 1);
 			}
@@ -100,6 +111,7 @@ extends Node
 	 */
 	public static function isa($token)
 	{
-		return $token->source[0]===self::NODE_IDENTIFIER;
+		return $token->source{0}===self::COMMENT_CHAR
+				&& in_array($token->source{1}, array(self::CSS_COMMENT_CHAR, self::SASS_COMMENT_CHAR));
 	}
 }

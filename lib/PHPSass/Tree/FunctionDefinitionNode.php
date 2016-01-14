@@ -16,7 +16,7 @@ class FunctionDefinitionNode
 extends Node
 {
 	const NODE_IDENTIFIER=FALSE;
-	const MATCH='/^@function\s+([_-\w]+)\s*(?:\((.*?)\))?\s*$/im';
+	const MATCH='/^@function\s+([_\-\w]+)\s*(?:\((.*?)\))?\s*$/im';
 	const IDENTIFIER=1;
 	const NAME=1;
 	const ARGUMENTS=2;
@@ -105,9 +105,7 @@ extends Node
 		list($arguments, $context)=\PHPSass\Script\ScriptFunction::fill_parameters($this->args, $provided, $pcontext, $this);
 		$context->setVariables($arguments);
 
-		$parser=$this->parent->parser;
-
-		$children=array();
+		$children=[];
 		try {
 			foreach ($this->children as $child) {
 				$child->parent=$this;

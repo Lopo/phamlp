@@ -40,14 +40,14 @@ class Functions
 
 
 	/**
-	 * @param Literals\String $name
-	 * @return Literals\Boolean|Literals\String
+	 * @param Literals\SassString $name
+	 * @return Literals\Boolean|Literals\SassString
 	 */
 	public static function option($name)
 	{
 		$options=\PHPSass\Parser::$instance->getOptions();
 		if (isset($options[$name->value])) {
-			return new Literals\String($options[$name->value]);
+			return new Literals\SassString($options[$name->value]);
 			}
 
 		return new Literals\Boolean(FALSE);
@@ -270,7 +270,7 @@ class Functions
 			Literals\Literal::assertType($colour, 'Colour');
 			}
 		catch (\Exception $e) {
-			return new Literals\String('alpha(100)');
+			return new Literals\SassString('alpha(100)');
 			}
 
 		return new Literals\Number($colour->alpha);
@@ -306,6 +306,30 @@ class Functions
 		Literals\Literal::assertType($degrees, 'Number');
 
 		return $colour->with(array('hue' => $colour->getHue(TRUE)+$degrees->value));
+	}
+
+	/**
+	 * Changes the tint of a colour, mixing it with the $amount of white.
+	 *
+	 * @param Literals\Colour $colour The colour to adjust
+	 * @param Literals\Number $amount The amount of white to mix with the $colour (not a number)
+	 * @return Literals\Colour The adjusted colour
+	 */
+	public static function tint($colour, $amount)
+	{
+		return self::mix(new Literals\Colour('white'), $colour, $amount);
+	}
+
+	/**
+	 * Changes the shade of a colour, mixing it with the $amount of black.
+	 *
+	 * @param Literals\Colour $colour The colour to adjust
+	 * @param Literals\Number $amount The amount of black to mix with the $colour (not a number)
+	 * @return Literals\Colour The adjusted colour
+	 */
+	public static function shade($colour, $amount)
+	{
+		return self::mix(new Literals\Colour('black'), $colour, $amount);
 	}
 
 	/**
@@ -595,9 +619,17 @@ class Functions
 	 */
 	public static function adjust_color($color, $red=0, $green=0, $blue=0, $hue=0, $saturation=0, $lightness=0, $alpha=0)
 	{
-		foreach (array('red', 'green', 'blue', 'hue', 'saturation', 'lightness', 'alpha') as $property) {
-			$obj=$$property;
-			$color=self::adjust($color, $$property, FALSE, $property, self::INCREASE, 0, 255);
+		$properties=[
+			'red' => $red,
+			'green' => $green,
+			'blue' => $blue,
+			'hue' => $hue,
+			'saturation' => $saturation,
+			'lightness' => $lightness,
+			'alpha' => $alpha
+			];
+		foreach ($properties as $name => $value) {
+			$color=self::adjust($color, $value, FALSE, $name, self::INCREASE, 0, 255);
 			}
 
 		return $color;
@@ -845,7 +877,7 @@ class Functions
 	 * Alias for units.
 	 *
 	 * @param Literals\Number $number The number to inspect
-	 * @return Literals\String The units of the number
+	 * @return Literals\SassString The units of the number
 	 * @see units
 	 */
 	public static function unit($number)
@@ -857,13 +889,13 @@ class Functions
 	 * Inspects the units of the number, returning it as a quoted string.
 	 *
 	 * @param Literals\Number $number The number to inspect
-	 * @return Literals\String The units of the number
+	 * @return Literals\SassString The units of the number
 	 */
 	public static function units($number)
 	{
 		Literals\Literal::assertType($number, 'Number');
 
-		return new Literals\String($number->units);
+		return new Literals\SassString($number->units);
 	}
 
 	/**
@@ -887,27 +919,27 @@ class Functions
 	 * Add quotes to a string if the string isn't quoted, or returns the same string if it is.
 	 *
 	 * @param string $string String to quote
-	 * @return Literals\String Quoted string
+	 * @return Literals\SassString Quoted string
 	 * @see unquote
 	 */
 	public static function quote($string)
 	{
-		Literals\Literal::assertType($string, 'String');
+		Literals\Literal::assertType($string, 'SassString');
 
-		return new Literals\String('"'.$string->value.'"');
+		return new Literals\SassString('"'.$string->value.'"');
 	}
 
 	/**
 	 * Removes quotes from a string if the string is quoted, or returns the same string if it's not.
 	 *
 	 * @param string $string String to unquote
-	 * @return Literals\String Unuoted string
+	 * @return Literals\SassString Unuoted string
 	 * @see quote
 	 */
 	public static function unquote($string)
 	{
-		if ($string instanceof Literals\String) {
-			return new Literals\String($string->value);
+		if ($string instanceof Literals\SassString) {
+			return new Literals\SassString($string->value);
 			}
 
 		return $string;
@@ -917,13 +949,13 @@ class Functions
 	 * Returns the variable whose name is the string.
 	 *
 	 * @param string $string String to unquote
-	 * @return Literals\String
+	 * @return Literals\SassString
 	 */
 	public static function get_var($string)
 	{
-		Literals\Literal::assertType($string, 'String');
+		Literals\Literal::assertType($string, 'SassString');
 
-		return new Literals\String($string->toVar());
+		return new Literals\SassString($string->toVar());
 	}
 
 	/**
@@ -938,7 +970,7 @@ class Functions
 	 */
 	public static function length($list)
 	{
-		if ($list instanceOf Literals\String) {
+		if ($list instanceOf Literals\SassString) {
 			$list=new Literals\SassList($list->toString());
 			}
 
@@ -956,7 +988,7 @@ class Functions
 	{
 		Literals\Literal::assertType($n, 'Number');
 
-		if ($list instanceof Literals\String) {
+		if ($list instanceof Literals\SassString) {
 			$list=new Literals\SassList($list->toString());
 			}
 
@@ -982,7 +1014,7 @@ class Functions
 	 */
 	public static function append($list, $val, $sep=', ')
 	{
-		if ($list instanceOf Literals\String) {
+		if ($list instanceOf Literals\SassString) {
 			$list=new Literals\SassList($list->toString());
 			}
 		$list->append($val, $sep);
@@ -1046,13 +1078,13 @@ class Functions
 	 * Inspects the type of the argument, returning it as an unquoted string.
 	 *
 	 * @param Literals\Literal $obj The object to inspect
-	 * @return Literals\String The type of object
+	 * @return Literals\SassString The type of object
 	 */
 	public static function type_of($obj)
 	{
 		Literals\Literal::assertType($obj, 'Literal');
 
-		return new Literals\String($obj->typeOf);
+		return new Literals\SassString($obj->typeOf);
 	}
 
 	/**

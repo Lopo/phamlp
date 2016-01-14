@@ -50,6 +50,7 @@ extends Literal
 		);
 	/** @var array */
 	private static $validUnits=array(
+		'vw', 'vh', 'vmin', 'vmax',
 		'in', 'cm', 'mm', 'pc', 'pt', 'em', 'rem', 'ex', 'px', '%', 's', 'deg'
 		);
 	/** @var array numerator units of this number */
@@ -105,7 +106,7 @@ extends Literal
 		if ($other instanceof Colour) {
 			return $other->op_plus($this);
 			}
-		if ($other instanceOf String) {
+		if ($other instanceOf SassString) {
 			$other=clone $other;
 			$other->value=$this->value.$other->value;
 

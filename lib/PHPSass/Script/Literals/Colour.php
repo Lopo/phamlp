@@ -331,7 +331,7 @@ extends Literal
 	{
 		if ($other instanceof Number) {
 			if (!$other->isUnitless()) {
-				return new String($this->toString().$other->value);
+				return new SassString($this->toString().$other->value);
 				throw new ColourException('Number must be a unitless number', ScriptParser::$context->node);
 				}
 			$this->red=$this->getRed()+$other->value;
@@ -339,7 +339,7 @@ extends Literal
 			$this->blue=$this->getBlue()+$other->value;
 			}
 		elseif (!$other instanceof Colour) {
-			return new String($this->toString().$other->value);
+			return new SassString($this->toString().$other->value);
 			throw new ColourException('Argument must be a Colour or Number', ScriptParser::$context->node);
 			}
 		else {

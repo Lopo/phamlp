@@ -16,7 +16,7 @@ class MediaNode
 extends Node
 {
 	const IDENTIFIER='@';
-	const MATCH='/^@(media)\s+(.+?)\s*;?$/';
+	const MATCH='/^@(media|supports)\s+(.+?)\s*;?$/';
 	const MEDIA=1;
 
 	public $token;
@@ -84,7 +84,7 @@ extends Node
 		//  $rule = $try;
 		//}
 
-		$node->children=array(new \PHPSass\Script\Literals\String($rule->render($context)));
+		$node->children=array(new \PHPSass\Script\Literals\SassString($rule->render($context)));
 
 		return array($node);
 	}

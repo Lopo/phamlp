@@ -16,6 +16,6 @@ else {
 	throw new \Exception('Can\'t find autoload.php. Did you install dependencies via composer?');
 	}
 
-$loader->add('PHPSass\\Tests', __DIR__);
+$loader->add('PHPSass\\Tests', __DIR__.'/../..');
 
 unset($loader); // cleanup

@@ -9,10 +9,10 @@ namespace PHPSass\Script\Literals;
  */
 
 /**
- * String class.
+ * SassString class.
  * Provides operations and type testing for Sass strings.
  */
-class String
+class SassString
 extends Literal
 {
 	const MATCH='/^(((["\'])(.*?)(\3))|(-[a-zA-Z-]+[^\s]*?))/i';
@@ -45,8 +45,8 @@ extends Literal
 	 * Concatenates this and other.
 	 * The resulting string will be quoted in the same way as this.
 	 *
-	 * @param String $other string to add to this
-	 * @return String the string result
+	 * @param SassString $other string to add to this
+	 * @return SassString the string result
 	 */
 	public function op_plus($other)
 	{
@@ -60,7 +60,7 @@ extends Literal
 	 * this is repeated other times
 	 *
 	 * @param Number $other the number of times to repeat this
-	 * @return String the string result
+	 * @return SassString the string result
 	 * @throws StringException
 	 */
 	public function op_times($other)

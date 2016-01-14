@@ -16,10 +16,19 @@ extends \Exception
 {
 	/**
 	 * @param string $message Exception message
-	 * @param object $object with source code and meta data
+	 * @param mixed $additionalMessageMixed mixed resource for meta data
 	 */
-	public function __construct($message, $object)
+	public function __construct($message, $additionalMessageMixed='')
 	{
-		parent::__construct($message.(is_object($object)? ": {$object->filename}::{$object->line}\nSource: {$object->source}" : ''));
+		if (is_object($additionalMessageMixed)) {
+			$additionalMessageMixed=": {$additionalMessageMixed->filename}::{$additionalMessageMixed->line}\nSource: {$additionalMessageMixed->source}";
+			}
+		elseif (is_array($additionalMessageMixed)) {
+			$additionalMessageMixed=var_export($additionalMessageMixed, TRUE);
+			}
+		elseif (!is_scalar($additionalMessageMixed)) {
+			$additionalMessageMixed='';
+			}
+		parent::__construct($message.$additionalMessageMixed);
 	}
 }

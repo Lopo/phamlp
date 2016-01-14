@@ -56,7 +56,7 @@ extends Node
 	{
 		$children=array();
 
-		if ($this->variable&&$this->in) {
+		if ($this->variable && $this->in) {
 			$context=new Context($context);
 
 			list($in, $sep)=\PHPSass\Script\Literals\SassList::_parse_list($this->in, 'auto', TRUE, $context);

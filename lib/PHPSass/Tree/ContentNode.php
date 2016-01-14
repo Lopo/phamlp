@@ -67,6 +67,6 @@ extends Node
 	 */
 	public static function isa($token)
 	{
-		return $token->source[0]===self::NODE_IDENTIFIER;
+		return $token->source[0]===self::IDENTIFIER;
 	}
 }

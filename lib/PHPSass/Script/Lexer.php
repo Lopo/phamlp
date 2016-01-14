@@ -49,6 +49,7 @@ class Lexer
 		if (is_array($string)) {
 			return $string;
 			}
+		$tokens=[];
 		// whilst the string is not empty, split it into it's tokens.
 		while ($string!==FALSE) {
 			if (($match=$this->isWhitespace($string))!==FALSE) {
@@ -71,9 +72,9 @@ class Lexer
 			elseif (($match=Literals\Number::isa($string))!==FALSE) {
 				$tokens[]=new Literals\Number($match);
 				}
-			elseif (($match=Literals\String::isa($string))!==FALSE) {
-				$stringed=new Literals\String($match);
-				$tokens[]= (strlen($stringed->quote)==0 && Literals\SassList::isa($string)!==FALSE)
+			elseif (($match=Literals\SassString::isa($string))!==FALSE) {
+				$stringed=new Literals\SassString($match);
+				$tokens[]= (!strlen($stringed->quote) && Literals\SassList::isa($string)!==FALSE && !preg_match("/^\-\w+\-\w+$/", $stringed->value))
 					? new Literals\SassList($string)
 					: $stringed;
 				}
@@ -99,7 +100,7 @@ class Lexer
 					$match.=$_string[0];
 					$_string=substr($_string, 1);
 					}
-				$tokens[]=new Literals\String($match);
+				$tokens[]=new Literals\SassString($match);
 				}
 			$string=substr($string, strlen($match));
 			}

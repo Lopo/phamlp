@@ -34,11 +34,6 @@ extends Node
 	protected function getDirective()
 	{
 		return $this->token->source;
-		preg_match('/^(@[\w-]+)(?:\s*(\w+))*/', $this->token->source, $matches);
-		array_shift($matches);
-		$parts=implode(' ', $matches);
-
-		return strtolower($parts);
 	}
 
 	/**
@@ -49,11 +44,12 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$this->token->source=self::interpolate_nonstrict($this->token->source, $context);
+		$node=clone $this;
+		$node->token->source=self::interpolate_nonstrict($this->token->source, $context);
 
-		$this->children=$this->parseChildren($context);
+		$node->children=$this->parseChildren($context);
 
-		return array($this);
+		return [$node];
 	}
 
 	/**
@@ -105,7 +101,7 @@ extends Node
 		for ($i=0, $n=preg_match_all(self::INTERPOLATION_MATCH, $string, $matches); $i<$n; $i++) {
 			$var=\PHPSass\Script\Parser::$instance->evaluate($matches[0][$i], $context);
 
-			$var= $var instanceOf \PHPSass\Script\Literals\String
+			$var= $var instanceOf \PHPSass\Script\Literals\SassString
 				? $var->value
 				: $var->toString();
 

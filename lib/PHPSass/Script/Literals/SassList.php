@@ -118,7 +118,7 @@ extends Literal
 	{
 		$result=array();
 		foreach ($this->value as $k => $v) {
-			if ($v instanceOf String) {
+			if ($v instanceOf SassString) {
 				$list=$this->_parse_list($v);
 				if (count($list[0])>1) {
 					if ($list[1]==$this->separator) {
@@ -234,7 +234,8 @@ extends Literal
 		$size= $braces= 0;
 		$quotes=FALSE;
 		$stack='';
-		for ($i=0; $i<strlen($list); $i++) {
+		$charCount=strlen($list);
+		for ($i=0; $i<$charCount; $i++) {
 			$char=substr($list, $i, 1);
 			switch ($char) {
 				case '"':

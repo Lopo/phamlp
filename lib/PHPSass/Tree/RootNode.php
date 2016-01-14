@@ -21,7 +21,7 @@ extends Node
 	public $renderer;
 	/** @var \PHPSass\Parser */
 	public $parser;
-	/** @var array extenders for this tree in the form extendee=>extender */
+	/** @var array extenders for this tree in the form extendee => extender */
 	public $extenders=array();
 	/** @var Node Extend_parent - for resolving extends across imported files. */
 	public $extend_parent=NULL;
@@ -50,7 +50,7 @@ extends Node
 	 * Only static nodes for rendering are in the resulting tree.
 	 *
 	 * @param Context $context the context in which this node is parsed
-	 * @return Node root node of the render tree
+	 * @return RootNode root node of the render tree
 	 */
 	public function parse($context)
 	{
@@ -81,7 +81,7 @@ extends Node
 	/**
 	 * @param string $extendee
 	 * @param array $selectors
-	 * @return array
+	 * @return array|NULL
 	 */
 	public function extend($extendee, $selectors)
 	{
@@ -91,6 +91,7 @@ extends Node
 		$this->extenders[$extendee]= isset($this->extenders[$extendee])
 			? array_merge($this->extenders[$extendee], $selectors)
 			: $selectors;
+		return NULL;
 	}
 
 	/**
