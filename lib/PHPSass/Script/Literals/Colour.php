@@ -840,9 +840,6 @@ extends Literal
 				}
 			}
 
-		if ($rgba[3]==0) {
-			return 'transparent';
-			}
 		if ($rgba[3]<1) {
 			$rgba[3]=str_replace(',', '.', round($rgba[3], 2));
 

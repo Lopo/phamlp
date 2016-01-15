@@ -51,7 +51,7 @@ extends Literal
 	/** @var array */
 	private static $validUnits=array(
 		'vw', 'vh', 'vmin', 'vmax',
-		'in', 'cm', 'mm', 'pc', 'pt', 'em', 'rem', 'ex', 'px', '%', 's', 'deg'
+		'in', 'cm', 'mm', 'pc', 'pt', 'em', 'rem', 'ex', 'px', '%', 's', 'ms', 'deg'
 		);
 	/** @var array numerator units of this number */
 	private $numeratorUnits=array();

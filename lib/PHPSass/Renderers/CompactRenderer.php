@@ -129,7 +129,7 @@ extends CompressedRenderer
 	 * Renders debug information.
 	 * If the node has the debug_info options set TRUE the line number and filename
 	 * are rendered in a format compatible with
-	 * {@link https://addons.mozilla.org/en-US/firefox/addon/103988/ FireSass}.
+	 * {@link https://addons.mozilla.org/en-US/firefox/addon/firecompass-for-firebug/ FireCompass}.
 	 * Else if the node has the line_numbers option set TRUE the line number and filename are rendered in a comment.
 	 *
 	 * @param \PHPSass\Tree\Node the node being rendered
@@ -140,14 +140,8 @@ extends CompressedRenderer
 		$indent=$this->getIndent($node);
 		$debug='';
 
-		if ($node->getDebug_info()) {
-			$debug=$indent.self::DEBUG_INFO_RULE.'{'
-				.'filename{'.self::DEBUG_INFO_PROPERTY.':'.preg_replace('/([^-\w])/', '\\\\\1', "file://{$node->filename}").';}'
-				.'line{'.self::DEBUG_INFO_PROPERTY.":'{$node->line}';}"
-				."}\n";
-			}
-		elseif ($node->getLine_numbers()) {
-			$debug="$indent/* line {$node->line} {$node->filename} */\n";
+		if ($node->getDebug_info() || $node->getLine_numbers()) {
+			$debug.=$indent."/* line {$node->line}, {$node->filename} */\n";
 			}
 
 		return $debug;
