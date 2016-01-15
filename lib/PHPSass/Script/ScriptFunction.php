@@ -47,7 +47,7 @@ class ScriptFunction
 	private function process_arguments($input)
 	{
 		if (is_array($input)) {
-			$output=array();
+			$output=[];
 			foreach ($input as $k => $token) {
 				$output[$k]=trim($this->process_arguments($token), '\'"');
 				}
@@ -126,10 +126,10 @@ class ScriptFunction
 			}
 
 		if (method_exists('PHPSass\Script\Functions', $name) || method_exists('PHPSass\Script\Functions', $name='_'.$name)) {
-			$sig=self::get_reflection(array('PHPSass\Script\Functions', $name));
+			$sig=self::get_reflection(['PHPSass\Script\Functions', $name]);
 			list($args)=self::fill_parameters($sig, $this->args, Parser::$context, $this);
 
-			return call_user_func_array(array('PHPSass\Script\Functions', $name), $args);
+			return call_user_func_array(['PHPSass\Script\Functions', $name], $args);
 			}
 
 		foreach ($this->args as $i => $arg) {
@@ -153,7 +153,7 @@ class ScriptFunction
 	 */
 	private function import($dir)
 	{
-		$files=array();
+		$files=[];
 
 		foreach (scandir($dir) as $file) {
 			if (($file==='.') || ($file==='..')) {
@@ -209,13 +209,8 @@ class ScriptFunction
 	 */
 	public static function extractArgs($string, $include_null=TRUE, $context)
 	{
-		$args=array();
-		$arg='';
-		$paren= $strpos= 0;
-		$strlen=strlen($string);
-
 		$list=Literals\SassList::_build_list($string, ',');
-		$return=array();
+		$return=[];
 
 		foreach ($list as $k => $value) {
 			if (substr($value, -3, 3)=='...' && preg_match(Tree\VariableNode::MATCH, substr($value, 0, -3).':', $match)) {
@@ -254,7 +249,7 @@ class ScriptFunction
 			$function=new \ReflectionFunction($method);
 			}
 
-		$return=array();
+		$return=[];
 		foreach ($function->getParameters() as $parameter) {
 			$default= $parameter->isDefaultValueAvailable()
 				? $parameter->getDefaultValue()
@@ -287,8 +282,7 @@ class ScriptFunction
 	public static function fill_parameters($required, $provided, $context, $source)
 	{
 		$context=new Tree\Context($context);
-		$_required=array_merge(array(), $required); // need to array_merge?
-		$fill=$_required;
+		$_required=array_merge([], $required); // need to array_merge?
 
 		foreach ($required as $name => $default) {
 			// we require that named variables provide a default.
@@ -299,7 +293,6 @@ class ScriptFunction
 				}
 			}
 
-		// print_r(array($required, $provided, $_required));
 		$provided_copy=$provided;
 
 		foreach ($required as $name => $default) {
@@ -332,7 +325,7 @@ class ScriptFunction
 				unset($_required[$name]);
 				$name=substr($name, 0, -3);
 				$_required[$name]=new Literals\SassList('', ',');
-				$_required[$name]->value=array_merge(array($arg), $provided);
+				$_required[$name]->value=array_merge([$arg], $provided);
 				continue;
 				}
 			else {
@@ -348,6 +341,6 @@ class ScriptFunction
 				}
 			}
 
-		return array($_required, $context);
+		return [$_required, $context];
 	}
 }

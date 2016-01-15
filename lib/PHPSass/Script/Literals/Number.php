@@ -40,23 +40,23 @@ extends Literal
 	 * pc: picas — 1 pica = 12 points
 	 * pt: points — 1 point = 1/72nd of an inch
 	 */
-	private static $unitConversion=array(
+	private static $unitConversion=[
 		'in' => 1,
 		'cm' => 2.54,
 		'mm' => 25.4,
 		'pc' => 6,
 		'pt' => 72,
 		'px' => 96
-		);
+		];
 	/** @var array */
-	private static $validUnits=array(
+	private static $validUnits=[
 		'vw', 'vh', 'vmin', 'vmax',
 		'in', 'cm', 'mm', 'pc', 'pt', 'em', 'rem', 'ex', 'px', '%', 's', 'ms', 'deg'
-		);
+		];
 	/** @var array numerator units of this number */
-	private $numeratorUnits=array();
+	private $numeratorUnits=[];
 	/** @var array denominator units of this number */
-	private $denominatorUnits=array();
+	private $denominatorUnits=[];
 	/**
 	 * @var bool whether this number is in an expression or a literal number
 	 * Used to determine whether division should take place
@@ -73,12 +73,12 @@ extends Literal
 	{
 		preg_match(self::MATCH, $value, $matches);
 
-		$matches+=array(NULL, NULL, '', '');
+		$matches+=[NULL, NULL, '', ''];
 
 		$this->value=$matches[self::VALUE];
 		if (!empty($matches[self::UNITS])) {
 			$units=explode('/', $matches[self::UNITS]);
-			$numeratorUnits= $denominatorUnits= array();
+			$numeratorUnits= $denominatorUnits= [];
 
 			foreach (explode('*', $units[0]) as $unit) {
 				$numeratorUnits[]=trim($unit);
@@ -439,7 +439,7 @@ extends Literal
 	 */
 	private function removeCommonUnits($u1, $u2)
 	{
-		$_u1=array();
+		$_u1=[];
 		while (!empty($u1)) {
 			$u=array_shift($u1);
 			$i=array_search($u, $u2);
@@ -451,7 +451,7 @@ extends Literal
 				}
 			}
 
-		return array($_u1, $u2);
+		return [$_u1, $u2];
 	}
 
 	/**

@@ -44,7 +44,7 @@ class Lexer
 	{
 		// if it's already lexed, just return it as-is
 		if (is_object($string)) {
-			return array($string);
+			return [$string];
 			}
 		if (is_array($string)) {
 			return $string;
@@ -57,7 +57,7 @@ class Lexer
 				}
 			elseif (($match=ScriptFunction::isa($string))!==FALSE) {
 				preg_match(ScriptFunction::MATCH_FUNC, $match, $matches);
-				$args=array();
+				$args=[];
 				foreach (ScriptFunction::extractArgs($matches[ScriptFunction::ARGS], FALSE, $context) as $key => $expression) {
 					$args[$key]=$this->parser->evaluate($expression, $context);
 					}

@@ -84,8 +84,8 @@ extends Node
 		//  $rule = $try;
 		//}
 
-		$node->children=array(new \PHPSass\Script\Literals\SassString($rule->render($context)));
+		$node->children=[new \PHPSass\Script\Literals\SassString($rule->render($context))];
 
-		return array($node);
+		return [$node];
 	}
 }

@@ -59,7 +59,7 @@ extends Node
 	 */
 	public function render()
 	{
-		$properties=array();
+		$properties=[];
 		foreach ($this->children as $child) {
 			$properties[]=$child->render();
 			}

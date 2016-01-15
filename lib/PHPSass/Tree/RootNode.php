@@ -22,7 +22,7 @@ extends Node
 	/** @var \PHPSass\Parser */
 	public $parser;
 	/** @var array extenders for this tree in the form extendee => extender */
-	public $extenders=array();
+	public $extenders=[];
 	/** @var Node Extend_parent - for resolving extends across imported files. */
 	public $extend_parent=NULL;
 
@@ -32,12 +32,12 @@ extends Node
 	 */
 	public function __construct($parser)
 	{
-		parent::__construct((object)array(
+		parent::__construct((object)[
 				'source' => '',
 				'level' => -1,
 				'filename' => $parser->filename,
 				'line' => 0,
-				));
+				]);
 		$this->parser=$parser;
 		$this->script=new \PHPSass\Script\Parser;
 		$this->renderer=\PHPSass\Renderers\Renderer::getRenderer($parser->style);

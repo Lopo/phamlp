@@ -41,8 +41,8 @@ extends Node
 		$loud= !$silent && $token->source{2}==self::SASS_LOUD_COMMENT_CHAR;
 		preg_match(self::MATCH, $token->source, $matches);
 		$value= $silent
-				? array($token->source)
-				: array();
+				? [$token->source]
+				: [];
 		$this->value=$matches[self::COMMENT];
 		if ($silent) {
 			$this->type=self::TYPE_SILENT;
@@ -90,7 +90,7 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		return array($this);
+		return [$this];
 	}
 
 	/**
@@ -112,6 +112,6 @@ extends Node
 	public static function isa($token)
 	{
 		return $token->source{0}===self::COMMENT_CHAR
-				&& in_array($token->source{1}, array(self::CSS_COMMENT_CHAR, self::SASS_COMMENT_CHAR));
+				&& in_array($token->source{1}, [self::CSS_COMMENT_CHAR, self::SASS_COMMENT_CHAR]);
 	}
 }

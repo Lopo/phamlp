@@ -45,7 +45,7 @@ extends Literal
 	/**@#- */
 	/**@#- */
 	/** @var array */
-	public static $svgColours=array(
+	public static $svgColours=[
 		'aliceblue' => '#f0f8ff',
 		'antiquewhite' => '#faebd7',
 		'aqua' => '#00ffff',
@@ -191,11 +191,11 @@ extends Literal
 		'whitesmoke' => '#f5f5f5',
 		'yellow' => '#ffff00',
 		'yellowgreen' => '#9acd32'
-		);
+		];
 	/** @var array reverse array (value => name) of named SVG1.0 colours */
 	public static $_svgColours;
 	/** @var array reverse array (value => name) of named HTML4 colours */
-	public static $_html4Colours=array(
+	public static $_html4Colours=[
 		'#000000' => 'black',
 		'#000080' => 'navy',
 		'#0000ff' => 'blue',
@@ -212,14 +212,14 @@ extends Literal
 		'#ff00ff' => 'fuchsia',
 		'#ffff00' => 'yellow',
 		'#ffffff' => 'white',
-		);
+		];
 	/** @var string */
 	public static $regex;
 	/**@#+
 	 * RGB colour components
 	 */
 	/** @var array RGB colour components. Used to check for RGB attributes. */
-	public static $rgb=array('red', 'green', 'blue');
+	public static $rgb=['red', 'green', 'blue'];
 	/** @var int red component. 0 - 255 */
 	public $red;
 	/** @var int green component. 0 - 255 */
@@ -231,7 +231,7 @@ extends Literal
 	 * HSL colour components
 	 */
 	/** @var array HSL colour components. Used to check for HSL attributes. */
-	public static $hsl=array('hue', 'saturation', 'lightness');
+	public static $hsl=['hue', 'saturation', 'lightness'];
 	/** @var float hue component. 0 - 360 */
 	public $hue;
 	/** @var float saturation component. 0 - 100 */
@@ -616,21 +616,21 @@ extends Literal
 	public function with($attributes)
 	{
 		if ($this->assertValid($attributes, FALSE)==='hsl') {
-			$colour=array_merge(array(
+			$colour=array_merge([
 					'hue' => $this->getHue(),
 					'saturation' => $this->getSaturation(),
 					'lightness' => $this->getLightness(),
 					'alpha' => $this->alpha
-					),
+					],
 				$attributes);
 			}
 		else {
-			$colour=array_merge(array(
+			$colour=array_merge([
 					'red' => $this->getRed(),
 					'green' => $this->getGreen(),
 					'blue' => $this->getBlue(),
 					'alpha' => $this->alpha
-					),
+					],
 				$attributes);
 			}
 
@@ -770,7 +770,7 @@ extends Literal
 	 */
 	public function getRgb()
 	{
-		return array($this->red, $this->green, $this->blue);
+		return [$this->red, $this->green, $this->blue];
 	}
 
 	/**
@@ -780,7 +780,7 @@ extends Literal
 	 */
 	public function getRgba()
 	{
-		return array($this->getRed(), $this->getGreen(), $this->getBlue(), $this->alpha);
+		return [$this->getRed(), $this->getGreen(), $this->getBlue(), $this->alpha];
 	}
 
 	/**
@@ -790,7 +790,7 @@ extends Literal
 	 */
 	public function getHsl()
 	{
-		return array($this->getHue(), $this->getSaturation(), $this->getLightness());
+		return [$this->getHue(), $this->getSaturation(), $this->getLightness()];
 	}
 
 	/**
@@ -800,7 +800,7 @@ extends Literal
 	 */
 	public function getHsla()
 	{
-		return array($this->getHue(), $this->getSaturation(), $this->getLightness(), $this->alpha);
+		return [$this->getHue(), $this->getSaturation(), $this->getLightness(), $this->alpha];
 	}
 
 	/**
@@ -932,7 +932,7 @@ extends Literal
 	 */
 	public function rgb2hsl()
 	{
-		list($r, $g, $b)=array($this->red/255, $this->green/255, $this->blue/255);
+		list($r, $g, $b)=[$this->red/255, $this->green/255, $this->blue/255];
 
 		$max=max($r, $g, $b);
 		$min=min($r, $g, $b);

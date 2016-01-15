@@ -68,7 +68,7 @@ extends Node
 		list($arguments)=ScriptFunction::fill_parameters($mixin->args, $args, $context, $this);
 		$context->setVariables($arguments);
 
-		$children=array();
+		$children=[];
 		foreach ($mixin->children as $child) {
 			$child->parent=$this;
 			$children=array_merge($children, $child->parse($context));

@@ -23,7 +23,7 @@ extends Node
 	const FILES=1;
 
 	/** @var array files to import */
-	private $files=array();
+	private $files=[];
 
 
 	/**
@@ -51,18 +51,18 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$imported=array();
+		$imported=[];
 		foreach ($this->files as $file) {
 			if (preg_match(self::MATCH_CSS, $file, $matches)) {
 				$file= (isset($matches[2]) && $matches[2]=='url')
 					? $matches[1]
 					: "url('$file')";
 
-				return array(new SassString("@import $file;"), new SassString("\n"));
+				return [new SassString("@import $file;"), new SassString("\n")];
 				}
 			$file=trim($file, '\'"');
 			$files=\PHPSass\File::get_file($file, $this->parser);
-			$tree=array();
+			$tree=[];
 			if ($files) {
 				if ($this->token->level>0) {
 					$tree=$this->parent;
@@ -70,7 +70,7 @@ extends Node
 						$tree=$tree->parent;
 						}
 					$tree=clone $tree;
-					$tree->children=array();
+					$tree->children=[];
 					}
 				else {
 					$tree=new RootNode($this->parser);

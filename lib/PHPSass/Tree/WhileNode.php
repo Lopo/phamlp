@@ -48,7 +48,7 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$children=array();
+		$children=[];
 		if ($this->isDo) {
 			do {
 				$children=array_merge($children, $this->parseChildren($context));

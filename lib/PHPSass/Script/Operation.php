@@ -20,38 +20,38 @@ class Operation
 	 * @var array map symbols to tokens.
 	 * A token is function, associativity, precedence, number of operands
 	 */
-	public static $operators=array(
-		'*' => array('times', 'l', 8, 2),
-		'/' => array('div', 'l', 8, 2),
-		'%' => array('modulo', 'l', 8, 2),
-		'+' => array('plus', 'l', 7, 2),
-		'-' => array('minus', 'l', 7, 2),
-		'<<' => array('shiftl', 'l', 6, 2),
-		'>>' => array('shiftr', 'l', 6, 2),
-		'<=' => array('lte', 'l', 5, 2),
-		'>=' => array('gte', 'l', 5, 2),
-		'<' => array('lt', 'l', 5, 2),
-		'>' => array('gt', 'l', 5, 2),
-		'==' => array('eq', 'l', 4, 2),
-		'!=' => array('neq', 'l', 4, 2),
-		'and' => array('and', 'l', 3, 2),
-		'or' => array('or', 'l', 3, 2),
-		'xor' => array('xor', 'l', 3, 2),
-		'not' => array('not', 'l', 4, 1), # precedence higher than and.
-		'=' => array('assign', 'l', 2, 2),
-		')' => array('rparen', 'l', 10),
-		'(' => array('lparen', 'l', 10),
-		',' => array('comma', 'l', 0, 2),
-		'#{' => array('begin_interpolation'),
-		'}' => array('end_interpolation'),
-		);
+	public static $operators=[
+		'*' => ['times', 'l', 8, 2],
+		'/' => ['div', 'l', 8, 2],
+		'%' => ['modulo', 'l', 8, 2],
+		'+' => ['plus', 'l', 7, 2],
+		'-' => ['minus', 'l', 7, 2],
+		'<<' => ['shiftl', 'l', 6, 2],
+		'>>' => ['shiftr', 'l', 6, 2],
+		'<=' => ['lte', 'l', 5, 2],
+		'>=' => ['gte', 'l', 5, 2],
+		'<' => ['lt', 'l', 5, 2],
+		'>' => ['gt', 'l', 5, 2],
+		'==' => ['eq', 'l', 4, 2],
+		'!=' => ['neq', 'l', 4, 2],
+		'and' => ['and', 'l', 3, 2],
+		'or' => ['or', 'l', 3, 2],
+		'xor' => ['xor', 'l', 3, 2],
+		'not' => ['not', 'l', 4, 1], # precedence higher than and.
+		'=' => ['assign', 'l', 2, 2],
+		')' => ['rparen', 'l', 10],
+		'(' => ['lparen', 'l', 10],
+		',' => ['comma', 'l', 0, 2],
+		'#{' => ['begin_interpolation'],
+		'}' => ['end_interpolation'],
+		];
 	/**
 	 * @var array operators with meaning in uquoted strings;
 	 * selectors, property names and values
 	 */
-	public static $inStrOperators=array(',', '#{', ')', '(');
+	public static $inStrOperators=[',', '#{', ')', '('];
 	/** @var array default operator token. */
-	public static $defaultOperator=array('concat', 'l', 0, 2);
+	public static $defaultOperator=['concat', 'l', 0, 2];
 	/** @var string operator for this operation */
 	private $operator;
 	/** @var string associativity of the operator; left or right */

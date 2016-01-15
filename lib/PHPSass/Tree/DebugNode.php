@@ -65,13 +65,13 @@ extends Node
 				call_user_func($cb, $result, $context);
 				}
 			else {
-				set_error_handler(array($this, 'errorHandler'));
+				set_error_handler([$this, 'errorHandler']);
 				trigger_error($result);
 				restore_error_handler();
 				}
 			}
 
-		return array();
+		return [];
 	}
 
 	/**

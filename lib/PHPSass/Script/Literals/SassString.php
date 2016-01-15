@@ -92,7 +92,7 @@ extends Literal
 	public function toBoolean()
 	{
 		$value=strtolower(trim($this->value, ' "\''));
-		if (!$value || in_array($value, array('false', 'null', '0'))) {
+		if (!$value || in_array($value, ['false', 'null', '0'])) {
 			return FALSE;
 			}
 

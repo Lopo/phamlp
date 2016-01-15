@@ -60,7 +60,7 @@ extends ExpandedRenderer
 	 */
 	protected function renderSelectors($node)
 	{
-		$selectors=array();
+		$selectors=[];
 		foreach ($node->selectors as $selector) {
 			if (!$node->isPlaceholder($selector)) {
 				$selectors[]=$selector;

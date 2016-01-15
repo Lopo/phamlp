@@ -19,13 +19,13 @@ use PHPSass\Script\Parser as ScriptParser;
 abstract class Literal
 {
 	/** @var array maps class names to data types */
-	public static $typeOf=array(
+	public static $typeOf=[
 		'PHPSass\Script\Literals\Boolean' => 'bool',
 		'PHPSass\Script\Literals\Colour' => 'color',
 		'PHPSass\Script\Literals\Number' => 'number',
 		'PHPSass\Script\Literals\SassString' => 'string',
 		'PHPSass\Script\Literals\SassList' => 'list'
-		);
+		];
 	/** @var mixed value of the literal type */
 	public $value;
 
@@ -98,7 +98,7 @@ abstract class Literal
 	 */
 	public function getChildren()
 	{
-		return array();
+		return [];
 	}
 
 	/**

@@ -19,7 +19,7 @@ class Node
 	/** @var Node root node */
 	public $root;
 	/** @var array children of this node */
-	public $children=array();
+	public $children=[];
 	/** @var object source token */
 	public $token;
 
@@ -69,7 +69,7 @@ class Node
 	 */
 	public function __clone()
 	{
-		$this->children=array();
+		$this->children=[];
 	}
 
 	/**
@@ -351,12 +351,12 @@ class Node
 	 */
 	public function parseChildren($context)
 	{
-		$children=array();
+		$children=[];
 		foreach ($this->children as $child) {
 			# child could be a Literal /or/ Node
 			$kid= method_exists($child, 'parse')
 				? $child->parse($context)
-				: array($child);
+				: [$child];
 			$children=array_merge($children, $kid);
 			}
 

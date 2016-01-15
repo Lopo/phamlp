@@ -31,17 +31,17 @@ function debug($text, $context)
 $file=$_SERVER['DOCUMENT_ROOT'].$_SERVER['PATH_INFO'];
 $syntax=substr($file, -4, 4);
 
-$options=array(
+$options=[
 	'style' => 'expanded',
 	'cache' => FALSE,
 	'cache_location' => NULL,
 	'syntax' => $syntax,
 	'debug' => FALSE,
-	'callbacks' => array(
+	'callbacks' => [
 		'warn' => 'warn',
 		'debug' => 'debug'
-		),
-	);
+		],
+	];
 
 // Execute the compiler.
 $parser=new \PHPSass\Parser($options);

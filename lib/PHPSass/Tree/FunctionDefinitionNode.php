@@ -27,7 +27,7 @@ extends Node
 	 * @var array arguments for the function as name=>value pairs were value is the
 	 * default value or NULL for required arguments
 	 */
-	private $args=array();
+	private $args=[];
 	/** @var */
 	public $parent;
 
@@ -68,7 +68,7 @@ extends Node
 	{
 		$context->addFunction($this->name, $this);
 
-		return array();
+		return [];
 	}
 
 	/**

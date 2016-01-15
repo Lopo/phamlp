@@ -60,7 +60,7 @@ class Parser
 	 */
 	public $indentChar;
 	/** @var array allowable characters for indenting */
-	public $indentChars=array(' ', "\t");
+	public $indentChars=[' ', "\t"];
 	/**
 	 * @var int number of spaces for indentation.
 	 * Used to calculate {@link Level} if {@link indentChar} is space.
@@ -207,20 +207,20 @@ class Parser
 				}
 			$options= count((array)$options)
 				? (array)$options
-				: array();
+				: [];
 			}
 		unset($options['language']);
 
 		$basepath=$_SERVER['PHP_SELF'];
 		$basepath=substr($basepath, 0, strrpos($basepath, '/')+1);
 
-		$defaultOptions=array(
+		$defaultOptions=[
 			'basepath' => $basepath,
 			'debug_info' => FALSE,
-			'filename' => array('dirname' => '', 'basename' => ''),
-			'functions' => array(),
-			'load_paths' => array(),
-			'load_path_functions' => array(),
+			'filename' => ['dirname' => '', 'basename' => ''],
+			'functions' => [],
+			'load_paths' => [],
+			'load_path_functions' => [],
 			'line' => 1,
 			'line_numbers' => FALSE,
 			'style' => Renderers\Renderer::STYLE_NESTED,
@@ -228,11 +228,11 @@ class Parser
 			'debug' => FALSE,
 			'quiet' => FALSE,
 			'cache_location' => NULL,
-			'callbacks' => array(
+			'callbacks' => [
 				'warn' => FALSE,
 				'debug' => FALSE,
-				),
-			);
+				],
+			];
 
 		if (isset(self::$instance)) {
 			$defaultOptions['load_paths']=self::$instance->load_paths;
@@ -402,10 +402,10 @@ class Parser
 	 */
 	public function getCallbacks()
 	{
-		return $this->callbacks+array(
+		return $this->callbacks+[
 			'warn' => NULL,
 			'debug' => NULL,
-			);
+			];
 	}
 
 	/**
@@ -413,7 +413,7 @@ class Parser
 	 */
 	public function getOptions()
 	{
-		return array(
+		return [
 			'callbacks' => $this->callbacks,
 			// 'debug' => $this->debug,
 			'filename' => $this->filename,
@@ -422,12 +422,12 @@ class Parser
 			'line_numbers' => $this->getLine_numbers(),
 			'load_path_functions' => $this->load_path_functions,
 			'load_paths' => $this->load_paths,
-			'property_syntax' => ($this->property_syntax==File::SCSS? NULL : $this->property_syntax),
+			'property_syntax' => $this->property_syntax==File::SCSS? NULL : $this->property_syntax,
 			'quiet' => $this->quiet,
 			'style' => $this->style,
 			'syntax' => $this->syntax,
 			'cache_location' => $this->cache_location
-			);
+			];
 	}
 
 	/**
@@ -513,7 +513,7 @@ class Parser
 
 				if ($this->syntax!==File::SASS && $this->syntax!==File::SCSS && $this->syntax!==File::CSS) {
 					if ($this->debug) {
-						throw new Exception('Invalid {what}', array('{what}' => 'syntax option'));
+						throw new Exception('Invalid {what}', ['{what}' => 'syntax option']);
 						}
 
 					return FALSE;
@@ -536,7 +536,7 @@ class Parser
 	public function toTree($source)
 	{
 		if ($this->syntax===File::SASS) {
-			$source=str_replace(array("\r\n", "\n\r", "\r"), "\n", $source);
+			$source=str_replace(["\r\n", "\n\r", "\r"], "\n", $source);
 			$this->source=explode("\n", $source);
 			$this->setIndentChar();
 			}
@@ -595,7 +595,7 @@ class Parser
 				return new Tree\CommentNode($token);
 			case Tree\VariableNode::isa($token):
 				return new Tree\VariableNode($token);
-			case Tree\PropertyNode::isa(array('token' => $token, 'syntax' => $this->getProperty_syntax())):
+			case Tree\PropertyNode::isa(['token' => $token, 'syntax' => $this->getProperty_syntax()]):
 				return new Tree\PropertyNode($token, $this->property_syntax);
 			case Tree\FunctionDefinitionNode::isa($token):
 				return new Tree\FunctionDefinitionNode($token);
@@ -693,12 +693,12 @@ class Parser
 					}
 				}
 
-			$token=(object)array(
+			$token=(object)[
 				'source' => $statement,
 				'level' => $level,
 				'filename' => $this->filename,
 				'line' => $this->line-1,
-				);
+				];
 			}
 
 		return $token;
@@ -754,22 +754,22 @@ class Parser
 					if (substr($this->source, $srcpos-1, self::BEGIN_SASS_COMMENT_STRLEN)===self::BEGIN_SASS_COMMENT) {
 						while ($this->source[$srcpos++]!=="\n") {
 							if ($srcpos>=$srclen)
-								throw new Exception('Unterminated commend', (object)array(
+								throw new Exception('Unterminated commend', (object)[
 									'source' => $statement,
 									'filename' => $this->filename,
 									'line' => $this->line,
-									));
+									]);
 							}
 						$statement.="\n";
 						}
 					elseif (substr($this->source, $srcpos-1, self::BEGIN_CSS_COMMENT_STRLEN)===self::BEGIN_CSS_COMMENT) {
 						if (ltrim($statement)) {
 							if ($this->debug) {
-								throw new Exception('Invalid comment', (object)array(
+								throw new Exception('Invalid comment', (object)[
 									'source' => $statement,
 									'filename' => $this->filename,
 									'line' => $this->line,
-									));
+									]);
 								}
 							}
 						$statement.=$c.$this->source[$srcpos++];
@@ -835,7 +835,7 @@ class Parser
 		$this->line+=substr_count($statement, "\n");
 		$statement=trim($statement);
 		if (substr($statement, 0, self::BEGIN_CSS_COMMENT_STRLEN)!==self::BEGIN_CSS_COMMENT) {
-			$statement=str_replace(array("\n", "\r"), '', $statement);
+			$statement=str_replace(["\n", "\r"], '', $statement);
 			}
 		$last=substr($statement, -1);
 		// Trim the statement removing whitespace, end statement (;), begin block ({), and (unless the statement ends in an interpolation block) end block (})
@@ -844,12 +844,12 @@ class Parser
 			? $statement
 			: rtrim($statement, self::END_BLOCK);
 		$token= $statement
-				? (object)array(
+				? (object)[
 					'source' => $statement,
 					'level' => $this->_tokenLevel,
 					'filename' => $this->filename,
 					'line' => $this->line,
-					)
+					]
 				: NULL;
 		$this->_tokenLevel+= $last===self::BEGIN_BLOCK
 				? 1

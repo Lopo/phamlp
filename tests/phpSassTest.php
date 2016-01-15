@@ -20,7 +20,7 @@ extends PHPUnit_Framework_TestCase
 		$this->css_tests_path=__DIR__.'/files';
 	}
 
-	protected function runSassTest($input, $output=FALSE, $settings=array())
+	protected function runSassTest($input, $output=FALSE, $settings=[])
 	{
 		$name=$input;
 
@@ -37,17 +37,17 @@ extends PHPUnit_Framework_TestCase
 
 		$syntax=explode('.', $input);
 		$syntax=array_pop($syntax);
-		$settings=$settings+array(
+		$settings=$settings+[
 			'style' => 'nested',
 			'cache' => FALSE,
 			'syntax' => $syntax,
 			'debug' => FALSE,
 			'debug_info' => FALSE,
-			'callbacks' => array(
-				'debug' => array($this, 'sassParserDebug'),
-				'warn' => array($this, 'sassParserWarning'),
-			),
-		);
+			'callbacks' => [
+				'debug' => [$this, 'sassParserDebug'],
+				'warn' => [$this, 'sassParserWarning'],
+			],
+		];
 		$parser=new \PHPSass\Parser($settings);
 		$result=$parser->toCss($input);
 

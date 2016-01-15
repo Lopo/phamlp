@@ -103,9 +103,9 @@ class Functions
 				Literals\Literal::assertType($alpha, 'Number');
 				Literals\Literal::assertInRange($alpha, 0, 1);
 
-				return $colour->with(array('alpha' => $alpha->value));
+				return $colour->with(['alpha' => $alpha->value]);
 			case 4:
-				$rgba=array();
+				$rgba=[];
 				$components=func_get_args();
 				$alpha=array_pop($components);
 				foreach ($components as $component) {
@@ -171,7 +171,7 @@ class Functions
 		Literals\Literal::assertInRange($l, 0, 100, '%');
 		Literals\Literal::assertInRange($a, 0, 1);
 
-		return new Literals\Colour(array('hue' => $h, 'saturation' => $s, 'lightness' => $l, 'alpha' => $a));
+		return new Literals\Colour(['hue' => $h, 'saturation' => $s, 'lightness' => $l, 'alpha' => $a]);
 	}
 
 	/*
@@ -305,7 +305,7 @@ class Functions
 		Literals\Literal::assertType($colour, 'Colour');
 		Literals\Literal::assertType($degrees, 'Number');
 
-		return $colour->with(array('hue' => $colour->getHue(TRUE)+$degrees->value));
+		return $colour->with(['hue' => $colour->getHue(TRUE)+$degrees->value]);
 	}
 
 	/**
@@ -525,11 +525,11 @@ class Functions
 	{
 		Literals\Literal::assertType($colour, 'Colour');
 
-		return $colour->with(array(
+		return $colour->with([
 				'red' => 255-$colour->getRed(TRUE),
 				'blue' => 255-$colour->getBlue(TRUE),
 				'green' => 255-$colour->getGreen(TRUE)
-				));
+				]);
 	}
 
 	/**
@@ -595,7 +595,7 @@ class Functions
 
 		$rgb1=$colour1->getRgb();
 		$rgb2=$colour2->getRgb();
-		$rgba=array();
+		$rgba=[];
 		foreach ($rgb1 as $key => $value) {
 			$rgba[$key]=floor(($value*$w1)+($rgb2[$key]*$w2));
 			}
@@ -650,14 +650,14 @@ class Functions
 	 */
 	public static function scale_color($color, $red=0, $green=0, $blue=0, $saturation=0, $lightness=0, $alpha=0)
 	{
-		$maxes=array(
+		$maxes=[
 			'red' => 255,
 			'green' => 255,
 			'blue' => 255,
 			'saturation' => 100,
 			'lightness' => 100,
 			'alpha' => 1,
-			);
+			];
 		$color->rgb2hsl();
 		foreach ($maxes as $property => $max) {
 			$obj=$$property;
@@ -687,8 +687,8 @@ class Functions
 	 */
 	public static function change_color($color, $red=FALSE, $green=FALSE, $blue=FALSE, $hue=FALSE, $saturation=FALSE, $lightness=FALSE, $alpha=FALSE)
 	{
-		$attrs=array();
-		foreach (array('red', 'green', 'blue', 'hue', 'saturation', 'lightness', 'alpha') as $i => $property) {
+		$attrs=[];
+		foreach (['red', 'green', 'blue', 'hue', 'saturation', 'lightness', 'alpha'] as $i => $property) {
 			$obj=$$property;
 			if ($obj instanceof Literals\Number) {
 				$attrs[$property]=$obj->value;
@@ -1047,7 +1047,7 @@ class Functions
 		foreach (func_get_args() as $i => $arg) {
 			$list=new Literals\SassList($arg);
 			foreach ($list->value as $j => $val) {
-				$result->value+=array($j => new Literals\SassList('', 'space'));
+				$result->value+=[$j => new Literals\SassList('', 'space')];
 				$result->value[$j]->value[]=(string)$val;
 				}
 			}

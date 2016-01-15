@@ -48,7 +48,7 @@ extends Node
 		$return=$this;
 		$context=new Context($pcontext);
 
-		$children=array();
+		$children=[];
 		foreach ($context->getContent() as $child) {
 			$child->parent=$this->parent;
 			$ctx=new Context($pcontext->parent);

@@ -74,7 +74,7 @@ extends Node
 		$node->selectors=$this->resolveSelectors($context);
 		$node->children=$this->parseChildren($context);
 
-		return array($node);
+		return [$node];
 	}
 
 	/**
@@ -86,7 +86,7 @@ extends Node
 	{
 		$this->extend();
 		$rules='';
-		$properties=array();
+		$properties=[];
 
 		foreach ($this->children as $child) {
 			$child->parent=$this;
@@ -187,7 +187,7 @@ extends Node
 		// if it's a placeholder, be lazy. Needs tests.
 		if ($extendee[0]=='%') {
 			// need to stop things like a%foo accepting div { @extend %foo }
-			return array(str_replace($extendee, $extender, $selector));
+			return [str_replace($extendee, $extender, $selector)];
 			}
 
 		$extender=explode(' ', $extender);
@@ -214,10 +214,10 @@ extends Node
 		# regex removes whitespace from start and and end of string as well as removing
 		# whitespace following whitespace. slightly quicker than a trim and simpler replace
 
-		return array_unique(array(
+		return array_unique([
 			preg_replace('/(^\s+|(\s)\s+|\s+$)/', '$2', $beginning.join(' ', $selector).' '.join(' ', $extender).' '.$end),
 			preg_replace('/(^\s+|(\s)\s+|\s+$)/', '$2', $beginning.join(' ', $extender).' '.join(' ', $selector).' '.$end)
-			));
+			]);
 	}
 
 	/**
@@ -242,7 +242,7 @@ extends Node
 	 */
 	public function resolveSelectors($context)
 	{
-		$resolvedSelectors= $normalSelectors= array();
+		$resolvedSelectors= $normalSelectors= [];
 		$this->parentSelectors=$this->getParentSelectors($context);
 
 		foreach ($this->selectors as $selector) {
@@ -261,7 +261,7 @@ extends Node
 			}
 		// merge with parent selectors
 		if ($this->parentSelectors) {
-			$return=array();
+			$return=[];
 			foreach ($this->parentSelectors as $parent) {
 				foreach ($normalSelectors as $selector) {
 					$spacer=substr($selector, 0, 1)=='['
@@ -295,7 +295,7 @@ extends Node
 			return $ancestor->resolveSelectors($context);
 			}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -347,7 +347,7 @@ extends Node
 	 */
 	private function resolveParentReferences($selector, $context)
 	{
-		$resolvedReferences=array();
+		$resolvedReferences=[];
 		if (!count($this->parentSelectors)) {
 			throw new RuleNodeException('Can not use parent selector ('.self::PARENT_REFERENCE.') when no parent selectors', $this);
 			}
@@ -368,7 +368,7 @@ extends Node
 	 */
 	private function explode($string)
 	{
-		$selectors=array();
+		$selectors=[];
 		$inString= $interpolate= FALSE;
 		$selector='';
 

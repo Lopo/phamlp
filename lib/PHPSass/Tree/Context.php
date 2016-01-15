@@ -19,13 +19,13 @@ class Context
 	/** @var Context enclosing context */
 	public $parent;
 	/** @var array mixins defined in this context */
-	public $mixins=array();
+	public $mixins=[];
 	/** @var array mixins defined in this context */
-	public $functions=array();
+	public $functions=[];
 	/** @var array variables defined in this context */
-	public $variables=array();
+	public $variables=[];
 	/** @var array tree representing any contextual content. */
-	public $content=array();
+	public $content=[];
 	/** @var Node the node being processed */
 	public $node;
 

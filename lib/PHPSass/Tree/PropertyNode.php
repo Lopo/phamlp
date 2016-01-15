@@ -27,7 +27,7 @@ extends Node
 	const IS_SCRIPT='= ';
 
 	/** @var array */
-	public static $psuedoSelectors=array(
+	public static $psuedoSelectors=[
 		'root',
 		'nth-child(',
 		'nth-last-child(',
@@ -61,7 +61,7 @@ extends Node
 		'after',
 		// CSS 3
 		'not(',
-		);
+		];
 	/** @var string property name */
 	public $name;
 	/** @var string property value or expression to evaluate */
@@ -87,7 +87,7 @@ extends Node
 			if ($matches[self::SCRIPT]===self::IS_SCRIPT) {
 				$this->addWarning(
 					'Setting CSS properties with "=" is deprecated; use "{name}: {value};"',
-					array('{name}' => $this->name, '{value}' => $this->value)
+					['{name}' => $this->name, '{value}' => $this->value]
 					);
 				}
 			}
@@ -104,7 +104,7 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$return=array();
+		$return=[];
 		if ($this->value!=='') {
 			$node=clone $this;
 			$node->name=($this->inNamespace()? "{$this->namespace}-" : '').$this->interpolate($this->name, $context);
@@ -158,7 +158,7 @@ extends Node
 	 */
 	public function getNamespace()
 	{
-		$namespace=array();
+		$namespace=[];
 		$parent=$this->parent;
 		do {
 			if ($parent instanceof PropertyNode) {

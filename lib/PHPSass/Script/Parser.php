@@ -80,7 +80,7 @@ class Parser
 	public function evaluate($expression, $context, $environment=self::DEFAULT_ENV)
 	{
 		self::$context=$context;
-		$operands=array();
+		$operands=[];
 
 		$tokens=$this->parse($expression, $context, $environment);
 
@@ -97,7 +97,7 @@ class Parser
 				array_push($operands, $token);
 				}
 			else {
-				$args=array();
+				$args=[];
 				for ($i=0, $c=$token->operandCount; $i<$c; $i++) {
 					$args[]=array_pop($operands);
 					}
@@ -119,7 +119,7 @@ class Parser
 	 */
 	public function parse($expression, $context, $environment=self::DEFAULT_ENV)
 	{
-		$outputQueue= $operatorStack= array();
+		$outputQueue= $operatorStack= [];
 		$parenthesis=0;
 
 		$tokens=$this->lexer->lex($expression, $context);

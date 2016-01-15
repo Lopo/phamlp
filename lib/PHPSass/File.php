@@ -106,7 +106,7 @@ class File
 			$filePath=self::find_file($filename, realpath($path));
 			if ($filePath!==FALSE) {
 				if (!is_array($filePath)) {
-					return array($filePath);
+					return [$filePath];
 					}
 				return $filePath;
 				}

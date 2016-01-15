@@ -27,7 +27,7 @@ extends Node
 	 * @var array arguments for the mixin as name=>value pairs were value is the
 	 * default value or NULL for required arguments
 	 */
-	private $args=array();
+	private $args=[];
 
 
 	/**
@@ -57,7 +57,7 @@ extends Node
 	{
 		$context->addMixin($this->name, $this);
 
-		return array();
+		return [];
 	}
 
 	/**

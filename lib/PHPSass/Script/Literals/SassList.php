@@ -35,7 +35,7 @@ extends Literal
 				: $separator;
 			}
 		elseif ($value=='()') {
-			$this->value=array();
+			$this->value=[];
 			$this->separator= $separator=='auto'
 				? ', '
 				: $separator;
@@ -116,7 +116,7 @@ extends Literal
 	 */
 	public function getValue()
 	{
-		$result=array();
+		$result=[];
 		foreach ($this->value as $k => $v) {
 			if ($v instanceOf SassString) {
 				$list=$this->_parse_list($v);
@@ -148,10 +148,10 @@ extends Literal
 	 */
 	public function toString()
 	{
-		$aliases=array(
+		$aliases=[
 			'comma' => ',',
 			'space' => '',
-			);
+			];
 		$this->separator=trim($this->separator);
 		if (isset($aliases[$this->separator])) {
 			$this->separator=$aliases[$this->separator];
@@ -208,7 +208,7 @@ extends Literal
 				}
 			}
 
-		return array($list, $separator);
+		return [$list, $separator];
 	}
 
 	/**
@@ -223,14 +223,14 @@ extends Literal
 			}
 
 		if (is_array($list)) {
-			$newlist=array();
+			$newlist=[];
 			foreach ($list as $listlet) {
 				list($newlist, $separator)=array_merge($newlist, self::_parse_list($listlet, $separator, FALSE));
 				}
 			$list=implode(', ', $newlist);
 			}
 
-		$out=array();
+		$out=[];
 		$size= $braces= 0;
 		$quotes=FALSE;
 		$stack='';

@@ -72,7 +72,7 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$children=array();
+		$children=[];
 		$from=(float)$this->evaluate($this->from, $context)->value;
 		$to=(float)$this->evaluate($this->to, $context)->value;
 		$step=(float)$this->evaluate($this->step, $context)->value*($to>$from? 1 : -1);

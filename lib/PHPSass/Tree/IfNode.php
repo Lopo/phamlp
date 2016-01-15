@@ -81,7 +81,7 @@ extends Node
 		if (!empty($this->else)) {
 			return $this->else->parse($context);
 			}
-		return array();
+		return [];
 	}
 
 	/**

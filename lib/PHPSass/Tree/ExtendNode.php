@@ -45,6 +45,6 @@ extends Node
 		# allows extend inside nested loops.
 		$this->root->extend($this->value, $this->parent->resolveSelectors($context));
 
-		return array();
+		return [];
 	}
 }

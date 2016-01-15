@@ -121,16 +121,16 @@
 		 */
 		function __parse($file, $syntax, $style='nested')
 		{
-			$options=array(
+			$options=[
 				'style' => $style,
 				'cache' => FALSE,
 				'syntax' => $syntax,
 				'debug' => FALSE,
-				'callbacks' => array(
+				'callbacks' => [
 					'warn' => 'cb_warn',
 					'debug' => 'cb_debug',
-					),
-				);
+					],
+				];
 			// Execute the compiler.
 			$parser=new \PHPSass\Parser($options);
 			return $parser->toCss($file);
@@ -164,10 +164,10 @@
 		function find_files($dir)
 		{
 			$op=opendir($dir);
-			$return=array(
-				'by_type' => array(),
-				'by_name' => array()
-				);
+			$return=[
+				'by_type' => [],
+				'by_name' => []
+				];
 			if ($op) {
 				while (FALSE!==($file=readdir($op))) {
 					if (substr($file, 0, 1)=='.') {
@@ -178,7 +178,7 @@
 					$return['by_type'][$ext]=$file;
 					$name=implode('.', $name);
 					if (!isset($return['by_name'][$name])) {
-						$return['by_name'][$name]=array();
+						$return['by_name'][$name]=[];
 						}
 					$return['by_name'][$name][]=$name.'.'.$ext;
 					}

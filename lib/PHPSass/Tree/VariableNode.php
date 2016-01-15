@@ -72,7 +72,7 @@ extends Node
 			}
 		$this->parseChildren($context); // Parse any warnings
 
-		return array();
+		return [];
 	}
 
 	/**

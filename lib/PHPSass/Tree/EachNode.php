@@ -54,7 +54,7 @@ extends Node
 	 */
 	public function parse($context)
 	{
-		$children=array();
+		$children=[];
 
 		if ($this->variable && $this->in) {
 			$context=new Context($context);

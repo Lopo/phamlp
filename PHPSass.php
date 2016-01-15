@@ -6,15 +6,15 @@ require_once __DIR__.'/vendor/autoload.php';
 
 $stdin=$argc<2;
 $stdout=$argc<3;
-$args=array($argv[0]);
+$args=[$argv[0]];
 
 $parseOptions=function() use ($argc, $argv, &$stdin, &$stdout, &$args) {
-	$options=array(
+	$options=[
 		'syntax' => File::SASS,
 		'style' => Renderers\Renderer::STYLE_NESTED,
 		'cache-location' => NULL
-		);
-	foreach ($opts=getopt('st:qglI:h', array('stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'cache-location:', 'help')) as $arg => $val) {
+		];
+	foreach ($opts=getopt('st:qglI:h', ['stdin', 'sass', 'scss', 'style:', 'quiet', 'debug-info', 'line-numbers', 'load-path:', 'cache-location:', 'help']) as $arg => $val) {
 		switch ($arg) {
 			case 's':
 			case 'stdin':
@@ -76,7 +76,7 @@ HELP;
 		}
 
 	$args=$argv;
-	$pruneargv=array();
+	$pruneargv=[];
 	foreach ($opts as $option => $value) {
 		foreach ($args as $key => $chunk) {
 			$regex='/^'.(isset($option[1])? '--' : '-').$option.'/';
@@ -100,7 +100,7 @@ HELP;
  * @param array $options
  * @return string
  */
-function compile($contents, array $options=array())
+function compile($contents, array $options=[])
 {
 	if (!isset($options['syntax'])) {
 		$options['syntax']=\PHPSass\File::SCSS;
@@ -117,7 +117,7 @@ function compile($contents, array $options=array())
  * @param array $options
  * @return string
  */
-function compileFile($filename, array $options=array())
+function compileFile($filename, array $options=[])
 {
 	if (!is_readable($filename) && !is_file($filename)) {
 		echo 'Errno::ENOENT: No such file or directory - '.$filename;
